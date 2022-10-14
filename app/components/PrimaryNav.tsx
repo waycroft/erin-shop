@@ -34,7 +34,7 @@ export default function PrimaryNav() {
         </div>
       </div>
       <div>
-        <button className="btn btn-square btn-ghost">
+        <button className="btn btn-square btn-ghost md:hidden">
           <HamburgerIcon />
         </button>
       </div>
