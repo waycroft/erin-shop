@@ -7,11 +7,29 @@ export default function PrimaryNav() {
       className="navbar flex flex-row justify-between bg-zinc-600"
     >
       <div>
-        <Link to="/">ERIN HOFFMAN</Link>
+        <Link to="/">ERIN HOFFMAN: SHOP</Link>
       </div>
       <div className="flex flex-row">
-        <div className="dropdown dropdown-end dropdown-hover">
-          <label tabIndex={0} className="btn btn-circle mx-4">
+        <div className="px-4">
+          <a href="https://erinphoffman.com/work" target="_blank">
+            Work
+          </a>
+        </div>
+        <div className="px-4">
+          <a href="https://erinphoffman.com/about" target="_blank">
+            About
+          </a>
+        </div>
+        <div className="px-4">
+          <a href="https://erinphoffman.com" target="_blank">
+            erinphoffman.com
+          </a>
+        </div>
+        <div className="px-4">
+          <label
+            htmlFor="cart-drawer"
+            className="drawer-button btn btn-circle"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -27,17 +45,6 @@ export default function PrimaryNav() {
               />
             </svg>
           </label>
-          <div tabIndex={0} className="dropdown-content card bg-slate-800 mt-2">
-            <div className="card-body">
-              <h1 className="card-title">Cart</h1>
-            </div>
-          </div>
-        </div>
-        <div className="px-4">
-          <Link to="/work">Work</Link>
-        </div>
-        <div className="px-4">
-          <Link to="/about">About</Link>
         </div>
       </div>
     </nav>

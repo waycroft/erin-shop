@@ -16,7 +16,7 @@ export const meta: MetaFunction = () => ({
 });
 
 export function links() {
-  return [{ rel: "stylesheet", href: styles }]
+  return [{ rel: "stylesheet", href: styles }];
 }
 
 export default function App() {
@@ -26,8 +26,24 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
-        <Outlet />
+      <body className="drawer drawer-end">
+        <input id="cart-drawer" type="checkbox" className="drawer-toggle" />
+        <div className="drawer-content">
+          {/* All page content goes within "drawer-content". 
+          Since the cart will be visible on all pages, it's included here in the root. */}
+          <Outlet />
+        </div>
+        <div className="drawer-side">
+          <label htmlFor="cart-drawer" className="drawer-overlay"></label>
+          <ul className="menu p-4 overflow-y-auto w-80 bg-base-100 text-base-content">
+            <li>
+              <a>Sidebar Item 1</a>
+            </li>
+            <li>
+              <a>Sidebar Item 2</a>
+            </li>
+          </ul>
+        </div>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
