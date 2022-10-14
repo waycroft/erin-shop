@@ -3,7 +3,7 @@ import ProductGallery from "~/components/ProductGallery";
 
 export default function Index() {
   return (
-    <div className="container mx-auto h-screen flex flex-col">
+    <div>
       <section>
         <PrimaryNav />
       </section>
