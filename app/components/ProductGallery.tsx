@@ -1,21 +1,6 @@
 import { Link } from "@remix-run/react";
+import { Product } from "~/routes/piece/$productHandle";
 import ProductThumbnail from "./ProductThumbnail";
-
-export type Product = {
-  availableForSale: boolean;
-  descriptionHtml: string;
-  featuredImage: {
-    height: number;
-    width: number;
-    id: string;
-    url: string;
-    altText: string;
-  };
-  id: string;
-  productType: string;
-  title: string;
-  handle: string;
-};
 
 export default function ProductsGallery({ products }: { products: Product[] }) {
   return (
