@@ -6,7 +6,7 @@ export default function PrimaryNav() {
   return (
     <nav
       role="navigation"
-      className="navbar flex flex-row justify-between bg-zinc-600"
+      className="navbar flex flex-row justify-between bg-zinc-200"
     >
       <div>
         <Link to="/">ERIN HOFFMAN: SHOP</Link>

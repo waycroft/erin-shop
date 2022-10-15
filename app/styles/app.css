@@ -2803,6 +2803,16 @@ body[dir="rtl"] .checkbox:checked,
   background-color: rgb(120 53 15 / var(--tw-bg-opacity));
 }
 
+.bg-emerald-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(110 231 183 / var(--tw-bg-opacity));
+}
+
+.bg-zinc-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(228 228 231 / var(--tw-bg-opacity));
+}
+
 .stroke-current {
   stroke: currentColor;
 }
@@ -2818,6 +2828,15 @@ body[dir="rtl"] .checkbox:checked,
 
 .text-center {
   text-align: center;
+}
+
+.text-4xl {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+}
+
+.font-bold {
+  font-weight: 700;
 }
 
 .text-base-content {

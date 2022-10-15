@@ -41,10 +41,12 @@ export default function SinglePieceRoute() {
 
   return (
     <div>
-      <h1>{product.title}</h1>
+      <h1 className="text-4xl font-bold">{product.title}</h1>
+      <div dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
       <img
         src={product.featuredImage.url}
         alt={product.featuredImage.altText}
+        width="400"
       />
     </div>
   );
