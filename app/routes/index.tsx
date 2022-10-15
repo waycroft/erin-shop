@@ -41,9 +41,6 @@ export const loader: LoaderFunction = async () => {
 export function ErrorBoundary() {
   return (
     <div>
-      <section>
-        <PrimaryNav />
-      </section>
       <section className="flex flex-col w-screen h-96 place-content-center">
         <div className="alert alert-error w-fit">
           <h1>Something went wrong!</h1>
@@ -59,9 +56,6 @@ export default function Index() {
 
   return (
     <div>
-      <section>
-        <PrimaryNav />
-      </section>
       <section>
         <ProductsGallery products={products} />
       </section>

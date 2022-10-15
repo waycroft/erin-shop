@@ -7,6 +7,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import PrimaryNav from "./components/PrimaryNav";
 import styles from "./styles/app.css";
 
 export const meta: MetaFunction = () => ({
@@ -31,6 +32,7 @@ export default function App() {
         <div className="drawer-content">
           {/* All page content goes within "drawer-content". 
           Since the cart will be visible on all pages, it's included here in the root. */}
+          <PrimaryNav />
           <Outlet />
         </div>
         <div className="drawer-side">
