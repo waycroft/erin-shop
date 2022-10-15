@@ -1,8 +1,8 @@
 import { LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import PrimaryNav from "~/components/PrimaryNav";
-import ProductsGallery, { Product } from "~/components/ProductGallery";
+import ProductsGallery from "~/components/ProductsGallery";
 import storefront from "~/utils/storefront";
+import { Product } from "./piece/$productHandle";
 
 type LoaderData = {
   data: {
