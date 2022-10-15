@@ -1,4 +1,4 @@
-import { json, LoaderFunction } from "@remix-run/node";
+import { LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import PrimaryNav from "~/components/PrimaryNav";
 import ProductGallery, { Product } from "~/components/ProductGallery";
@@ -13,8 +13,9 @@ type LoaderData = {
 };
 
 export const loader: LoaderFunction = async () => {
+  // TODO: need to fetch a smaller image size for thumbnails
   const res = await storefront(
-    `{
+    `query getAllProducts {
       products(first: 12) {
         nodes {
           availableForSale
