@@ -37,6 +37,21 @@ export const loader: LoaderFunction = async () => {
   return res;
 };
 
+export function ErrorBoundary() {
+  return (
+    <div>
+      <section>
+        <PrimaryNav />
+      </section>
+      <section className="flex flex-col w-screen h-96 place-content-center">
+        <div className="alert alert-error w-fit">
+          <h1>Something went wrong!</h1>
+        </div>
+      </section>
+    </div>
+  );
+}
+
 export default function Index() {
   const { data } = useLoaderData<LoaderData>();
   const products = data.products.nodes;
