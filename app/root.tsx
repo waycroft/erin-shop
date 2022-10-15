@@ -7,6 +7,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import Footer from "./components/Footer";
 import PrimaryNav from "./components/PrimaryNav";
 import styles from "./styles/app.css";
 
@@ -34,6 +35,7 @@ export default function App() {
           Since the cart will be visible on all pages, it's included here in the root. */}
           <PrimaryNav />
           <Outlet />
+          <Footer />
         </div>
         <div className="drawer-side">
           <label htmlFor="cart-drawer" className="drawer-overlay"></label>
