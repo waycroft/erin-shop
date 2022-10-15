@@ -3093,6 +3093,11 @@ body[dir="rtl"] .checkbox:checked,
   background-color: rgb(0 0 0 / var(--tw-bg-opacity));
 }
 
+.bg-slate-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(226 232 240 / var(--tw-bg-opacity));
+}
+
 .bg-opacity-50 {
   --tw-bg-opacity: 0.5;
 }
@@ -3268,6 +3273,10 @@ body[dir="rtl"] .checkbox:checked,
 
   .md\:flex {
     display: flex;
+  }
+
+  .md\:grid {
+    display: grid;
   }
 
   .md\:hidden {

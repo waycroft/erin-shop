@@ -78,8 +78,15 @@ export default function SingleProductRoute() {
   const product = data.product;
 
   return (
-    <div className="grid grid-cols-2 place-content-center">
-      <div>
+    <div className="grid grid-cols-1 md:grid-cols-2 justify-center gap-8">
+      <div className="bg-slate-200">
+        <img
+          src={product.featuredImage.url}
+          alt={product.featuredImage.altText}
+          width="400"
+        />
+      </div>
+      <div className="bg-slate-200">
         <h1 className="text-4xl font-bold mb-4">{product.title}</h1>
         <div dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
         <div>
@@ -98,21 +105,12 @@ export default function SingleProductRoute() {
           <p>
             <strong>Price</strong>
           </p>
-          <p>
-            {"$" + product.priceRange.maxVariantPrice.amount}
-          </p>
+          <p>{"$" + product.priceRange.maxVariantPrice.amount}</p>
           <p>
             <strong>Product Type</strong>
           </p>
           <p>{product.productType}</p>
         </div>
-      </div>
-      <div>
-        <img
-          src={product.featuredImage.url}
-          alt={product.featuredImage.altText}
-          width="400"
-        />
       </div>
     </div>
   );
