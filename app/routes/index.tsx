@@ -30,6 +30,7 @@ export const loader: LoaderFunction = async () => {
           id
           productType
           title
+          handle
         }
       }
     }`
