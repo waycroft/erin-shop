@@ -1,7 +1,7 @@
 import { LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import PrimaryNav from "~/components/PrimaryNav";
-import ProductGallery, { Product } from "~/components/ProductGallery";
+import ProductsGallery, { Product } from "~/components/ProductGallery";
 import storefront from "~/utils/storefront";
 
 type LoaderData = {
@@ -62,7 +62,7 @@ export default function Index() {
         <PrimaryNav />
       </section>
       <section>
-        <ProductGallery products={products} />
+        <ProductsGallery products={products} />
       </section>
     </div>
   );
