@@ -78,38 +78,42 @@ export default function SingleProductRoute() {
   const product = data.product;
 
   return (
-    <div>
-      <h1 className="text-4xl font-bold">{product.title}</h1>
-      <div dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
+    <div className="grid grid-cols-2 place-content-center">
       <div>
-        <p>
-          <strong>Available?</strong>
-        </p>
-        <p>{product.availableForSale.toString()}</p>
-        <p>
-          <strong># Available</strong>
-        </p>
-        <p>{product.totalInventory}</p>
-        <p>
-          <strong>Tags</strong>
-        </p>
-        <p>{product.tags.join(", ")}</p>
-        <p>
-          <strong>Price</strong>
-        </p>
-        <p>
-          {"$" + product.priceRange.maxVariantPrice.amount}
-        </p>
-        <p>
-          <strong>Product Type</strong>
-        </p>
-        <p>{product.productType}</p>
+        <h1 className="text-4xl font-bold mb-4">{product.title}</h1>
+        <div dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
+        <div>
+          <p>
+            <strong>Available?</strong>
+          </p>
+          <p>{product.availableForSale.toString()}</p>
+          <p>
+            <strong># Available</strong>
+          </p>
+          <p>{product.totalInventory}</p>
+          <p>
+            <strong>Tags</strong>
+          </p>
+          <p>{product.tags.join(", ")}</p>
+          <p>
+            <strong>Price</strong>
+          </p>
+          <p>
+            {"$" + product.priceRange.maxVariantPrice.amount}
+          </p>
+          <p>
+            <strong>Product Type</strong>
+          </p>
+          <p>{product.productType}</p>
+        </div>
       </div>
-      <img
-        src={product.featuredImage.url}
-        alt={product.featuredImage.altText}
-        width="400"
-      />
+      <div>
+        <img
+          src={product.featuredImage.url}
+          alt={product.featuredImage.altText}
+          width="400"
+        />
+      </div>
     </div>
   );
 }
