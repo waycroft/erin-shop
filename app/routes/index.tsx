@@ -1,14 +1,52 @@
+import { json, LoaderFunction } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 import PrimaryNav from "~/components/PrimaryNav";
-import ProductGallery from "~/components/ProductGallery";
+import ProductGallery, { Product } from "~/components/ProductGallery";
+import storefront from "~/utils/storefront";
+
+type LoaderData = {
+  data: {
+    products: {
+      nodes: Product[];
+    };
+  };
+};
+
+export const loader: LoaderFunction = async () => {
+  const res = await storefront(
+    `{
+      products(first: 12) {
+        nodes {
+          availableForSale
+          descriptionHtml
+          featuredImage {
+            height
+            width
+            id
+            url
+            altText
+          }
+          id
+          productType
+          title
+        }
+      }
+    }`
+  );
+  return res;
+};
 
 export default function Index() {
+  const { data } = useLoaderData<LoaderData>();
+  const products = data.products.nodes;
+
   return (
     <div>
       <section>
         <PrimaryNav />
       </section>
       <section>
-          <ProductGallery />
+        <ProductGallery products={products} />
       </section>
     </div>
   );
