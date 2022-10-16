@@ -7,7 +7,7 @@ import { Product } from "./piece/$productHandle";
 type LoaderData = {
   data: {
     products: {
-      nodes: Product[];
+      edges: { node: Product }[];
     };
   };
 };
@@ -17,20 +17,32 @@ export const loader: LoaderFunction = async () => {
   const res = await storefront(
     `query getAllProducts {
       products(first: 12) {
-        nodes {
-          availableForSale
-          descriptionHtml
-          featuredImage {
-            height
-            width
+        edges {
+          node {
+            availableForSale
+            descriptionHtml
+            featuredImage {
+              height
+              width
+              id
+              url
+              altText
+            }
             id
-            url
-            altText
+            productType
+            title
+            handle
+            title
+            ... on Product {
+              variants(first: 1) {
+                edges {
+                  node {
+                    id
+                  }
+                }
+              }
+            }
           }
-          id
-          productType
-          title
-          handle
         }
       }
     }`
@@ -52,7 +64,7 @@ export function ErrorBoundary() {
 
 export default function Index() {
   const { data } = useLoaderData<LoaderData>();
-  const products = data.products.nodes;
+  const products = data.products.edges.map((edge) => edge.node);
 
   return (
     <div>

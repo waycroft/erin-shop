@@ -71,6 +71,24 @@ export type Product = {
   totalInventory: number;
   tags: string[];
   priceRange: PriceRange;
+  variants: {
+    edges: {
+      node: ProductVariant;
+    }[];
+  };
+};
+
+export type ProductVariant = {
+  id: string;
+  title: string;
+  price: string;
+  image: {
+    height: number;
+    width: number;
+    id: string;
+    url: string;
+    altText: string;
+  };
 };
 
 export default function SingleProductRoute() {
