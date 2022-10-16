@@ -129,6 +129,7 @@ export default function SingleProductRoute() {
           </p>
           <p>{product.productType}</p>
         </div>
+        <button className="btn btn-primary my-4">Add to Cart</button>
       </div>
     </div>
   );
