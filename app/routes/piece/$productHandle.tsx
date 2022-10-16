@@ -1,42 +1,84 @@
-import { LoaderFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import {
+  ActionFunction,
+  json,
+  LoaderFunction,
+  redirect,
+} from "@remix-run/node";
+import { Form, useLoaderData, useTransition } from "@remix-run/react";
 import storefront from "~/utils/storefront";
 
 export const loader: LoaderFunction = async ({ params }) => {
   const { productHandle } = params;
   const res = await storefront(
-    `query getProductByHandle($handle: String) {
-      product(handle: $handle) {
-        availableForSale
-        descriptionHtml
-        featuredImage {
-          height
-          width
-          id
-          url
-          altText
-        }
-        id
-        tags
-        title
-        handle
-        totalInventory
-        productType
-        priceRange {
-            maxVariantPrice {
-                amount
+    `
+      query getProductByHandle($handle: String) {
+        product(handle: $handle) {
+            availableForSale
+            descriptionHtml
+            id
+            tags
+            title
+            handle
+            totalInventory
+            productType
+            priceRange {
+                maxVariantPrice {
+                    amount
+                }
+                minVariantPrice {
+                    amount
+                }
             }
-            minVariantPrice {
-                amount
+            ... on Product {
+                images(first: 1) {
+                    edges {
+                        node {
+                            altText
+                            id
+                            height
+                            width
+                            url
+                        }
+                    }
+                }
+                variants(first: 1) {
+                    edges {
+                        node {
+                            id
+                        }
+                    }
+                }
             }
         }
-      }
     }`,
-    {
-      handle: productHandle,
-    }
+    { handle: productHandle }
   );
   return res;
+};
+
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData();
+  const merchandiseID = formData.get("productVariantID")?.toString();
+  const quantity = formData.get("quantity")?.toString();
+  const productSlug = formData.get("productHandle")?.toString();
+
+  if (!merchandiseID || !quantity) {
+    return json(
+      { error: "Missing merchandiseID or quantity" },
+      { status: 400 }
+    );
+  }
+
+  // await createAndAddToCart({
+  //   lines: [
+  //     {
+  //       id: merchandiseID,
+  //       quantity: parseInt(quantity),
+  //     },
+  //   ],
+  // });
+
+  return redirect(`/piece/${productSlug}`);
 };
 
 type LoaderData = {
@@ -57,12 +99,23 @@ type PriceRange = {
 export type Product = {
   availableForSale: boolean;
   descriptionHtml: string;
-  featuredImage: {
+  featuredImage?: {
     height: number;
     width: number;
     id: string;
     url: string;
     altText: string;
+  };
+  images?: {
+    edges: {
+      node: {
+        altText: string;
+        height: number;
+        width: number;
+        id: string;
+        url: string;
+      };
+    }[];
   };
   id: string;
   productType: string;
@@ -94,13 +147,16 @@ export type ProductVariant = {
 export default function SingleProductRoute() {
   const { data } = useLoaderData<LoaderData>();
   const product = data.product;
+  const featuredImage = product.images?.edges[0].node;
+
+  const transition = useTransition();
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 justify-center gap-8">
       <div className="bg-slate-200">
         <img
-          src={product.featuredImage.url}
-          alt={product.featuredImage.altText}
+          src={featuredImage?.url}
+          alt={featuredImage?.altText}
           width="400"
         />
       </div>
@@ -129,7 +185,30 @@ export default function SingleProductRoute() {
           </p>
           <p>{product.productType}</p>
         </div>
-        <button className="btn btn-primary my-4">Add to Cart</button>
+        <Form method="post">
+          <input type="hidden" name="productHandle" value={product.handle} />
+          <input
+            type="hidden"
+            name="productVariantID"
+            value={product.variants.edges[0].node.id}
+          />
+          <div className="flex flex-col w-fit my-4">
+            <label htmlFor="quantity">Quantity</label>
+            <input
+              type="number"
+              name="quantity"
+              defaultValue="1"
+              className="input input-primary"
+            />
+            <button className="btn btn-primary my-4" type="submit">
+              {transition.state === "submitting"
+                ? "Adding..."
+                : transition.state === "loading"
+                ? "Added!"
+                : "Add to Cart"}
+            </button>
+          </div>
+        </Form>
       </div>
     </div>
   );
