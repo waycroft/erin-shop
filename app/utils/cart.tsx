@@ -1,7 +1,7 @@
 import storefront from "./storefront";
 
 type Merchandise = {
-  id: string;
+  merchandiseId: string;
   quantity: number;
 };
 

@@ -5,6 +5,7 @@ import {
   redirect,
 } from "@remix-run/node";
 import { Form, useLoaderData, useTransition } from "@remix-run/react";
+import { createAndAddToCart } from "~/utils/cart";
 import storefront from "~/utils/storefront";
 
 export const loader: LoaderFunction = async ({ params }) => {
@@ -58,26 +59,25 @@ export const loader: LoaderFunction = async ({ params }) => {
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
-  const merchandiseID = formData.get("productVariantID")?.toString();
+  const merchandiseId = formData.get("productVariantID")?.toString();
   const quantity = formData.get("quantity")?.toString();
   const productSlug = formData.get("productHandle")?.toString();
 
-  if (!merchandiseID || !quantity) {
+  if (!merchandiseId || !quantity) {
     return json(
       { error: "Missing merchandiseID or quantity" },
       { status: 400 }
     );
   }
 
-  // await createAndAddToCart({
-  //   lines: [
-  //     {
-  //       id: merchandiseID,
-  //       quantity: parseInt(quantity),
-  //     },
-  //   ],
-  // });
-
+  const newCart = await createAndAddToCart({
+    lines: [
+      {
+        merchandiseId: merchandiseId,
+        quantity: parseInt(quantity),
+      },
+    ],
+  });
   return redirect(`/piece/${productSlug}`);
 };
 

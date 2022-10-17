@@ -3083,6 +3083,10 @@ body[dir="rtl"] .checkbox:checked,
   width: 10rem;
 }
 
+.flex-1 {
+  flex: 1 1 0%;
+}
+
 .grid-cols-1 {
   grid-template-columns: repeat(1, minmax(0, 1fr));
 }
@@ -3177,6 +3181,11 @@ body[dir="rtl"] .checkbox:checked,
   background-color: rgb(226 232 240 / var(--tw-bg-opacity));
 }
 
+.bg-slate-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(71 85 105 / var(--tw-bg-opacity));
+}
+
 .bg-opacity-50 {
   --tw-bg-opacity: 0.5;
 }
@@ -3258,6 +3267,11 @@ body[dir="rtl"] .checkbox:checked,
   line-height: 2.5rem;
 }
 
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
 .font-bold {
   font-weight: 700;
 }
@@ -3282,6 +3296,11 @@ body[dir="rtl"] .checkbox:checked,
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.text-zinc-100 {
+  --tw-text-opacity: 1;
+  color: rgb(244 244 245 / var(--tw-text-opacity));
 }
 
 .opacity-0 {
