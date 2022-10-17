@@ -7,6 +7,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import CartContent from "./components/CartContent";
 import Footer from "./components/Footer";
 import PrimaryNav from "./components/PrimaryNav";
 import styles from "./styles/app.css";
@@ -39,14 +40,7 @@ export default function App() {
         </div>
         <div className="drawer-side">
           <label htmlFor="cart-drawer" className="drawer-overlay"></label>
-          <ul className="menu p-4 overflow-y-auto w-80 bg-base-100 text-base-content">
-            <li>
-              <a>Sidebar Item 1</a>
-            </li>
-            <li>
-              <a>Sidebar Item 2</a>
-            </li>
-          </ul>
+          <CartContent cart={undefined} />
         </div>
         <ScrollRestoration />
         <Scripts />
