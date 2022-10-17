@@ -40,7 +40,10 @@ export default function App() {
         </div>
         <div className="drawer-side">
           <label htmlFor="cart-drawer" className="drawer-overlay"></label>
-          <CartContent cart={undefined} />
+          <section className="menu p-4 overflow-y-auto w-80 bg-base-100 text-base-content">
+            <h1 className="text-xl font-bold">Cart</h1>
+            <CartContent />
+          </section>
         </div>
         <ScrollRestoration />
         <Scripts />

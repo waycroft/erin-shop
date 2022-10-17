@@ -1,9 +1,11 @@
+import { useFetcher } from "@remix-run/react";
 import CartLineItem from "./CartLineItem";
 
-export default function CartContent({ cart }) {
+export default function CartContent() {
+  const fetcher = useFetcher();
+
   return (
-    <div className="menu p-4 overflow-y-auto w-80 bg-base-100 text-base-content">
-      <h1 className="text-xl font-bold">Cart</h1>
+    <div>
       <ul>
         <li>Item 1</li>
         <li>Item 2</li>
