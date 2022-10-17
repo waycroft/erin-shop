@@ -5,6 +5,49 @@ type Merchandise = {
   quantity: number;
 };
 
+export async function getCart(cartId: string) {
+  return await storefront(
+    `
+      query getCart($cartId: ID!) {
+        cart(id: $cartId) {
+            id
+            checkoutUrl
+            cost {
+                subtotalAmount {
+                    amount
+                }
+            }
+            totalQuantity
+            updatedAt
+            createdAt
+            lines(first: 10) {
+                edges {
+                    node {
+                        id
+                        quantity
+                        merchandise {
+                            ... on ProductVariant {
+                                id
+                                price {
+                                    amount
+                                }
+                                image {
+                                    url
+                                    altText
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }`,
+    {
+      cartId: "gid://shopify/Cart/bca255ef4421801384d0eebd5b4d4fa3",
+    }
+  );
+}
+
 export async function createAndAddToCart({
   lines,
   attributes = {},

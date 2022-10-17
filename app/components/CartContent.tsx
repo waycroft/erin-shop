@@ -1,7 +1,25 @@
 import { useFetcher } from "@remix-run/react";
-import CartLineItem from "./CartLineItem";
+import type { CartLineItem } from "./CartLineItem";
 
-export default function CartContent() {
+export type Cart = {
+  id: string;
+  checkoutUrl: string;
+  cost: {
+    subtotalAmount: {
+      amount: string;
+    };
+  };
+  totalQuantity: number;
+  updatedAt: string;
+  createdAt: string;
+  lines: {
+    edges: {
+      node: CartLineItem;
+    }[];
+  };
+};
+
+export default function CartContent({ contents }: { contents: Cart }) {
   const fetcher = useFetcher();
 
   return (
