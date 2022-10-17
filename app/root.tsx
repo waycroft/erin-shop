@@ -31,9 +31,9 @@ export default function App() {
     if (fetcher.type === "init") {
       fetcher.load("/cart");
     }
-    if (fetcher.type === "done") {
-      console.log(fetcher.data);
-    }
+    // if (fetcher.type === "done") {
+    //   console.log(fetcher.data);
+    // }
   }, [fetcher]);
 
   return (
