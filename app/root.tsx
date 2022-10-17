@@ -1,12 +1,15 @@
 import type { MetaFunction } from "@remix-run/node";
 import {
+  Link,
   Links,
   LiveReload,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
+  useFetcher,
 } from "@remix-run/react";
+import { useEffect } from "react";
 import CartContent from "./components/CartContent";
 import Footer from "./components/Footer";
 import PrimaryNav from "./components/PrimaryNav";
@@ -23,6 +26,13 @@ export function links() {
 }
 
 export default function App() {
+  const fetcher = useFetcher();
+  useEffect(() => {
+    if (fetcher.type === "init") {
+      fetcher.load("/cart");
+    }
+  }, [fetcher]);
+
   return (
     <html lang="en">
       <head>
@@ -41,8 +51,10 @@ export default function App() {
         <div className="drawer-side">
           <label htmlFor="cart-drawer" className="drawer-overlay"></label>
           <section className="menu p-4 overflow-y-auto w-80 bg-base-100 text-base-content">
-            <h1 className="text-xl font-bold">Cart</h1>
-            <CartContent />
+            <Link to="/cart">
+              <h1 className="text-xl font-bold">Cart</h1>
+            </Link>
+            <CartContent cartContents={fetcher.data} />
           </section>
         </div>
         <ScrollRestoration />

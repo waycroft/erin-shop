@@ -5,7 +5,7 @@ import {
   redirect,
 } from "@remix-run/node";
 import { Form, useLoaderData, useTransition } from "@remix-run/react";
-import { createAndAddToCart } from "~/utils/cart";
+import { addLineItemsToCart, createAndAddToCart } from "~/utils/cart";
 import storefront from "~/utils/storefront";
 
 export const loader: LoaderFunction = async ({ params }) => {
@@ -70,7 +70,8 @@ export const action: ActionFunction = async ({ request }) => {
     );
   }
 
-  const newCart = await createAndAddToCart({
+  const updatedCart = await addLineItemsToCart({
+    cartId: process.env.TEST_CART as string,
     lines: [
       {
         merchandiseId: merchandiseId,

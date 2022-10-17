@@ -1,4 +1,3 @@
-import { useFetcher } from "@remix-run/react";
 import type { CartLineItem } from "./CartLineItem";
 
 export type Cart = {
@@ -19,18 +18,15 @@ export type Cart = {
   };
 };
 
-export default function CartContent({ contents }: { contents: Cart }) {
-  const fetcher = useFetcher();
-
+export default function CartContent({ cartContents }: { cartContents: Cart }) {
   return (
     <div>
-      <ul>
-        <li>Item 1</li>
-        <li>Item 2</li>
-      </ul>
-      <h2>Subtotal</h2>
-      {/* {cart.cost} */}
-      $420.00
+      {cartContents?.lines?.edges.map((edge) => (
+        <div key={edge.node.id}>
+          <h2>{edge.node.merchandise.title}</h2>
+          <p>{edge.node.quantity}</p>
+        </div>
+      ))}
     </div>
   );
 }

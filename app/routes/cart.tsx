@@ -1,4 +1,4 @@
-import { LoaderFunction } from "@remix-run/node";
+import { json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import CartContent, { Cart } from "~/components/CartContent";
 import { getCart } from "~/utils/cart";
@@ -10,8 +10,20 @@ type LoaderData = {
 };
 
 export const loader: LoaderFunction = async () => {
-  return await getCart("gid://shopify/Cart/bca255ef4421801384d0eebd5b4d4fa3");
+  const cart = await getCart(process.env.TEST_CART as string);
+  return cart;
 };
+
+export function ErrorBoundary({ error }: { error: Error }) {
+  return (
+    <div>
+      <h1>Oops!</h1>
+      <p>{error.message}</p>
+      <p>Stack:</p>
+      <pre>{error.stack}</pre>
+    </div>
+  );
+}
 
 export default function CartRoute() {
   const { data } = useLoaderData<LoaderData>();
@@ -20,7 +32,7 @@ export default function CartRoute() {
     <section className="p-8">
       <h1 className="text-6xl font-bold">Cart</h1>
       <div className="my-4">
-        <CartContent contents={data.cart} />
+        <CartContent cartContents={data.cart} />
       </div>
     </section>
   );

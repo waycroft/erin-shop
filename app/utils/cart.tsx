@@ -24,7 +24,6 @@ export async function getCart(cartId: string) {
                 edges {
                     node {
                         id
-                        quantity
                         merchandise {
                             ... on ProductVariant {
                                 id
@@ -37,13 +36,14 @@ export async function getCart(cartId: string) {
                                 }
                             }
                         }
+                        quantity
                     }
                 }
             }
         }
     }`,
     {
-      cartId: "gid://shopify/Cart/bca255ef4421801384d0eebd5b4d4fa3",
+      cartId: cartId,
     }
   );
 }
@@ -95,11 +95,11 @@ export async function createAndAddToCart({
 }
 
 export async function addLineItemsToCart({
-  cartID,
-  merchandise,
+  cartId,
+  lines,
 }: {
-  cartID: string;
-  merchandise: Merchandise[];
+  cartId: string;
+  lines: Merchandise[];
 }) {
   return await storefront(
     `
@@ -118,8 +118,8 @@ export async function addLineItemsToCart({
       }
     `,
     {
-      cartId: cartID,
-      lines: merchandise,
+      cartId: cartId,
+      lines: lines,
     }
   );
 }
