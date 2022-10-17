@@ -5,9 +5,7 @@ import { getCart } from "~/utils/cart";
 
 type LoaderData = {
   data: {
-    data: {
-      cart: Cart;
-    };
+    cart: Cart;
   };
 };
 
@@ -28,7 +26,8 @@ export function ErrorBoundary({ error }: { error: Error }) {
 }
 
 export default function CartRoute() {
-  const cartContents = useLoaderData<LoaderData>().data.data.cart;
+  const { data } = useLoaderData<LoaderData>();
+  const cartContents = data?.cart;
 
   return (
     <section className="p-8">

@@ -24,20 +24,20 @@ export async function getCart(cartId: string) {
                 edges {
                     node {
                         id
+                        quantity
                         merchandise {
                             ... on ProductVariant {
-                                id
-                                title
-                                price {
-                                    amount
-                                }
-                                image {
-                                    url
-                                    altText
-                                }
+                              id
+                              title
+                              price {
+                                  amount
+                              }
+                              image {
+                                  url
+                                  altText
+                              }
                             }
                         }
-                        quantity
                     }
                 }
             }
