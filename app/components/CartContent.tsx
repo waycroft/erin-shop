@@ -23,10 +23,11 @@ export default function CartContent({ cartContents }: { cartContents: Cart }) {
     <div>
       {cartContents?.lines?.edges.map((edge) => (
         <div key={edge.node.id}>
+          <p>{edge.node.id}</p>
           <h2>{edge.node.merchandise.title}</h2>
           <p>{edge.node.quantity}</p>
         </div>
-      ))}
+      )) ?? <p>Cart could't be fetched...</p>}
     </div>
   );
 }

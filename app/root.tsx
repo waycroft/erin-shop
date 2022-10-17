@@ -31,6 +31,9 @@ export default function App() {
     if (fetcher.type === "init") {
       fetcher.load("/cart");
     }
+    if (fetcher.type === "done") {
+      console.log(fetcher.data);
+    }
   }, [fetcher]);
 
   return (
@@ -54,7 +57,7 @@ export default function App() {
             <Link to="/cart">
               <h1 className="text-xl font-bold">Cart</h1>
             </Link>
-            <CartContent cartContents={fetcher.data} />
+            <CartContent cartContents={fetcher.data?.data?.cart} />
           </section>
         </div>
         <ScrollRestoration />
