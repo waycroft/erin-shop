@@ -27,6 +27,7 @@ export async function getCart(cartId: string) {
                         merchandise {
                             ... on ProductVariant {
                                 id
+                                title
                                 price {
                                     amount
                                 }
