@@ -33,7 +33,7 @@ export default function App() {
         <input id="cart-drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
           {/* All page content goes within "drawer-content". 
-          Since the cart will be visible on all pages, it's included here in the root. */}
+          Since the cart will be accessible on all pages, it's included here in the root. */}
           <PrimaryNav />
           <Outlet />
           <Footer />
