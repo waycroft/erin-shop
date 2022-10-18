@@ -79,7 +79,8 @@ export const action: ActionFunction = async ({ request }) => {
       },
     ],
   });
-  return redirect(`/piece/${productSlug}`);
+
+  return null;
 };
 
 type LoaderData = {

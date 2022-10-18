@@ -11,6 +11,7 @@ export default function ProductsGallery({ products }: { products: Product[] }) {
           (product.featuredImage || product.images?.edges[0]?.node) ? (
             <ProductThumbnail
               key={product.id}
+              productVariantId={product.variants.edges[0].node.id}
               img={
                 product.featuredImage.url ?? product.images.edges[0].node.url
               }
@@ -18,8 +19,6 @@ export default function ProductsGallery({ products }: { products: Product[] }) {
           ) : (
             <div>(Missing product thumbnail</div>
           )}
-          {/* TODO: delete this line */}
-          {/* <caption className="text-center text-white">{product.handle}</caption> */}
         </Link>
       ))}
     </div>

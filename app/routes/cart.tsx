@@ -1,7 +1,12 @@
-import { json, LoaderFunction } from "@remix-run/node";
+import { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import invariant from "tiny-invariant";
 import CartContent, { Cart } from "~/components/CartContent";
-import { getCart } from "~/utils/cartUtils";
+import {
+  addLineItemsToCart,
+  getCart,
+  removeLineItemsFromCart,
+} from "~/utils/cartUtils";
 
 type LoaderData = {
   data: {
@@ -12,6 +17,43 @@ type LoaderData = {
 export const loader: LoaderFunction = async () => {
   const cart = await getCart(process.env.TEST_CART as string);
   return cart;
+};
+
+// BOOKMARK: Add transitions / notification that item was removed
+// Add an undo toast
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData();
+  const lineItemIds = formData.getAll("lineItemId").map((id) => id.toString());
+  const _action = formData.get("_action")?.toString();
+
+  console.log("_action", _action);
+
+  if (_action === "addLineItem") {
+    const merchandiseId = formData.get("productVariantID")?.toString();
+    const quantity = formData.get("quantity")?.toString();
+    invariant(merchandiseId && quantity, "Missing merchandiseID or quantity");
+
+    const addLineItemsToCartOp = await addLineItemsToCart({
+      cartId: process.env.TEST_CART as string,
+      lines: [
+        {
+          merchandiseId: merchandiseId,
+          quantity: parseInt(quantity),
+        },
+      ],
+    });
+  }
+
+  if (_action === "removeLineItem") {
+    invariant(lineItemIds.length, "Missing lineItemIds");
+
+    const removeLineItemsFromCartOp = await removeLineItemsFromCart({
+      cartId: process.env.TEST_CART as string,
+      lineIds: lineItemIds,
+    });
+  }
+
+  return null;
 };
 
 export function ErrorBoundary({ error }: { error: Error }) {

@@ -138,10 +138,6 @@ export async function addLineItemsToCart({
         cartLinesAdd(cartId: $cartId, lines: $lines) {
           cart {
             id
-            lines {
-              id
-              quantity
-            }
             createdAt
             updatedAt
           }
@@ -155,12 +151,13 @@ export async function addLineItemsToCart({
   );
 }
 
+// TODO: Add error handling to all these functions
 export async function removeLineItemsFromCart({
-  cartID,
-  lineIDs,
+  cartId,
+  lineIds,
 }: {
-  cartID: string;
-  lineIDs: string[];
+  cartId: string;
+  lineIds: string[];
 }): Promise<Response | undefined> {
   return await storefront(
     gql`
@@ -168,10 +165,6 @@ export async function removeLineItemsFromCart({
         cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
           cart {
             id
-            lines {
-              id
-              quantity
-            }
             createdAt
             updatedAt
           }
@@ -179,8 +172,8 @@ export async function removeLineItemsFromCart({
       }
     `,
     {
-      cartId: cartID,
-      lineIds: lineIDs,
+      cartId: cartId,
+      lineIds: lineIds,
     }
   );
 }
