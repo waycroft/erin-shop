@@ -24,7 +24,7 @@ export default function CartContent({ cartContents }: { cartContents: Cart }) {
           title from the ProductVariant title (which is currently "Default Title") */
   return (
     <div>
-      <ol className="list-decimal">
+      <ol>
         {cartContents?.lines?.edges?.map((edge) => (
           <li key={edge.node.id}>
             <div className="flex flex-col justify-start w-100">

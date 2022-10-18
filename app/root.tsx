@@ -53,7 +53,7 @@ export default function App() {
         </div>
         <div className="drawer-side">
           <label htmlFor="cart-drawer" className="drawer-overlay"></label>
-          <section className="menu p-4 overflow-y-auto w-80 bg-base-100 text-base-content">
+          <section className="p-4 overflow-y-auto w-80 bg-base-100 text-base-content">
             <Link to="/cart">
               <h1 className="text-xl font-bold">Cart</h1>
             </Link>
