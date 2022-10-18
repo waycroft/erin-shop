@@ -99,6 +99,7 @@ type PriceRange = {
 
 export type Product = {
   availableForSale: boolean;
+  description: string;
   descriptionHtml: string;
   featuredImage?: {
     height: number;
@@ -136,6 +137,7 @@ export type ProductVariant = {
   id: string;
   title: string;
   price: string;
+  sku: string;
   image: {
     height: number;
     width: number;
@@ -143,6 +145,7 @@ export type ProductVariant = {
     url: string;
     altText: string;
   };
+  product: Product;
 };
 
 export default function SingleProductRoute() {
