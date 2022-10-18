@@ -1,4 +1,4 @@
-export type CartLineItemInterface = {
+type CartLineItemInterface = {
   id: string;
   quantity: number;
   merchandise: {
@@ -14,11 +14,11 @@ export type CartLineItemInterface = {
   };
 };
 
-export default function CartLineItem() {
+export default function CartLineItem({ item }: { item: CartLineItemInterface }) {
   return (
-    <div className="card card-side bg-base-400 shadow-xl">
+    <div className="card card-side bg-base-400">
       <figure>
-        <img src="https://placeimg.com/200/280/arch" alt="Movie" />
+        <img src="https://placeimg.com/200/180/nature" alt="Movie" />
       </figure>
       <div className="card-body">
         <h2 className="card-title">New movie is released!</h2>
