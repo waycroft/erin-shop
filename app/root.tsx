@@ -53,9 +53,9 @@ export default function App() {
         </div>
         <div className="drawer-side">
           <label htmlFor="cart-drawer" className="drawer-overlay"></label>
-          <section className="p-4 overflow-y-auto w-80 bg-base-100 text-base-content">
+          <section className="p-4 overflow-y-auto w-80 text-base-content bg-base-100 drop-shadow-xl">
             <Link to="/cart">
-              <h1 className="text-xl font-bold">Cart</h1>
+              <h1 className="text-2xl font-bold">Cart</h1>
             </Link>
             <CartContent cartContents={fetcher.data?.data?.cart} />
           </section>
