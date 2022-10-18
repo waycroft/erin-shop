@@ -22,13 +22,19 @@ export type Cart = {
 export default function CartContent({ cartContents }: { cartContents: Cart }) {
   return (
     <div>
-      <ol>
-        {cartContents?.lines?.edges?.map((edge) => (
-          <li key={edge.node.id}>
-            <CartLineItem item={edge.node} />
-          </li>
-        )) ?? <p>Cart could't be fetched...</p>}
-      </ol>
+      <div>
+        <ol>
+          {cartContents?.lines?.edges?.map((edge) => (
+            <li key={edge.node.id}>
+              <CartLineItem item={edge.node} />
+            </li>
+          )) ?? <p>Cart could't be fetched...</p>}
+        </ol>
+      </div>
+      <div>
+        <p>Subtotal: {cartContents?.cost?.subtotalAmount?.amount}</p>
+        <p>Total Quantity: {cartContents?.totalQuantity}</p>
+      </div>
     </div>
   );
 }

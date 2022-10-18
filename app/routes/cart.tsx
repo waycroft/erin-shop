@@ -28,6 +28,7 @@ export function ErrorBoundary({ error }: { error: Error }) {
 export default function CartRoute() {
   const { data } = useLoaderData<LoaderData>();
   const cartContents = data?.cart;
+  console.log(cartContents);
 
   return (
     <section className="p-8">
