@@ -5,9 +5,11 @@ type Merchandise = {
   quantity: number;
 };
 
-export async function getCart(cartId: string) {
+var gql = String.raw;
+
+export async function getCart(cartId: string): Promise<Response | undefined> {
   return await storefront(
-    `
+    gql`
       query getCart($cartId: ID!) {
         cart(id: $cartId) {
             id
@@ -36,6 +38,13 @@ export async function getCart(cartId: string) {
                                   url
                                   altText
                               }
+                              sku
+                              product {
+                                  id
+                                  title
+                                  handle
+                                  description
+                              }
                             }
                         }
                     }
@@ -55,9 +64,9 @@ export async function createAndAddToCart({
 }: {
   lines: Merchandise[];
   attributes?: object;
-}) {
+}): Promise<Response | undefined> {
   return await storefront(
-    `
+    gql`
       mutation cartCreate($cartInput: CartInput) {
         cartCreate(input: $cartInput) {
           cart {
@@ -75,6 +84,27 @@ export async function createAndAddToCart({
                   edges {
                       node {
                           id
+                          quantity
+                          merchandise {
+                              ... on ProductVariant {
+                                id
+                                title
+                                price {
+                                    amount
+                                }
+                                image {
+                                    url
+                                    altText
+                                }
+                                sku
+                                product {
+                                    id
+                                    title
+                                    handle
+                                    description
+                                }
+                              }
+                          }
                       }
                   }
               }
@@ -101,9 +131,9 @@ export async function addLineItemsToCart({
 }: {
   cartId: string;
   lines: Merchandise[];
-}) {
+}): Promise<Response | undefined> {
   return await storefront(
-    `
+    gql`
       mutation cartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!) {
         cartLinesAdd(cartId: $cartId, lines: $lines) {
           cart {
@@ -131,9 +161,9 @@ export async function removeLineItemsFromCart({
 }: {
   cartID: string;
   lineIDs: string[];
-}) {
+}): Promise<Response | undefined> {
   return await storefront(
-    `
+    gql`
       mutation cartLinesRemove($cartId: ID!, $lineIds: [ID!]!) {
         cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
           cart {
@@ -161,9 +191,9 @@ export async function updateLineItemsInCart({
 }: {
   cartID: string;
   lines: Merchandise[];
-}) {
+}): Promise<Response | undefined> {
   return await storefront(
-    `
+    gql`
       mutation cartLinesUpdate($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
         cartLinesUpdate(cartId: $cartId, lines: $lines) {
           cart {
