@@ -5,7 +5,7 @@ import {
   redirect,
 } from "@remix-run/node";
 import { Form, useLoaderData, useTransition } from "@remix-run/react";
-import { addLineItemsToCart, createAndAddToCart } from "~/utils/cart";
+import { addLineItemsToCart, createAndAddToCart } from "~/utils/cartUtils";
 import storefront from "~/utils/storefront";
 
 export const loader: LoaderFunction = async ({ params }) => {

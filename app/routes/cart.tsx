@@ -1,7 +1,7 @@
-import { json, LoaderFunction } from "@remix-run/node";
+import { LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import CartContent, { Cart } from "~/components/CartContent";
-import { getCart } from "~/utils/cart";
+import { getCart } from "~/utils/cartUtils";
 
 type LoaderData = {
   data: {

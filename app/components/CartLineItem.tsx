@@ -21,10 +21,11 @@ export default function CartLineItem({ item }: { item: CartLineItemInterface }) 
         <img src="https://placeimg.com/200/180/nature" alt="Movie" />
       </figure>
       <div className="card-body">
-        <h2 className="card-title">New movie is released!</h2>
-        <p>Click the button to watch on Jetflix app.</p>
+        <h2 className="card-title">{item.merchandise.title}</h2>
+        <p>(description)</p>
         <div className="card-actions justify-end">
-          <button className="btn btn-primary">Watch</button>
+          <input type="number" className="input input-bordered" defaultValue={item.quantity}/>
+          <button className="btn btn-primary">Remove</button>
         </div>
       </div>
     </div>
