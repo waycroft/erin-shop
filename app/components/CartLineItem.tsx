@@ -1,4 +1,4 @@
-type CartLineItemInterface = {
+export type CartLineItemInterface = {
   id: string;
   quantity: number;
   merchandise: {
