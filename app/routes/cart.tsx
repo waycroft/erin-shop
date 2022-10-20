@@ -29,9 +29,9 @@ export const action: ActionFunction = async ({ request }) => {
   console.log("_action", _action);
 
   if (_action === "addLineItem") {
-    const merchandiseId = formData.get("productVariantID")?.toString();
+    const merchandiseId = formData.get("productVariantId")?.toString();
     const quantity = formData.get("quantity")?.toString();
-    invariant(merchandiseId && quantity, "Missing merchandiseID or quantity");
+    invariant(merchandiseId && quantity, "Missing merchandiseId or quantity");
 
     const addLineItemsToCartOp = await addLineItemsToCart({
       cartId: process.env.TEST_CART as string,

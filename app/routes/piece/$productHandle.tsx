@@ -59,13 +59,13 @@ export const loader: LoaderFunction = async ({ params }) => {
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
-  const merchandiseId = formData.get("productVariantID")?.toString();
+  const merchandiseId = formData.get("productVariantId")?.toString();
   const quantity = formData.get("quantity")?.toString();
   const productSlug = formData.get("productHandle")?.toString();
 
   if (!merchandiseId || !quantity) {
     return json(
-      { error: "Missing merchandiseID or quantity" },
+      { error: "Missing merchandiseId or quantity" },
       { status: 400 }
     );
   }
@@ -194,7 +194,7 @@ export default function SingleProductRoute() {
           <input type="hidden" name="productHandle" value={product.handle} />
           <input
             type="hidden"
-            name="productVariantID"
+            name="productVariantId"
             value={product.variants.edges[0].node.id}
           />
           <div className="flex flex-col w-fit my-4">

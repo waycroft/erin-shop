@@ -179,10 +179,10 @@ export async function removeLineItemsFromCart({
 }
 
 export async function updateLineItemsInCart({
-  cartID,
+  cartId,
   lines,
 }: {
-  cartID: string;
+  cartId: string;
   lines: Merchandise[];
 }): Promise<Response | undefined> {
   return await storefront(
@@ -202,7 +202,7 @@ export async function updateLineItemsInCart({
       }
     `,
     {
-      cartId: cartID,
+      cartId: cartId,
       lines: lines,
     }
   );
