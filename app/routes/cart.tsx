@@ -26,8 +26,6 @@ export const action: ActionFunction = async ({ request }) => {
   const lineItemIds = formData.getAll("lineItemId").map((id) => id.toString());
   const _action = formData.get("_action")?.toString();
 
-  console.log("_action", _action);
-
   if (_action === "addLineItem") {
     const merchandiseId = formData.get("productVariantId")?.toString();
     const quantity = formData.get("quantity")?.toString();
@@ -70,7 +68,6 @@ export function ErrorBoundary({ error }: { error: Error }) {
 export default function CartRoute() {
   const { data } = useLoaderData<LoaderData>();
   const cartContents = data?.cart;
-  console.log(cartContents);
 
   return (
     <section className="p-8">
