@@ -1,4 +1,5 @@
-import { Form, useFetcher } from "@remix-run/react";
+import { useFetcher } from "@remix-run/react";
+import { useEffect } from "react";
 import { ProductVariant } from "~/routes/piece/$productHandle";
 
 export type CartLineItemInterface = {
@@ -12,6 +13,13 @@ export default function CartLineItem({
 }: {
   item: CartLineItemInterface;
 }) {
+  const fetcher = useFetcher();
+  useEffect(() => {
+    if (fetcher.type === "done") {
+      fetcher.load("/cart");
+    }
+  }, [fetcher]);
+
   return (
     <div className="card card-side card-bordered bg-base-400">
       <figure>
@@ -24,14 +32,16 @@ export default function CartLineItem({
       <div className="card-body overflow-x-auto">
         <h2 className="card-title">{item.merchandise.product.title}</h2>
         <p>{item.merchandise.product.description}</p>
-        <pre>item.id: <span className="text-green-500">{item.id}</span></pre>
+        <pre>
+          item.id: <span className="text-green-500">{item.id}</span>
+        </pre>
         <div className="card-actions justify-end">
           <input
             type="number"
             className="input input-bordered"
             defaultValue={item.quantity}
           />
-          <Form method="post" action="/cart">
+          <fetcher.Form method="post" action="/cart">
             <input type="hidden" name="lineItemId" value={item.id} />
             <button
               className="btn btn-primary"
@@ -41,7 +51,7 @@ export default function CartLineItem({
             >
               Remove
             </button>
-          </Form>
+          </fetcher.Form>
         </div>
       </div>
     </div>

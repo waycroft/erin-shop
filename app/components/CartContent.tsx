@@ -19,12 +19,12 @@ export type Cart = {
   };
 };
 
-export default function CartContent({ cartContents }: { cartContents: Cart }) {
+export default function CartContent({ contents }: { contents: Cart }) {
   return (
     <div>
       <div>
         <ol>
-          {cartContents?.lines?.edges?.map((edge) => (
+          {contents?.lines?.edges?.map((edge) => (
             <li key={edge.node.id}>
               <CartLineItem item={edge.node} />
             </li>
@@ -32,8 +32,8 @@ export default function CartContent({ cartContents }: { cartContents: Cart }) {
         </ol>
       </div>
       <div>
-        <p>Subtotal: {cartContents?.cost?.subtotalAmount?.amount}</p>
-        <p>Total Quantity: {cartContents?.totalQuantity}</p>
+        <p>Subtotal: {contents?.cost?.subtotalAmount?.amount}</p>
+        <p>Total Quantity: {contents?.totalQuantity}</p>
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import { Link, useFetcher } from "@remix-run/react";
+import { useEffect } from "react";
 
 export default function ProductThumbnail({
   img,
@@ -14,6 +15,12 @@ export default function ProductThumbnail({
   productSlug: string;
 }) {
   const fetcher = useFetcher();
+  useEffect(() => {
+    if (fetcher.type === "done") {
+      fetcher.load("/cart");
+    }
+  });
+
   return (
     <div className="relative">
       <img src={img} alt={alt} className="w-full h-full object-cover" />
@@ -22,7 +29,11 @@ export default function ProductThumbnail({
           <button className="btn btn-secondary lowercase w-40">view</button>
         </Link>
         <fetcher.Form method="post" action="/cart">
-          <input type="hidden" name="productVariantId" value={productVariantId} />
+          <input
+            type="hidden"
+            name="productVariantId"
+            value={productVariantId}
+          />
           <input type="hidden" name="quantity" value="1" />
           <button
             type="submit"
@@ -30,7 +41,11 @@ export default function ProductThumbnail({
             name="_action"
             value="addLineItem"
           >
-            {fetcher.state === "submitting" ? "adding..." : "add to cart"}
+            {fetcher.type === "actionSubmission"
+              ? "adding..."
+              : fetcher.type === "done"
+              ? "added!"
+              : "add to cart"}
           </button>
         </fetcher.Form>
       </div>

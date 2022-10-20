@@ -76,7 +76,7 @@ export default function CartRoute() {
     <section className="p-8">
       <h1 className="text-6xl font-bold">Cart</h1>
       <div className="my-4">
-        <CartContent cartContents={cartContents} />
+        <CartContent contents={cartContents} />
       </div>
     </section>
   );

@@ -1,4 +1,4 @@
-import type { MetaFunction } from "@remix-run/node";
+import { json, LoaderFunction, MetaFunction } from "@remix-run/node";
 import {
   Link,
   Links,
@@ -7,13 +7,13 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useFetcher,
+  useLoaderData,
 } from "@remix-run/react";
-import { useEffect } from "react";
-import CartContent from "./components/CartContent";
+import CartContent, { Cart } from "./components/CartContent";
 import Footer from "./components/Footer";
 import PrimaryNav from "./components/PrimaryNav";
 import styles from "./styles/app.css";
+import { getCart } from "./utils/cartUtils";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -25,16 +25,20 @@ export function links() {
   return [{ rel: "stylesheet", href: styles }];
 }
 
+type LoaderData = {
+  data: {
+    cart: Cart;
+  };
+};
+
+export const loader: LoaderFunction = async () => {
+  const cart = await getCart(process.env.TEST_CART as string);
+  // TODO: error handling / boundary
+  return cart;
+};
+
 export default function App() {
-  const fetcher = useFetcher();
-  useEffect(() => {
-    if (fetcher.type === "init") {
-      fetcher.load("/cart");
-    }
-    // if (fetcher.type === "done") {
-    //   console.log(fetcher.data);
-    // }
-  }, [fetcher]);
+  const { data } = useLoaderData<LoaderData>();
 
   return (
     <html lang="en">
@@ -57,7 +61,7 @@ export default function App() {
             <Link to="/cart">
               <h1 className="text-2xl font-bold">Cart</h1>
             </Link>
-            <CartContent cartContents={fetcher.data?.data?.cart} />
+            <CartContent contents={data.cart} />
           </section>
         </div>
         <ScrollRestoration />
