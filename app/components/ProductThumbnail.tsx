@@ -22,7 +22,7 @@ export default function ProductThumbnail({
           <button className="btn btn-secondary lowercase w-40">view</button>
         </Link>
         <fetcher.Form method="post" action="/cart">
-          <input type="hidden" name="merchandiseId" value={productVariantId} />
+          <input type="hidden" name="productVariantId" value={productVariantId} />
           <input type="hidden" name="quantity" value="1" />
           <button
             type="submit"
