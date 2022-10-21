@@ -16,6 +16,43 @@ function ErrorButton({ fetcher }: { fetcher: ReturnType<typeof useFetcher> }) {
   );
 }
 
+function ProductHoverActionButtons({
+  fetcher,
+  productSlug,
+  productVariantId,
+  addToCartFailed,
+}: {
+  fetcher: ReturnType<typeof useFetcher>;
+  productSlug: string;
+  productVariantId: string;
+  addToCartFailed: boolean;
+}) {
+  return (
+    <div className="flex flex-col gap-2">
+      <Link to={`/piece/${productSlug}`}>
+        <button className="btn btn-secondary lowercase w-40">view</button>
+      </Link>
+      <fetcher.Form method="post" action="/cart">
+        <input type="hidden" name="productVariantId" value={productVariantId} />
+        <input type="hidden" name="quantity" value="1" />
+        {!!addToCartFailed ? (
+          <ErrorButton fetcher={fetcher} />
+        ) : (
+          <button
+            type="submit"
+            className="btn btn-primary lowercase w-40"
+            name="_action"
+            value="addLineItem"
+          >
+            {/* TODO: Toast: "View cart" after adding */}
+            {fetcher.state !== "idle" ? "added!" : "add to cart"}
+          </button>
+        )}
+      </fetcher.Form>
+    </div>
+  );
+}
+
 export default function ProductThumbnail({
   img,
   alt,
@@ -34,31 +71,18 @@ export default function ProductThumbnail({
 
   return (
     <div className="relative">
-      <img src={img} alt={alt} className="w-full h-full object-cover" />
-      <div className="grid grid-col-1 gap-4 absolute inset-0 bg-black bg-opacity-50 opacity-0 md:hover:opacity-100 transition ease-in duration-75 place-content-center">
+      <div>
         <Link to={`/piece/${productSlug}`}>
-          <button className="btn btn-secondary lowercase w-40">view</button>
+          <img src={img} alt={alt} className="w-full h-full object-cover" />
         </Link>
-        <fetcher.Form method="post" action="/cart">
-          <input
-            type="hidden"
-            name="productVariantId"
-            value={productVariantId}
-          />
-          <input type="hidden" name="quantity" value="1" />
-          {!!addToCartFailed ? (
-            <ErrorButton fetcher={fetcher} />
-          ) : (
-            <button
-              type="submit"
-              className="btn btn-primary lowercase w-40"
-              name="_action"
-              value="addLineItem"
-            >
-              {fetcher.state !== "idle" ? "added!" : "add to cart"}
-            </button>
-          )}
-        </fetcher.Form>
+      </div>
+      <div className="hidden md:grid grid-col-1 gap-4 absolute inset-0 bg-black bg-opacity-50 opacity-0 md:hover:opacity-100 transition ease-in duration-75 place-content-center">
+        <ProductHoverActionButtons
+          fetcher={fetcher}
+          productSlug={productSlug}
+          productVariantId={productVariantId}
+          addToCartFailed={!!addToCartFailed}
+        />
       </div>
     </div>
   );

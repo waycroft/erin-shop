@@ -2044,6 +2044,10 @@ body[dir="rtl"] .checkbox:checked,
   gap: 2rem;
 }
 
+.gap-2 {
+  gap: 0.5rem;
+}
+
 .overflow-x-auto {
   overflow-x: auto;
 }
@@ -2243,9 +2247,27 @@ body[dir="rtl"] .checkbox:checked,
   background-color: hsl(var(--er) / var(--tw-bg-opacity));
 }
 
+@media (min-width: 640px) {
+  .sm\:block {
+    display: block;
+  }
+
+  .sm\:hidden {
+    display: none;
+  }
+}
+
 @media (min-width: 768px) {
+  .md\:block {
+    display: block;
+  }
+
   .md\:flex {
     display: flex;
+  }
+
+  .md\:grid {
+    display: grid;
   }
 
   .md\:hidden {
