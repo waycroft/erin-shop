@@ -25,7 +25,7 @@ export default function CartContent({ contents }: { contents: Cart }) {
       <div>
         <ol>
           {contents?.lines?.edges?.map((edge) => (
-            <li key={edge.node.id}>
+            <li key={edge.node.id} className="py-2">
               <CartLineItem item={edge.node} />
             </li>
           )) ?? <p>Cart could't be fetched...</p>}
