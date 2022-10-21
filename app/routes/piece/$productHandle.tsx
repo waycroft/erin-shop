@@ -70,7 +70,8 @@ export const action: ActionFunction = async ({ request }) => {
     );
   }
 
-  const updatedCart = await addLineItemsToCart({
+  try {
+    await addLineItemsToCart({
     cartId: process.env.TEST_CART as string,
     lines: [
       {
@@ -79,6 +80,10 @@ export const action: ActionFunction = async ({ request }) => {
       },
     ],
   });
+  } catch (error: any) {
+    console.error(error);
+    return json({ error: error.message, status: 500 });
+  }
 
   return null;
 };
