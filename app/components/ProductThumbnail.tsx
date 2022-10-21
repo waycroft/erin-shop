@@ -1,6 +1,21 @@
 import { Link, useFetcher } from "@remix-run/react";
 import { useEffect } from "react";
 
+function ErrorButton({ fetcher }: { fetcher: ReturnType<typeof useFetcher> }) {
+  return (
+    <button
+      type="submit"
+      name="_action"
+      value="addLineItem"
+      className="btn btn-primary lowercase w-40 h-fit leading-4 py-4 bg-error hover:bg-error border-none font-bold"
+    >
+      {fetcher.state !== "idle"
+        ? "Trying..."
+        : "Oh no, couldn't add to cart. 😢 Try again?"}
+    </button>
+  );
+}
+
 export default function ProductThumbnail({
   img,
   alt,
@@ -15,6 +30,7 @@ export default function ProductThumbnail({
   productSlug: string;
 }) {
   const fetcher = useFetcher();
+  const addToCartFailed = fetcher.data?.error;
 
   return (
     <div className="relative">
@@ -30,18 +46,18 @@ export default function ProductThumbnail({
             value={productVariantId}
           />
           <input type="hidden" name="quantity" value="1" />
-          <button
-            type="submit"
-            className="btn btn-primary lowercase w-40"
-            name="_action"
-            value="addLineItem"
-          >
-            {fetcher.type === "actionSubmission"
-              ? "adding..."
-              : fetcher.type === "done"
-              ? "added!"
-              : "add to cart"}
-          </button>
+          {!!addToCartFailed ? (
+            <ErrorButton fetcher={fetcher} />
+          ) : (
+            <button
+              type="submit"
+              className="btn btn-primary lowercase w-40"
+              name="_action"
+              value="addLineItem"
+            >
+              {fetcher.state !== "idle" ? "added!" : "add to cart"}
+            </button>
+          )}
         </fetcher.Form>
       </div>
     </div>

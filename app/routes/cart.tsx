@@ -1,4 +1,4 @@
-import { ActionFunction, LoaderFunction } from "@remix-run/node";
+import { ActionFunction, json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import CartContent, { Cart } from "~/components/CartContent";
@@ -26,32 +26,37 @@ export const action: ActionFunction = async ({ request }) => {
   const lineItemIds = formData.getAll("lineItemId").map((id) => id.toString());
   const _action = formData.get("_action")?.toString();
 
-  if (_action === "addLineItem") {
-    const merchandiseId = formData.get("productVariantId")?.toString();
-    const quantity = formData.get("quantity")?.toString();
-    invariant(merchandiseId && quantity, "Missing merchandiseId or quantity");
+  try {
+    if (_action === "addLineItem") {
+      const merchandiseId = formData.get("productVariantId")?.toString();
+      const quantity = formData.get("quantity")?.toString();
+      invariant(merchandiseId && quantity, "Missing merchandiseId or quantity");
 
-    const addLineItemsToCartOp = await addLineItemsToCart({
-      cartId: process.env.TEST_CART as string,
-      lines: [
-        {
-          merchandiseId: merchandiseId,
-          quantity: parseInt(quantity),
-        },
-      ],
-    });
+      await addLineItemsToCart({
+        cartId: process.env.TEST_CART as string,
+        lines: [
+          {
+            merchandiseId: merchandiseId,
+            quantity: parseInt(quantity),
+          },
+        ],
+      });
+      return null;
+    }
+
+    if (_action === "removeLineItem") {
+      invariant(lineItemIds.length, "Missing lineItemIds");
+
+      await removeLineItemsFromCart({
+        cartId: process.env.TEST_CART as string,
+        lineIds: lineItemIds,
+      });
+      return null;
+    }
+  } catch (error: any) {
+    console.error(error);
+    return json({ error: error.message });
   }
-
-  if (_action === "removeLineItem") {
-    invariant(lineItemIds.length, "Missing lineItemIds");
-
-    const removeLineItemsFromCartOp = await removeLineItemsFromCart({
-      cartId: process.env.TEST_CART as string,
-      lineIds: lineItemIds,
-    });
-  }
-
-  return null;
 };
 
 export function ErrorBoundary({ error }: { error: Error }) {
@@ -75,7 +80,9 @@ export default function CartRoute() {
       <div className="my-4">
         <CartContent contents={cartContents} />
       </div>
-      <a href={cartContents?.checkoutUrl} className="btn btn-primary">Checkout</a>
+      <a href={cartContents?.checkoutUrl} className="btn btn-primary">
+        Checkout
+      </a>
     </section>
   );
 }
