@@ -50,14 +50,13 @@ export const loader: LoaderFunction = async () => {
   return res;
 };
 
-export function ErrorBoundary() {
+export function ErrorBoundary({ error }: { error: Error }) {
   return (
     <div>
-      <section className="flex flex-col w-screen h-96 place-content-center">
-        <div className="alert alert-error w-fit">
-          <h1>Something went wrong!</h1>
-        </div>
-      </section>
+      <h1>Oops!</h1>
+      <p>{error.message}</p>
+      <p>Stack:</p>
+      <pre>{error.stack}</pre>
     </div>
   );
 }
