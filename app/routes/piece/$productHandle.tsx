@@ -211,11 +211,7 @@ export default function SingleProductRoute() {
               className="input input-primary"
             />
             <button className="btn btn-primary my-4" type="submit">
-              {transition.state === "submitting"
-                ? "Adding..."
-                : transition.state === "loading"
-                ? "Added!"
-                : "Add to Cart"}
+              {transition.state !== "idle" ? "Added!" : "Add to Cart"}
             </button>
           </div>
         </Form>
