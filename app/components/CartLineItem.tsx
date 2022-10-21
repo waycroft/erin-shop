@@ -44,7 +44,7 @@ export default function CartLineItem({
           <fetcher.Form method="post" action="/cart">
             <input type="hidden" name="lineItemId" value={item.id} />
             <button
-              className="btn btn-primary"
+              className="btn btn-secondary"
               type="submit"
               name="_action"
               value="removeLineItem"

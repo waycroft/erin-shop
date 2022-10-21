@@ -75,6 +75,7 @@ export default function CartRoute() {
       <div className="my-4">
         <CartContent contents={cartContents} />
       </div>
+      <a href={cartContents?.checkoutUrl} className="btn btn-primary">Checkout</a>
     </section>
   );
 }
