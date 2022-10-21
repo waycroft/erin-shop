@@ -1,6 +1,7 @@
 import { useFetcher } from "@remix-run/react";
 import { useEffect } from "react";
 import { ProductVariant } from "~/routes/piece/$productHandle";
+import XErrorIcon from "./icons/XErrorIcon";
 
 export type CartLineItemInterface = {
   id: string;
@@ -14,13 +15,10 @@ export default function CartLineItem({
   item: CartLineItemInterface;
 }) {
   const fetcher = useFetcher();
-  useEffect(() => {
-    if (fetcher.type === "done") {
-      fetcher.load("/cart");
-    }
-  }, [fetcher]);
+  const removeFromCartFailed = fetcher.data?.error;
 
-  return (
+  return fetcher.type === "actionSubmission" ||
+    fetcher.type === "actionReload" ? null : (
     <div className="card card-side card-bordered bg-base-400">
       <figure>
         <img
@@ -52,6 +50,12 @@ export default function CartLineItem({
               Remove
             </button>
           </fetcher.Form>
+          {fetcher.type === "done" && !!removeFromCartFailed ? (
+            <div className="alert alert-error w-full flex flex-row justify-start shadow-md">
+              <XErrorIcon />
+              <span>Remove from cart failed. Try again?</span>
+            </div>
+          ) : null}
         </div>
       </div>
     </div>
