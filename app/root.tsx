@@ -32,10 +32,23 @@ type LoaderData = {
 };
 
 export const loader: LoaderFunction = async () => {
-  const cart = await getCart(process.env.TEST_CART as string);
-  // TODO: error handling / boundary
-  return cart;
+  try {
+    const cart = await getCart(process.env.TEST_CART as string);
+    return cart;
+  } catch (error: any) {
+    console.error(error);
+    return json({ error: error.message, status: 500 });
+  }
 };
+
+export function ErrorBoundary() {
+  return (
+    <div className="flex flex-col w-screen h-screen place-content-center">
+      <h1 className="text-4xl">Something went wrong</h1>
+      <p className="text-xl">Please try again in a few minutes...</p>
+    </div>
+  );
+}
 
 export default function App() {
   const { data } = useLoaderData<LoaderData>();

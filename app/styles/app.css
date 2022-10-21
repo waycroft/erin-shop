@@ -1914,6 +1914,10 @@ body[dir="rtl"] .checkbox:checked,
   display: inline-block;
 }
 
+.inline {
+  display: inline;
+}
+
 .flex {
   display: flex;
 }
@@ -1949,6 +1953,10 @@ body[dir="rtl"] .checkbox:checked,
 .h-fit {
   height: -moz-fit-content;
   height: fit-content;
+}
+
+.h-screen {
+  height: 100vh;
 }
 
 .max-h-48 {
@@ -2002,6 +2010,10 @@ body[dir="rtl"] .checkbox:checked,
 
 .place-content-center {
   place-content: center;
+}
+
+.items-center {
+  align-items: center;
 }
 
 .justify-end {
@@ -2134,6 +2146,11 @@ body[dir="rtl"] .checkbox:checked,
 .text-4xl {
   font-size: 2.25rem;
   line-height: 2.5rem;
+}
+
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
 }
 
 .font-bold {
