@@ -15,11 +15,6 @@ export default function ProductThumbnail({
   productSlug: string;
 }) {
   const fetcher = useFetcher();
-  useEffect(() => {
-    if (fetcher.type === "done") {
-      fetcher.load("/cart");
-    }
-  });
 
   return (
     <div className="relative">
