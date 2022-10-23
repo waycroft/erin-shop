@@ -10,7 +10,7 @@ export default function ProductsGallery({ products }: { products: Product[] }) {
             key={product.id}
             productVariantId={product.variants.edges[0].node.id}
             productSlug={product.handle}
-            img={product.featuredImage.url ?? product.images.edges[0].node.url}
+            img={product.featuredImage?.url ?? product.images?.edges[0].node.url}
           />
         ) : (
           <div>(Missing product thumbnail</div>

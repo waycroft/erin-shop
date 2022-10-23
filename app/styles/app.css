@@ -2372,6 +2372,10 @@ body[dir="rtl"] .checkbox:checked,
   color: hsl(var(--b1) / var(--tw-text-opacity));
 }
 
+.underline {
+  text-decoration-line: underline;
+}
+
 .opacity-0 {
   opacity: 0;
 }

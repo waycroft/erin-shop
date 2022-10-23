@@ -18,14 +18,14 @@ function ErrorButton({ fetcher }: { fetcher: ReturnType<typeof useFetcher> }) {
 
 function ProductHoverActionButtons({
   fetcher,
+  addToCartFailed,
   productSlug,
   productVariantId,
-  addToCartFailed,
 }: {
   fetcher: ReturnType<typeof useFetcher>;
+  addToCartFailed: boolean;
   productSlug: string;
   productVariantId: string;
-  addToCartFailed: boolean;
 }) {
   return (
     <div className="flex flex-col gap-2">
@@ -44,11 +44,29 @@ function ProductHoverActionButtons({
             name="_action"
             value="addLineItem"
           >
-            {/* TODO: Toast: "View cart" after adding */}
             {fetcher.state !== "idle" ? "added!" : "add to cart"}
           </button>
         )}
       </fetcher.Form>
+    </div>
+  );
+}
+
+function ToastNotification({
+  type,
+  message,
+}: {
+  type: "success" | "error";
+  message: string;
+}) {
+  return (
+    <div className="toast">
+      <div className="alert alert-success flex flex-col">
+        <p>{message}</p>
+        <Link to="/cart" className="font-bold underline">
+          Go to cart
+        </Link>
+      </div>
     </div>
   );
 }
@@ -69,6 +87,8 @@ export default function ProductThumbnail({
   const fetcher = useFetcher();
   const addToCartFailed = fetcher.data?.error;
 
+  // BOOKMARK: I want to use setTimeout to fade out toast.
+
   return (
     <div className="relative">
       <div>
@@ -79,11 +99,14 @@ export default function ProductThumbnail({
       <div className="hidden md:grid grid-col-1 gap-4 absolute inset-0 bg-black bg-opacity-50 opacity-0 md:hover:opacity-100 transition ease-in duration-75 place-content-center">
         <ProductHoverActionButtons
           fetcher={fetcher}
+          addToCartFailed={!!addToCartFailed}
           productSlug={productSlug}
           productVariantId={productVariantId}
-          addToCartFailed={!!addToCartFailed}
         />
       </div>
+      {fetcher.type === "done" && !!!addToCartFailed ? (
+        <ToastNotification type="success" message="Added to cart!" />
+      ) : null}
     </div>
   );
 }
