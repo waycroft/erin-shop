@@ -73,7 +73,6 @@ export default function ProductThumbnail({
   const fetcher = useFetcher();
   const addToCartFailed = fetcher.data?.error;
 
-
   return (
     <div className="relative">
       <div>
@@ -90,7 +89,11 @@ export default function ProductThumbnail({
         />
       </div>
       {fetcher.type === "done" && !!!addToCartFailed ? (
-        <ToastNotification type="success" message="Added to cart!" />
+        <ToastNotification
+          type="success"
+          message="Added to cart!"
+          action={{ label: "Go to cart", href: "/cart" }}
+        />
       ) : null}
     </div>
   );
