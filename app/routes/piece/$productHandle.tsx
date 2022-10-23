@@ -72,14 +72,14 @@ export const action: ActionFunction = async ({ request }) => {
 
   try {
     await addLineItemsToCart({
-    cartId: process.env.TEST_CART as string,
-    lines: [
-      {
-        merchandiseId: merchandiseId,
-        quantity: parseInt(quantity),
-      },
-    ],
-  });
+      cartId: process.env.TEST_CART as string,
+      lines: [
+        {
+          merchandiseId: merchandiseId,
+          quantity: parseInt(quantity),
+        },
+      ],
+    });
   } catch (error: any) {
     console.error(error);
     return json({ error: error.message, status: 500 });
@@ -211,6 +211,9 @@ export default function SingleProductRoute() {
               className="input input-primary"
             />
             <button className="btn btn-primary my-4" type="submit">
+              {/* BOOKMARK: add indicator to cart when item is added.
+              Increment number for items in cart.
+              Also create toast notification to view cart. */}
               {transition.state !== "idle" ? "Added!" : "Add to Cart"}
             </button>
           </div>

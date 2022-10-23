@@ -2,7 +2,7 @@ import { Link } from "@remix-run/react";
 import CartIcon from "./icons/CartIcon";
 import HamburgerIcon from "./icons/HamburgerIcon";
 
-export default function PrimaryNav() {
+export default function PrimaryNav({ cartQuantity }: { cartQuantity: number }) {
   return (
     <nav
       role="navigation"
@@ -34,7 +34,12 @@ export default function PrimaryNav() {
             </div>
           </div>
         </div>
-        <div className="px-4">
+        <div className="indicator px-4">
+          {cartQuantity > 0 ? (
+            <span className="indicator-item badge badge-accent text-base-100">
+              {cartQuantity}
+            </span>
+          ) : null}
           <label htmlFor="cart-drawer" className="drawer-button btn btn-circle">
             <CartIcon />
           </label>
