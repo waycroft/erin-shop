@@ -1,4 +1,18 @@
-export default async function (query: string, variables = {}) {
+export type StorefrontAPIResponse = {
+  data: {};
+  errors?: {
+    message: string;
+  }[];
+  userErrors?: {
+    field: string;
+    message: string;
+  }[];
+};
+
+export default async function (
+  query: string,
+  variables = {}
+): Promise<StorefrontAPIResponse> {
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
   headers.append(
@@ -7,20 +21,23 @@ export default async function (query: string, variables = {}) {
   );
 
   let res: Response;
-  try {
-    res = await fetch(
-      "https://erin-hoffmans-store.myshopify.com/api/2022-10/graphql.json",
-      {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify({
-          query,
-          variables,
-        }),
-      }
-    );
-    return res;
-  } catch (err) {
-    console.error(err);
+  res = await fetch(
+    "https://erin-hoffmans-store.myshopify.com/api/2022-10/graphql.json",
+    {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify({
+        query,
+        variables,
+      }),
+    }
+  );
+  const json: StorefrontAPIResponse = await res.json();
+  if (json.errors) {
+    throw new Error(json.errors[0].message);
   }
+  if (json.userErrors && json.userErrors.length > 0) {
+    console.error(json.userErrors);
+  }
+  return json;
 }

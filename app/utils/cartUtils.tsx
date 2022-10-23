@@ -1,6 +1,7 @@
 import { json } from "@remix-run/node";
 import invariant from "tiny-invariant";
-import storefront from "./storefront";
+import { CartLineItemInterface } from "~/components/CartLineItem";
+import storefront, { StorefrontAPIResponse } from "./storefront";
 
 var gql = String.raw;
 
@@ -9,13 +10,15 @@ export type Merchandise = {
   quantity: number;
 };
 
-export type CartAction = "addLineItems" | "removeLineItems";
+export type CartAction = "addLineItems" | "updateLineItems" | "removeLineItems";
+
+type CartLineItemId = string;
 
 export async function editCart(action: CartAction, formData: FormData) {
   try {
     if (action === "addLineItems") {
       const merchandiseInputData = formData.get("merchandise");
-      invariant(merchandiseInputData, "No merchandise was provided");
+      invariant(merchandiseInputData, "No merchandise was provided to add");
       const merchandise = JSON.parse(merchandiseInputData.toString());
 
       await addLineItemsToCart({
@@ -25,15 +28,36 @@ export async function editCart(action: CartAction, formData: FormData) {
       return null;
     }
 
+    if (action === "updateLineItems") {
+      const lineItems = formData
+        .getAll("lineItems")
+        .map((lineItem) => JSON.parse(lineItem.toString()));
+      invariant(lineItems, "No line items were provided for update");
+
+      await updateLineItemsInCart({
+        cartId: process.env.TEST_CART as string,
+        lines: lineItems,
+      });
+      return null;
+    }
+
     if (action === "removeLineItems") {
-      const lineItemIds = formData
-        .getAll("lineItemId")
-        .map((id) => id.toString());
-      invariant(lineItemIds.length, "Missing lineItemIds");
+      const lineItems: CartLineItemId[] = formData
+        .getAll("lineItems")
+        .map((lineItem) => {
+          const obj: Pick<CartLineItemInterface, "id"> = JSON.parse(
+            lineItem.toString()
+          );
+          return obj.id;
+        });
+      invariant(
+        lineItems.length > 0,
+        "No line items were provided for removal"
+      );
 
       await removeLineItemsFromCart({
         cartId: process.env.TEST_CART as string,
-        lineIds: lineItemIds,
+        lineIds: lineItems,
       });
       return null;
     }
@@ -42,7 +66,7 @@ export async function editCart(action: CartAction, formData: FormData) {
     return json({ action: action, error: error.message });
   }
 }
-export async function getCart(cartId: string): Promise<Response | undefined> {
+export async function getCart(cartId: string): Promise<StorefrontAPIResponse> {
   return await storefront(
     gql`
       query getCart($cartId: ID!) {
@@ -100,7 +124,7 @@ export async function createAndAddToCart({
 }: {
   lines: Merchandise[];
   attributes?: object;
-}): Promise<Response | undefined> {
+}): Promise<StorefrontAPIResponse> {
   return await storefront(
     gql`
       mutation cartCreate($cartInput: CartInput) {
@@ -167,15 +191,40 @@ export async function addLineItemsToCart({
 }: {
   cartId: string;
   lines: Merchandise[];
-}): Promise<Response | undefined> {
+}): Promise<StorefrontAPIResponse> {
   return await storefront(
     gql`
       mutation cartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!) {
         cartLinesAdd(cartId: $cartId, lines: $lines) {
           cart {
             id
+            lines(first: 100) {
+              edges {
+                node {
+                  id
+                  quantity
+                  merchandise {
+                    ... on ProductVariant {
+                      id
+                      title
+                      price {
+                        amount
+                      }
+                      product {
+                        id
+                        title
+                      }
+                    }
+                  }
+                }
+              }
+            }
             createdAt
             updatedAt
+          }
+          userErrors {
+            field
+            message
           }
         }
       }
@@ -187,23 +236,46 @@ export async function addLineItemsToCart({
   );
 }
 
-// TODO: Add error handling to all these functions
 export async function removeLineItemsFromCart({
   cartId,
   lineIds,
 }: {
   cartId: string;
-  lineIds: string[];
-}): Promise<Response | undefined> {
-  // throw new Error("failed to remove from cart");
+  lineIds: CartLineItemId[];
+}): Promise<StorefrontAPIResponse> {
   return await storefront(
     gql`
       mutation cartLinesRemove($cartId: ID!, $lineIds: [ID!]!) {
         cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
           cart {
             id
+            lines(first: 100) {
+              edges {
+                node {
+                  id
+                  quantity
+                  merchandise {
+                    ... on ProductVariant {
+                      id
+                      title
+                      price {
+                        amount
+                      }
+                      product {
+                        id
+                        title
+                      }
+                    }
+                  }
+                }
+              }
+            }
             createdAt
             updatedAt
+          }
+          userErrors {
+            field
+            message
           }
         }
       }
@@ -220,20 +292,41 @@ export async function updateLineItemsInCart({
   lines,
 }: {
   cartId: string;
-  lines: Merchandise[];
-}): Promise<Response | undefined> {
+  lines: CartLineItemInterface[];
+}): Promise<StorefrontAPIResponse> {
   return await storefront(
     gql`
       mutation cartLinesUpdate($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
         cartLinesUpdate(cartId: $cartId, lines: $lines) {
           cart {
             id
-            lines {
-              id
-              quantity
+            lines(first: 100) {
+              edges {
+                node {
+                  id
+                  quantity
+                  merchandise {
+                    ... on ProductVariant {
+                      id
+                      title
+                      price {
+                        amount
+                      }
+                      product {
+                        id
+                        title
+                      }
+                    }
+                  }
+                }
+              }
             }
             createdAt
             updatedAt
+          }
+          userErrors {
+            field
+            message
           }
         }
       }

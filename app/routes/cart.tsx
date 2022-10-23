@@ -1,4 +1,4 @@
-import { ActionFunction, LoaderFunction } from "@remix-run/node";
+import { ActionFunction, json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import CartContent, { Cart } from "~/components/CartContent";
@@ -28,10 +28,16 @@ export const action: ActionFunction = async ({ request }) => {
   invariant(_action, "No action was provided");
   const action = _action.toString();
   const isCartAction =
-    action === "addLineItems" || action === "removeLineItems";
+    action === "addLineItems" ||
+    action === "updateLineItems" ||
+    action === "removeLineItems";
 
   if (isCartAction) {
-    return await editCart(action, formData);
+    try {
+      return json(await editCart(action, formData));
+    } catch (error){
+      throw new Error("Cart action failed");
+    }
   }
 };
 
