@@ -34,12 +34,12 @@ export default function CartLineItem({
           item.id: <span className="text-green-500">{item.id}</span>
         </pre>
         <div className="card-actions justify-end">
-          <input
-            type="number"
-            className="input input-bordered"
-            defaultValue={item.quantity}
-          />
           <fetcher.Form method="post" action="/cart">
+            <input
+              type="number"
+              className="input input-bordered my-2"
+              defaultValue={item.quantity}
+            />
             <input type="hidden" name="lineItemId" value={item.id} />
             <button
               className="btn btn-secondary"
