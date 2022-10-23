@@ -1,7 +1,7 @@
-import { LoaderFunction } from "@remix-run/node";
+import { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import ProductsGallery from "~/components/ProductsGallery";
-import storefront from "~/utils/storefront";
+import { getProducts } from "~/utils/productUtils";
 import { Product } from "./piece/$productHandle";
 
 type LoaderData = {
@@ -14,40 +14,8 @@ type LoaderData = {
 
 export const loader: LoaderFunction = async () => {
   // TODO: need to fetch a smaller image size for thumbnails
-  const res = await storefront(
-    `query getAllProducts {
-      products(first: 12) {
-        edges {
-          node {
-            availableForSale
-            descriptionHtml
-            featuredImage {
-              height
-              width
-              id
-              url
-              altText
-            }
-            id
-            productType
-            title
-            handle
-            title
-            ... on Product {
-              variants(first: 1) {
-                edges {
-                  node {
-                    id
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }`
-  );
-  return res;
+  const products = await getProducts(12);
+  return products;
 };
 
 export function ErrorBoundary({ error }: { error: Error }) {

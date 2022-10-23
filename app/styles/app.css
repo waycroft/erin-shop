@@ -1218,6 +1218,13 @@ html {
   padding: 1rem;
 }
 
+.alert-success {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--su) / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: hsl(var(--suc, var(--nc)) / var(--tw-text-opacity));
+}
+
 .alert-error {
   --tw-bg-opacity: 1;
   background-color: hsl(var(--er) / var(--tw-bg-opacity));
@@ -2340,6 +2347,10 @@ body[dir="rtl"] .checkbox:checked,
 
 .lowercase {
   text-transform: lowercase;
+}
+
+.normal-case {
+  text-transform: none;
 }
 
 .leading-4 {
