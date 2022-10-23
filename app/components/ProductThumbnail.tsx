@@ -1,4 +1,5 @@
 import { FetcherWithComponents, Link, useFetcher } from "@remix-run/react";
+import ToastNotification from "./ToastNotification";
 
 function ErrorButton({ fetcher }: { fetcher: ReturnType<typeof useFetcher> }) {
   return (
@@ -56,25 +57,6 @@ function ProductHoverActionButtons({
   );
 }
 
-function ToastNotification({
-  type,
-  message,
-}: {
-  type: "success" | "error";
-  message: string;
-}) {
-  return (
-    <div className="toast">
-      <div className="alert alert-success flex flex-col">
-        <p>{message}</p>
-        <Link to="/cart" className="font-bold underline">
-          Go to cart
-        </Link>
-      </div>
-    </div>
-  );
-}
-
 export default function ProductThumbnail({
   img,
   alt,
@@ -91,7 +73,6 @@ export default function ProductThumbnail({
   const fetcher = useFetcher();
   const addToCartFailed = fetcher.data?.error;
 
-  // BOOKMARK: I want to use setTimeout to fade out toast.
 
   return (
     <div className="relative">
