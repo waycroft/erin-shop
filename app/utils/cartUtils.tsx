@@ -159,6 +159,7 @@ export async function removeLineItemsFromCart({
   cartId: string;
   lineIds: string[];
 }): Promise<Response | undefined> {
+  // throw new Error("failed to remove from cart");
   return await storefront(
     gql`
       mutation cartLinesRemove($cartId: ID!, $lineIds: [ID!]!) {

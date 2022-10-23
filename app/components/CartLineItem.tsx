@@ -51,9 +51,11 @@ export default function CartLineItem({
             </button>
           </fetcher.Form>
           {fetcher.type === "done" && !!removeFromCartFailed ? (
-            <div className="alert alert-error w-full flex flex-row justify-start shadow-md">
-              <XErrorIcon />
-              <span>Remove from cart failed. Try again?</span>
+            <div className="toast toast-bottom toast-center">
+              <div className="alert alert-error w-full flex flex-row justify-start shadow-md">
+                <XErrorIcon />
+                <span>Remove from cart failed. Try again?</span>
+              </div>
             </div>
           ) : null}
         </div>
