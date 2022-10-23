@@ -107,14 +107,14 @@ export type Product = {
   availableForSale: boolean;
   description: string;
   descriptionHtml: string;
-  featuredImage?: {
+  featuredImage: {
     height: number;
     width: number;
     id: string;
     url: string;
     altText: string;
   };
-  images?: {
+  images: {
     edges: {
       node: {
         altText: string;
