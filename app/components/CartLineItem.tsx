@@ -1,7 +1,7 @@
-import { useFetcher } from "@remix-run/react";
+import { FetcherWithComponents } from "@remix-run/react";
 import { useEffect } from "react";
+import { CartActionError } from "~/routes/cart";
 import { ProductVariant } from "~/routes/piece/$productHandle";
-import XErrorIcon from "./icons/XErrorIcon";
 
 export type CartLineItemInterface = {
   id: string;
@@ -11,14 +11,18 @@ export type CartLineItemInterface = {
 
 export default function CartLineItem({
   item,
+  fetcher,
 }: {
   item: CartLineItemInterface;
+  fetcher: FetcherWithComponents<CartActionError>;
 }) {
-  const fetcher = useFetcher();
-  const removeFromCartFailed = fetcher.data?.error;
-
-  return fetcher.type === "actionSubmission" ||
-    fetcher.type === "actionReload" ? null : (
+  useEffect(() => {
+    console.log("item changed", item);
+  }, [item]);
+  {
+    /*TODO: Now the fetcher is CartContents-wide, which means that ALL items will disappear until cart is refreshed after action. I'll probably need to utilize useState to keep UI immediately responsive.*/
+  }
+  return (
     <div className="card card-side card-bordered bg-base-400">
       <figure>
         <img
@@ -45,19 +49,11 @@ export default function CartLineItem({
               className="btn btn-secondary"
               type="submit"
               name="_action"
-              value="removeLineItem"
+              value="removeLineItems"
             >
               Remove
             </button>
           </fetcher.Form>
-          {fetcher.type === "done" && !!removeFromCartFailed ? (
-            <div className="toast toast-bottom toast-center">
-              <div className="alert alert-error w-full flex flex-row justify-start shadow-md">
-                <XErrorIcon />
-                <span>Remove from cart failed. Try again?</span>
-              </div>
-            </div>
-          ) : null}
         </div>
       </div>
     </div>

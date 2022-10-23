@@ -1,12 +1,8 @@
-import { ActionFunction, json, LoaderFunction } from "@remix-run/node";
+import { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import CartContent, { Cart } from "~/components/CartContent";
-import {
-  addLineItemsToCart,
-  getCart,
-  removeLineItemsFromCart,
-} from "~/utils/cartUtils";
+import { CartAction, editCart, getCart } from "~/utils/cartUtils";
 
 type LoaderData = {
   data: {
@@ -14,48 +10,28 @@ type LoaderData = {
   };
 };
 
+export type CartActionError = {
+  action: CartAction;
+  error: string;
+};
+
 export const loader: LoaderFunction = async () => {
   const cart = await getCart(process.env.TEST_CART as string);
   return cart;
 };
 
-// BOOKMARK: Add transitions / notification that item was removed
-// Add an undo toast
+// BOOKMARK: Add an undo toast (good feedback that an item was removed)
+// TODO: good opportunity to also use Framer motion to animate items being removed
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
-  const lineItemIds = formData.getAll("lineItemId").map((id) => id.toString());
-  const _action = formData.get("_action")?.toString();
+  const _action = formData.get("_action");
+  invariant(_action, "No action was provided");
+  const action = _action.toString();
+  const isCartAction =
+    action === "addLineItems" || action === "removeLineItems";
 
-  try {
-    if (_action === "addLineItem") {
-      const merchandiseId = formData.get("productVariantId")?.toString();
-      const quantity = formData.get("quantity")?.toString();
-      invariant(merchandiseId && quantity, "Missing merchandiseId or quantity");
-
-      await addLineItemsToCart({
-        cartId: process.env.TEST_CART as string,
-        lines: [
-          {
-            merchandiseId: merchandiseId,
-            quantity: parseInt(quantity),
-          },
-        ],
-      });
-      return null;
-    }
-
-    if (_action === "removeLineItem") {
-      invariant(lineItemIds.length, "Missing lineItemIds");
-
-      await removeLineItemsFromCart({
-        cartId: process.env.TEST_CART as string,
-        lineIds: lineItemIds,
-      });
-      return null;
-    }
-  } catch (error: any) {
-    console.error(error);
-    return json({ error: error.message });
+  if (isCartAction) {
+    return await editCart(action, formData);
   }
 };
 

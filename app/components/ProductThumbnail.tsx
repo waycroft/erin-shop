@@ -1,5 +1,4 @@
-import { Link, useFetcher } from "@remix-run/react";
-import { useEffect } from "react";
+import { FetcherWithComponents, Link, useFetcher } from "@remix-run/react";
 
 function ErrorButton({ fetcher }: { fetcher: ReturnType<typeof useFetcher> }) {
   return (
@@ -22,7 +21,7 @@ function ProductHoverActionButtons({
   productSlug,
   productVariantId,
 }: {
-  fetcher: ReturnType<typeof useFetcher>;
+  fetcher: FetcherWithComponents<any>;
   addToCartFailed: boolean;
   productSlug: string;
   productVariantId: string;
@@ -33,8 +32,13 @@ function ProductHoverActionButtons({
         <button className="btn btn-secondary lowercase w-40">view</button>
       </Link>
       <fetcher.Form method="post" action="/cart">
-        <input type="hidden" name="productVariantId" value={productVariantId} />
-        <input type="hidden" name="quantity" value="1" />
+        <input
+          type="hidden"
+          name="merchandise"
+          value={JSON.stringify([
+            { merchandiseId: productVariantId, quantity: 1 },
+          ])}
+        />
         {!!addToCartFailed ? (
           <ErrorButton fetcher={fetcher} />
         ) : (
@@ -42,7 +46,7 @@ function ProductHoverActionButtons({
             type="submit"
             className="btn btn-primary lowercase w-40"
             name="_action"
-            value="addLineItem"
+            value="addLineItems"
           >
             {fetcher.state !== "idle" ? "added!" : "add to cart"}
           </button>

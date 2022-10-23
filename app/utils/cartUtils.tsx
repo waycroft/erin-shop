@@ -1,57 +1,93 @@
+import { json } from "@remix-run/node";
+import invariant from "tiny-invariant";
 import storefront from "./storefront";
 
-type Merchandise = {
+var gql = String.raw;
+
+export type Merchandise = {
   merchandiseId: string;
   quantity: number;
 };
 
-var gql = String.raw;
+export type CartAction = "addLineItems" | "removeLineItems";
 
+export async function editCart(action: CartAction, formData: FormData) {
+  try {
+    if (action === "addLineItems") {
+      const merchandiseInputData = formData.get("merchandise");
+      invariant(merchandiseInputData, "No merchandise was provided");
+      const merchandise = JSON.parse(merchandiseInputData.toString());
+
+      await addLineItemsToCart({
+        cartId: process.env.TEST_CART as string,
+        lines: merchandise,
+      });
+      return null;
+    }
+
+    if (action === "removeLineItems") {
+      const lineItemIds = formData
+        .getAll("lineItemId")
+        .map((id) => id.toString());
+      invariant(lineItemIds.length, "Missing lineItemIds");
+
+      await removeLineItemsFromCart({
+        cartId: process.env.TEST_CART as string,
+        lineIds: lineItemIds,
+      });
+      return null;
+    }
+  } catch (error: any) {
+    console.error(error);
+    return json({ action: action, error: error.message });
+  }
+}
 export async function getCart(cartId: string): Promise<Response | undefined> {
   return await storefront(
     gql`
       query getCart($cartId: ID!) {
         cart(id: $cartId) {
-            id
-            checkoutUrl
-            cost {
-                subtotalAmount {
-                    amount
-                }
+          id
+          checkoutUrl
+          cost {
+            subtotalAmount {
+              amount
             }
-            totalQuantity
-            updatedAt
-            createdAt
-            lines(first: 10) {
-                edges {
-                    node {
-                        id
-                        quantity
-                        merchandise {
-                            ... on ProductVariant {
-                              id
-                              title
-                              price {
-                                  amount
-                              }
-                              image {
-                                  url
-                                  altText
-                              }
-                              sku
-                              product {
-                                  id
-                                  title
-                                  handle
-                                  description
-                              }
-                            }
-                        }
+          }
+          totalQuantity
+          updatedAt
+          createdAt
+          lines(first: 10) {
+            edges {
+              node {
+                id
+                quantity
+                merchandise {
+                  ... on ProductVariant {
+                    id
+                    title
+                    price {
+                      amount
                     }
+                    image {
+                      url
+                      altText
+                    }
+                    sku
+                    product {
+                      id
+                      title
+                      handle
+                      description
+                    }
+                  }
                 }
+              }
             }
+          }
         }
-    }`,
+      }
+    `,
     {
       cartId: cartId,
     }
@@ -70,44 +106,44 @@ export async function createAndAddToCart({
       mutation cartCreate($cartInput: CartInput) {
         cartCreate(input: $cartInput) {
           cart {
-              id
-              checkoutUrl
-              cost {
-                  subtotalAmount {
-                      amount
-                  }
+            id
+            checkoutUrl
+            cost {
+              subtotalAmount {
+                amount
               }
-              totalQuantity
-              updatedAt
-              createdAt
-              lines(first: 10) {
-                  edges {
-                      node {
-                          id
-                          quantity
-                          merchandise {
-                              ... on ProductVariant {
-                                id
-                                title
-                                price {
-                                    amount
-                                }
-                                image {
-                                    url
-                                    altText
-                                }
-                                sku
-                                product {
-                                    id
-                                    title
-                                    handle
-                                    description
-                                }
-                              }
-                          }
+            }
+            totalQuantity
+            updatedAt
+            createdAt
+            lines(first: 10) {
+              edges {
+                node {
+                  id
+                  quantity
+                  merchandise {
+                    ... on ProductVariant {
+                      id
+                      title
+                      price {
+                        amount
                       }
+                      image {
+                        url
+                        altText
+                      }
+                      sku
+                      product {
+                        id
+                        title
+                        handle
+                        description
+                      }
+                    }
                   }
+                }
               }
+            }
           }
           userErrors {
             field

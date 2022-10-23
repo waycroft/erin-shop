@@ -1,91 +1,13 @@
-import {
-  ActionFunction,
-  json,
-  LoaderFunction,
-  redirect,
-} from "@remix-run/node";
-import { Form, useLoaderData, useTransition } from "@remix-run/react";
-import { addLineItemsToCart, createAndAddToCart } from "~/utils/cartUtils";
-import storefront from "~/utils/storefront";
+import { LoaderFunction } from "@remix-run/node";
+import { useFetcher, useLoaderData } from "@remix-run/react";
+import { useState } from "react";
+import invariant from "tiny-invariant";
+import { getSingleProduct } from "~/utils/productUtils";
 
 export const loader: LoaderFunction = async ({ params }) => {
   const { productHandle } = params;
-  const res = await storefront(
-    `
-      query getProductByHandle($handle: String) {
-        product(handle: $handle) {
-            availableForSale
-            descriptionHtml
-            id
-            tags
-            title
-            handle
-            totalInventory
-            productType
-            priceRange {
-                maxVariantPrice {
-                    amount
-                }
-                minVariantPrice {
-                    amount
-                }
-            }
-            ... on Product {
-                images(first: 1) {
-                    edges {
-                        node {
-                            altText
-                            id
-                            height
-                            width
-                            url
-                        }
-                    }
-                }
-                variants(first: 1) {
-                    edges {
-                        node {
-                            id
-                        }
-                    }
-                }
-            }
-        }
-    }`,
-    { handle: productHandle }
-  );
-  return res;
-};
-
-export const action: ActionFunction = async ({ request }) => {
-  const formData = await request.formData();
-  const merchandiseId = formData.get("productVariantId")?.toString();
-  const quantity = formData.get("quantity")?.toString();
-  const productSlug = formData.get("productHandle")?.toString();
-
-  if (!merchandiseId || !quantity) {
-    return json(
-      { error: "Missing merchandiseId or quantity" },
-      { status: 400 }
-    );
-  }
-
-  try {
-    await addLineItemsToCart({
-      cartId: process.env.TEST_CART as string,
-      lines: [
-        {
-          merchandiseId: merchandiseId,
-          quantity: parseInt(quantity),
-        },
-      ],
-    });
-  } catch (error: any) {
-    console.error(error);
-    return json({ error: error.message, status: 500 });
-  }
-
-  return null;
+  invariant(productHandle, "No product handle was provided");
+  return await getSingleProduct(productHandle);
 };
 
 type LoaderData = {
@@ -156,10 +78,15 @@ export type ProductVariant = {
 
 export default function SingleProductRoute() {
   const { data } = useLoaderData<LoaderData>();
+  const fetcher = useFetcher();
+  const actionData = fetcher.data;
   const product = data.product;
   const featuredImage = product.images?.edges[0].node;
+  const [selectedQuantity, setSelectedQuantity] = useState(1);
 
-  const transition = useTransition();
+  const handleChangeSelectedQuantity = (event: React.ChangeEvent) => {
+    setSelectedQuantity(Number((event.target as HTMLInputElement).value));
+  };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 justify-center gap-8">
@@ -195,29 +122,37 @@ export default function SingleProductRoute() {
           </p>
           <p>{product.productType}</p>
         </div>
-        <Form method="post">
+        <fetcher.Form method="post" action="/cart">
           <input type="hidden" name="productHandle" value={product.handle} />
+          {/* TODO: Once Erin starts adding variants, change this */}
           <input
             type="hidden"
-            name="productVariantId"
-            value={product.variants.edges[0].node.id}
+            name="merchandise"
+            value={JSON.stringify([
+              {
+                merchandiseId: product.variants.edges[0].node.id,
+                quantity: selectedQuantity,
+              },
+            ])}
           />
           <div className="flex flex-col w-fit my-4">
             <label htmlFor="quantity">Quantity</label>
             <input
               type="number"
-              name="quantity"
-              defaultValue="1"
+              defaultValue={selectedQuantity}
               className="input input-primary"
+              onChange={handleChangeSelectedQuantity}
             />
-            <button className="btn btn-primary my-4" type="submit">
-              {/* BOOKMARK: add indicator to cart when item is added.
-              Increment number for items in cart.
-              Also create toast notification to view cart. */}
-              {transition.state !== "idle" ? "Added!" : "Add to Cart"}
+            <button
+              className="btn btn-primary my-4"
+              name="_action"
+              value="addLineItems"
+              type="submit"
+            >
+              {fetcher.state !== "idle" ? "Added!" : "Add to Cart"}
             </button>
           </div>
-        </Form>
+        </fetcher.Form>
       </div>
     </div>
   );
