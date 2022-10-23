@@ -11,8 +11,8 @@ export type CartLineItemInterface = {
 
 function CardImage({ imgUrl, imgTitle }: { imgUrl: string; imgTitle: string }) {
   return (
-    <figure>
-      <img src={imgUrl} alt={`An image of ${imgTitle}`} className="max-h-48" />
+    <figure className="bg-base-200 p-4">
+      <img src={imgUrl} alt={`An image of ${imgTitle}`} className="max-h-48 rounded-lg" />
     </figure>
   );
 }
@@ -29,7 +29,7 @@ function CardBody({
   fetcher: FetcherWithComponents<any>;
 }) {
   return (
-    <div className="card-body overflow-x-auto">
+    <div className="card-body overflow-x-auto bg-base-200">
       <h2 className="card-title">{lineItem.merchandise.title}</h2>
       <p>{lineItem.quantity}</p>
       <pre>
