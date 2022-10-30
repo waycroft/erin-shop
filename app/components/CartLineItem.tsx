@@ -1,5 +1,5 @@
 import { FetcherWithComponents } from "@remix-run/react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CartActionError } from "~/routes/cart";
 import { ProductVariant } from "~/routes/piece/$productHandle";
 
@@ -45,6 +45,7 @@ function CardBody({
           <LineItemActionButtons
             lineItemId={lineItem.id}
             quantity={quantity}
+            setQuantity={setQuantity}
             fetcher={fetcher}
           />
         </fetcher.Form>
@@ -56,10 +57,12 @@ function CardBody({
 function LineItemActionButtons({
   lineItemId,
   quantity,
+  setQuantity,
   fetcher,
 }: {
   lineItemId: string;
   quantity: number;
+  setQuantity: (quantity: number) => void;
   fetcher: FetcherWithComponents<any>;
 }) {
   const [isUpdatingQuantity, setIsUpdatingQuantity] = useState(false);
@@ -76,11 +79,16 @@ function LineItemActionButtons({
     console.log("isUpdatingQuantity", isUpdatingQuantity);
   }, [isUpdatingQuantity]);
 
+  useEffect(() => {
+    console.log("quantity", quantity);
+  }, [quantity]);
+
   return (
     <div>
       <ChangeQuantityButtons
         setIsUpdatingQuantity={setIsUpdatingQuantity}
         quantity={quantity}
+        setQuantity={setQuantity}
         hidden={!isUpdatingQuantity}
       />
 
@@ -114,13 +122,20 @@ function LineItemActionButtons({
 
 function ChangeQuantityButtons({
   quantity,
+  setQuantity,
   setIsUpdatingQuantity,
   hidden,
 }: {
   quantity: number;
+  setQuantity: (quantity: number) => void;
   setIsUpdatingQuantity: (isUpdatingQuantity: boolean) => void;
   hidden: boolean;
 }) {
+  function handleChangeQuantity(e: React.ChangeEvent<HTMLInputElement>) {
+    const newQuantity = parseInt(e.target.value);
+    setQuantity(newQuantity);
+  }
+
   return (
     <div className={hidden ? "hidden" : ""}>
       {/* The vanity input for changing quantity */}
@@ -128,6 +143,7 @@ function ChangeQuantityButtons({
         type="number"
         className="input input-bordered my-2"
         defaultValue={quantity}
+        onChange={handleChangeQuantity}
       />
       <button
         className="btn btn-secondary m-2"
