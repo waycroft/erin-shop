@@ -1,5 +1,5 @@
 import { FetcherWithComponents } from "@remix-run/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CartActionError } from "~/routes/cart";
 import { ProductVariant } from "~/routes/piece/$productHandle";
 
@@ -12,7 +12,11 @@ export type CartLineItemInterface = {
 function CardImage({ imgUrl, imgTitle }: { imgUrl: string; imgTitle: string }) {
   return (
     <figure className="bg-base-200 p-4">
-      <img src={imgUrl} alt={`An image of ${imgTitle}`} className="max-h-48 rounded-lg" />
+      <img
+        src={imgUrl}
+        alt={`An image of ${imgTitle}`}
+        className="max-h-48 rounded-lg"
+      />
     </figure>
   );
 }
@@ -23,8 +27,8 @@ function CardBody({
   setQuantity,
   fetcher,
 }: {
-  lineItem: CartLineItemInterface,
-  quantity: number,
+  lineItem: CartLineItemInterface;
+  quantity: number;
   setQuantity: (quantity: number) => void;
   fetcher: FetcherWithComponents<any>;
 }) {
@@ -33,14 +37,15 @@ function CardBody({
       <h2 className="card-title">{lineItem.merchandise.product.title}</h2>
       <p>{lineItem.quantity}</p>
       <pre>
-        item.id: <span className="text-green-500">{lineItem.merchandise.id}</span>
+        item.id:{" "}
+        <span className="text-green-500">{lineItem.merchandise.id}</span>
       </pre>
       <div className="card-actions justify-end">
         <fetcher.Form method="post" action="/cart">
           <LineItemActionButtons
             lineItemId={lineItem.id}
             quantity={quantity}
-            setQuantity={setQuantity}
+            fetcher={fetcher}
           />
         </fetcher.Form>
       </div>
@@ -51,11 +56,11 @@ function CardBody({
 function LineItemActionButtons({
   lineItemId,
   quantity,
-  setQuantity,
+  fetcher,
 }: {
   lineItemId: string;
   quantity: number;
-  setQuantity: (quantity: number) => void;
+  fetcher: FetcherWithComponents<any>;
 }) {
   const [isUpdatingQuantity, setIsUpdatingQuantity] = useState(false);
   const mutationPayload = isUpdatingQuantity
@@ -66,33 +71,36 @@ function LineItemActionButtons({
     : {
         id: lineItemId,
       };
+
+  useEffect(() => {
+    console.log("isUpdatingQuantity", isUpdatingQuantity);
+  }, [isUpdatingQuantity]);
+
   return (
     <div>
-      {/* The vanity input for changing quantity */}
-      <input
-        type="number"
-        className="input input-bordered my-2"
-        defaultValue={quantity}
-        onChange={(e) => setQuantity(Number(e.target.value))}
+      <ChangeQuantityButtons
+        setIsUpdatingQuantity={setIsUpdatingQuantity}
+        quantity={quantity}
         hidden={!isUpdatingQuantity}
       />
-      <button
-        className="btn btn-secondary m-2"
-        type="button"
-        onClick={() => setIsUpdatingQuantity(!isUpdatingQuantity)}
-      >
-        {isUpdatingQuantity ? "Cancel" : "Change quantity"}
-      </button>
 
-      {/* Hybrid button for submitting updateLineItems or removeLineItems */}
-      <button
-        className="btn btn-secondary m-2"
-        type="submit"
-        name="_action"
-        value={isUpdatingQuantity ? "updateLineItems" : "removeLineItems"}
-      >
-        {isUpdatingQuantity ? "save" : "remove"}
-      </button>
+      <div className={isUpdatingQuantity ? "hidden" : ""}>
+        <button
+          className="btn btn-secondary m-2"
+          type="button"
+          onClick={() => setIsUpdatingQuantity(!isUpdatingQuantity)}
+        >
+          Change quantity
+        </button>
+        <button
+          className="btn btn-error m-2"
+          type="submit"
+          name="_action"
+          value={"removeLineItems"}
+        >
+          Remove
+        </button>
+      </div>
 
       {/* The mutation data */}
       <input
@@ -100,6 +108,43 @@ function LineItemActionButtons({
         name="lineItems"
         value={JSON.stringify(mutationPayload)}
       />
+    </div>
+  );
+}
+
+function ChangeQuantityButtons({
+  quantity,
+  setIsUpdatingQuantity,
+  hidden,
+}: {
+  quantity: number;
+  setIsUpdatingQuantity: (isUpdatingQuantity: boolean) => void;
+  hidden: boolean;
+}) {
+  return (
+    <div className={hidden ? "hidden" : ""}>
+      {/* The vanity input for changing quantity */}
+      <input
+        type="number"
+        className="input input-bordered my-2"
+        defaultValue={quantity}
+      />
+      <button
+        className="btn btn-secondary m-2"
+        type="submit"
+        name="_action"
+        value={"updateLineItems"}
+        onClick={() => setIsUpdatingQuantity(false)}
+      >
+        Save
+      </button>
+      <button
+        className="btn btn-secondary m-2"
+        type="button"
+        onClick={() => setIsUpdatingQuantity(false)}
+      >
+        Cancel
+      </button>
     </div>
   );
 }

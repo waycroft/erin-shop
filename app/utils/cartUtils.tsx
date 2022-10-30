@@ -34,6 +34,8 @@ export async function editCart(action: CartAction, formData: FormData) {
         .map((lineItem) => JSON.parse(lineItem.toString()));
       invariant(lineItems, "No line items were provided for update");
 
+      console.log(lineItems)
+
       await updateLineItemsInCart({
         cartId: process.env.TEST_CART as string,
         lines: lineItems,
