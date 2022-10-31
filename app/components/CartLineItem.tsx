@@ -19,10 +19,16 @@ function CardBody({ lineItem }: { lineItem: CartLineItemInterface }) {
   const [quantity, setQuantity] = useState(lineItem.quantity);
   const [isUpdatingQuantity, setIsUpdatingQuantity] = useState(false);
 
+  // BOOKMARK: Can't find a happy balance between using the lineItem's
+  // quantity and the quantity in the state...
+  console.log("cardbody re-rendered");
+  console.log("lineItem.quantity", lineItem.quantity);
+
   return (
     <div className="card-body overflow-x-auto bg-base-200">
       <h2 className="card-title">{lineItem.merchandise?.product.title}</h2>
-      <p>{quantity}</p>
+      {/* <p>{quantity}</p> */}
+      <p>{lineItem.quantity}</p>
       <pre>
         item.id:{" "}
         <span className="text-green-500">{lineItem.merchandise?.id}</span>
