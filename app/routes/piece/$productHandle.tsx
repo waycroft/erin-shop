@@ -80,7 +80,6 @@ export type ProductVariant = {
 export default function SingleProductRoute() {
   const { data } = useLoaderData<LoaderData>();
   const fetcher = useFetcher();
-  const actionData = fetcher.data;
   const product = data.product;
   const featuredImage = product.images?.edges[0].node;
   const [selectedQuantity, setSelectedQuantity] = useState(1);
