@@ -1,6 +1,6 @@
 import { json } from "@remix-run/node";
 import invariant from "tiny-invariant";
-import { CartLineItemInterface } from "~/components/CartLineItem";
+import { ProductVariant } from "~/routes/piece/$productHandle";
 import storefront, { StorefrontAPIResponse } from "./storefront";
 
 var gql = String.raw;
@@ -8,6 +8,12 @@ var gql = String.raw;
 export type Merchandise = {
   merchandiseId: string;
   quantity: number;
+};
+
+export type CartLineItemInterface = {
+  id: string;
+  quantity: number;
+  merchandise?: ProductVariant;
 };
 
 export type CartAction = "addLineItems" | "updateLineItems" | "removeLineItems";
@@ -29,7 +35,7 @@ export async function editCart(action: CartAction, formData: FormData) {
     }
 
     if (action === "updateLineItems") {
-      const lineItems = formData
+      const lineItems: CartLineItemInterface[] = formData
         .getAll("lineItems")
         .map((lineItem) => JSON.parse(lineItem.toString()));
       invariant(lineItems, "No line items were provided for update");
@@ -45,18 +51,13 @@ export async function editCart(action: CartAction, formData: FormData) {
 
     if (action === "removeLineItems") {
       const lineItems: CartLineItemId[] = formData
-        .getAll("lineItems")
-        .map((lineItem) => {
-          const obj: Pick<CartLineItemInterface, "id"> = JSON.parse(
-            lineItem.toString()
-          );
-          return obj.id;
-        });
+        .getAll("lineItemIds")
+        .map((lineItem) => lineItem.toString());
       invariant(
         lineItems.length > 0,
         "No line items were provided for removal"
       );
-
+      
       await removeLineItemsFromCart({
         cartId: process.env.TEST_CART as string,
         lineIds: lineItems,

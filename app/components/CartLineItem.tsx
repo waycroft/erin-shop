@@ -1,13 +1,7 @@
-import { FetcherWithComponents } from "@remix-run/react";
-import React, { useEffect, useState } from "react";
+import { FetcherWithComponents, useFetcher } from "@remix-run/react";
+import { useState } from "react";
 import { CartActionError } from "~/routes/cart";
-import { ProductVariant } from "~/routes/piece/$productHandle";
-
-export type CartLineItemInterface = {
-  id: string;
-  quantity: number;
-  merchandise: ProductVariant;
-};
+import { CartLineItemInterface } from "~/utils/cartUtils";
 
 function CardImage({ imgUrl, imgTitle }: { imgUrl: string; imgTitle: string }) {
   return (
@@ -21,17 +15,10 @@ function CardImage({ imgUrl, imgTitle }: { imgUrl: string; imgTitle: string }) {
   );
 }
 
-function CardBody({
-  lineItem,
-  quantity,
-  setQuantity,
-  fetcher,
-}: {
-  lineItem: CartLineItemInterface;
-  quantity: number;
-  setQuantity: (quantity: number) => void;
-  fetcher: FetcherWithComponents<any>;
-}) {
+function CardBody({ lineItem }: { lineItem: CartLineItemInterface }) {
+  const [quantity, setQuantity] = useState(lineItem.quantity);
+  const [isUpdatingQuantity, setIsUpdatingQuantity] = useState(false);
+
   return (
     <div className="card-body overflow-x-auto bg-base-200">
       <h2 className="card-title">{lineItem.merchandise.product.title}</h2>
@@ -41,58 +28,46 @@ function CardBody({
         <span className="text-green-500">{lineItem.merchandise.id}</span>
       </pre>
       <div className="card-actions justify-end">
-        <fetcher.Form method="post" action="/cart">
-          <LineItemActionButtons
-            lineItemId={lineItem.id}
-            quantity={quantity}
-            setQuantity={setQuantity}
-            fetcher={fetcher}
-          />
-        </fetcher.Form>
+        <ChangeQuantityButtons
+          lineItemId={lineItem.id}
+          quantity={quantity}
+          setQuantity={setQuantity}
+          isUpdatingQuantity={isUpdatingQuantity}
+          setIsUpdatingQuantity={setIsUpdatingQuantity}
+          hidden={!isUpdatingQuantity}
+        />
+        <EditLineItemButtons
+          lineItemId={lineItem.id}
+          quantity={quantity}
+          setQuantity={setQuantity}
+          setIsUpdatingQuantity={setIsUpdatingQuantity}
+          hidden={isUpdatingQuantity}
+        />
       </div>
     </div>
   );
 }
 
-function LineItemActionButtons({
+function EditLineItemButtons({
   lineItemId,
   quantity,
   setQuantity,
-  fetcher,
+  isUpdatingQuantity,
+  setIsUpdatingQuantity,
+  hidden,
 }: {
   lineItemId: string;
   quantity: number;
   setQuantity: (quantity: number) => void;
-  fetcher: FetcherWithComponents<any>;
+  isUpdatingQuantity: boolean;
+  setIsUpdatingQuantity: (isUpdatingQuantity: boolean) => void;
+  hidden: boolean;
 }) {
-  const [isUpdatingQuantity, setIsUpdatingQuantity] = useState(false);
-  const mutationPayload = isUpdatingQuantity
-    ? {
-        id: lineItemId,
-        quantity: quantity,
-      }
-    : {
-        id: lineItemId,
-      };
-
-  useEffect(() => {
-    console.log("isUpdatingQuantity", isUpdatingQuantity);
-  }, [isUpdatingQuantity]);
-
-  useEffect(() => {
-    console.log("quantity", quantity);
-  }, [quantity]);
+  const fetcher = useFetcher();
 
   return (
     <div>
-      <ChangeQuantityButtons
-        setIsUpdatingQuantity={setIsUpdatingQuantity}
-        quantity={quantity}
-        setQuantity={setQuantity}
-        hidden={!isUpdatingQuantity}
-      />
-
-      <div className={isUpdatingQuantity ? "hidden" : ""}>
+      <div className={hidden ? "hidden" : ""}>
         <button
           className="btn btn-secondary m-2"
           type="button"
@@ -100,22 +75,23 @@ function LineItemActionButtons({
         >
           Change quantity
         </button>
-        <button
-          className="btn btn-error m-2"
-          type="submit"
-          name="_action"
-          value={"removeLineItems"}
-        >
-          Remove
-        </button>
-      </div>
 
-      {/* The mutation data */}
-      <input
-        type="hidden"
-        name="lineItems"
-        value={JSON.stringify(mutationPayload)}
-      />
+        <fetcher.Form method="post" action="/cart">
+          <button
+            className="btn btn-error m-2"
+            type="submit"
+            name="_action"
+            value={"removeLineItems"}
+          >
+            Remove
+          </button>
+          <input
+            type="hidden"
+            name="lineItemIds"
+            value={lineItemId}
+          />
+        </fetcher.Form>
+      </div>
     </div>
   );
 }
@@ -131,26 +107,22 @@ function ChangeQuantityButtons({
   setIsUpdatingQuantity: (isUpdatingQuantity: boolean) => void;
   hidden: boolean;
 }) {
-  function handleChangeQuantity(e: React.ChangeEvent<HTMLInputElement>) {
-    const newQuantity = parseInt(e.target.value);
-    setQuantity(newQuantity);
-  }
-
   return (
     <div className={hidden ? "hidden" : ""}>
-      {/* The vanity input for changing quantity */}
       <input
         type="number"
         className="input input-bordered my-2"
         defaultValue={quantity}
-        onChange={handleChangeQuantity}
       />
       <button
         className="btn btn-secondary m-2"
         type="submit"
         name="_action"
         value={"updateLineItems"}
-        onClick={() => setIsUpdatingQuantity(false)}
+        onClick={() => {
+          setQuantity(Number(quantity));
+          setIsUpdatingQuantity(false);
+        }}
       >
         Save
       </button>
@@ -180,12 +152,7 @@ export default function CartLineItem({
         imgUrl={item.merchandise.image.url}
         imgTitle={item.merchandise.title}
       />
-      <CardBody
-        lineItem={item}
-        quantity={quantity}
-        setQuantity={setQuantity}
-        fetcher={fetcher}
-      />
+      <CardBody lineItem={item} />
     </div>
   );
 }
