@@ -106,7 +106,7 @@ function ChangeQuantityButtons({
   hidden: boolean;
 }) {
   const fetcher = useFetcher();
-  const initQuantity = useRef(quantity).current;
+  const initQuantity = useRef<number>(quantity).current;
   const quantityInputFieldRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
