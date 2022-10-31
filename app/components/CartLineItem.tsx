@@ -38,8 +38,7 @@ function CardBody({ lineItem }: { lineItem: CartLineItemInterface }) {
         />
         <EditLineItemButtons
           lineItemId={lineItem.id}
-          quantity={quantity}
-          setQuantity={setQuantity}
+          isUpdatingQuantity={isUpdatingQuantity}
           setIsUpdatingQuantity={setIsUpdatingQuantity}
           hidden={isUpdatingQuantity}
         />
@@ -50,15 +49,11 @@ function CardBody({ lineItem }: { lineItem: CartLineItemInterface }) {
 
 function EditLineItemButtons({
   lineItemId,
-  quantity,
-  setQuantity,
   isUpdatingQuantity,
   setIsUpdatingQuantity,
   hidden,
 }: {
   lineItemId: string;
-  quantity: number;
-  setQuantity: (quantity: number) => void;
   isUpdatingQuantity: boolean;
   setIsUpdatingQuantity: (isUpdatingQuantity: boolean) => void;
   hidden: boolean;
@@ -85,11 +80,7 @@ function EditLineItemButtons({
           >
             Remove
           </button>
-          <input
-            type="hidden"
-            name="lineItemIds"
-            value={lineItemId}
-          />
+          <input type="hidden" name="lineItemIds" value={lineItemId} />
         </fetcher.Form>
       </div>
     </div>
