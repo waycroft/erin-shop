@@ -1,8 +1,8 @@
-import { ActionFunction, LoaderFunction } from "@remix-run/node";
+import { LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import ProductsGallery from "~/components/ProductsGallery";
 import { getProducts } from "~/utils/productUtils";
-import { Product } from "./piece/$productHandle";
+import { Product } from "~/utils/productUtils";
 
 type LoaderData = {
   data: {

@@ -2,6 +2,67 @@ import storefront from "./storefront";
 
 var gql = String.raw;
 
+export type PriceRange = {
+  maxVariantPrice: {
+    amount: string;
+  };
+  minVariantPrice: {
+    amount: string;
+  };
+};
+
+export type Product = {
+  availableForSale: boolean;
+  description: string;
+  descriptionHtml: string;
+  featuredImage: {
+    height: number;
+    width: number;
+    id: string;
+    url: string;
+    altText: string;
+  };
+  images: {
+    edges: {
+      node: {
+        altText: string;
+        height: number;
+        width: number;
+        id: string;
+        url: string;
+      };
+    }[];
+  };
+  id: string;
+  productType: string;
+  title: string;
+  handle: string;
+  totalInventory: number;
+  tags: string[];
+  priceRange: PriceRange;
+  variants: {
+    edges: {
+      node: ProductVariant;
+    }[];
+  };
+};
+
+export type ProductVariant = {
+  id: string;
+  title: string;
+  price: string;
+  sku: string;
+  image: {
+    height: number;
+    width: number;
+    id: string;
+    url: string;
+    altText: string;
+  };
+  product: Product;
+  quantityAvailable: number;
+};
+
 export async function getProducts(quantity: number) {
   return await storefront(
     gql`query getAllProducts {

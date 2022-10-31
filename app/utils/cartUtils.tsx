@@ -1,6 +1,6 @@
 import { json } from "@remix-run/node";
 import invariant from "tiny-invariant";
-import { ProductVariant } from "~/routes/piece/$productHandle";
+import { ProductVariant } from "~/utils/productUtils";
 import storefront, { StorefrontAPIResponse } from "./storefront";
 
 var gql = String.raw;

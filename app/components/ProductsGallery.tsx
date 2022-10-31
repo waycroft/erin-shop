@@ -1,4 +1,4 @@
-import { Product } from "~/routes/piece/$productHandle";
+import { Product } from "~/utils/productUtils";
 import ProductThumbnail from "./ProductThumbnail";
 
 export default function ProductsGallery({ products }: { products: Product[] }) {
