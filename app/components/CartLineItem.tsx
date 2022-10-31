@@ -21,11 +21,11 @@ function CardBody({ lineItem }: { lineItem: CartLineItemInterface }) {
 
   return (
     <div className="card-body overflow-x-auto bg-base-200">
-      <h2 className="card-title">{lineItem.merchandise.product.title}</h2>
+      <h2 className="card-title">{lineItem.merchandise?.product.title}</h2>
       <p>{lineItem.quantity}</p>
       <pre>
         item.id:{" "}
-        <span className="text-green-500">{lineItem.merchandise.id}</span>
+        <span className="text-green-500">{lineItem.merchandise?.id}</span>
       </pre>
       <div className="card-actions justify-end">
         <ChangeQuantityButtons
@@ -111,6 +111,9 @@ function ChangeQuantityButtons({
           type="number"
           className="input input-bordered my-2"
           defaultValue={quantity}
+          // BOOKMARK: not the best solution, since
+          // now the quantity shown in the line item
+          // will have to be pending on fetcher.submitting
           onChange={(e) => setQuantity(Number(e.target.value))}
         />
         <button
@@ -156,8 +159,8 @@ export default function CartLineItem({
   return (
     <div className="card card-side card-bordered bg-base-400">
       <CardImage
-        imgUrl={item.merchandise.image.url}
-        imgTitle={item.merchandise.title}
+        imgUrl={item.merchandise?.image.url ?? ""}
+        imgTitle={item.merchandise?.title ?? ""}
       />
       <CardBody lineItem={item} />
     </div>
