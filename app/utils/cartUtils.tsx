@@ -93,6 +93,7 @@ export async function getCart(cartId: string): Promise<StorefrontAPIResponse> {
                   ... on ProductVariant {
                     id
                     title
+                    quantityAvailable
                     price {
                       amount
                     }

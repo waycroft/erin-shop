@@ -1,6 +1,5 @@
-import { FetcherWithComponents, useFetcher } from "@remix-run/react";
-import { useState } from "react";
-import { CartActionError } from "~/routes/cart";
+import { useFetcher } from "@remix-run/react";
+import { useEffect, useRef, useState } from "react";
 import { CartLineItemId, CartLineItemInterface } from "~/utils/cartUtils";
 
 function CardImage({ imgUrl, imgTitle }: { imgUrl: string; imgTitle: string }) {
@@ -22,7 +21,7 @@ function CardBody({ lineItem }: { lineItem: CartLineItemInterface }) {
   return (
     <div className="card-body overflow-x-auto bg-base-200">
       <h2 className="card-title">{lineItem.merchandise?.product.title}</h2>
-      <p>{lineItem.quantity}</p>
+      <p>{quantity}</p>
       <pre>
         item.id:{" "}
         <span className="text-green-500">{lineItem.merchandise?.id}</span>
@@ -32,8 +31,8 @@ function CardBody({ lineItem }: { lineItem: CartLineItemInterface }) {
           lineItemId={lineItem.id}
           quantity={quantity}
           setQuantity={setQuantity}
-          isUpdatingQuantity={isUpdatingQuantity}
           setIsUpdatingQuantity={setIsUpdatingQuantity}
+          quantityAvailable={Number(lineItem.merchandise?.quantityAvailable)}
           hidden={!isUpdatingQuantity}
         />
         <EditLineItemButtons
@@ -91,18 +90,19 @@ function ChangeQuantityButtons({
   lineItemId,
   quantity,
   setQuantity,
-  isUpdatingQuantity,
   setIsUpdatingQuantity,
+  quantityAvailable,
   hidden,
 }: {
   lineItemId: CartLineItemId;
   quantity: number;
   setQuantity: (quantity: number) => void;
-  isUpdatingQuantity: boolean;
   setIsUpdatingQuantity: (isUpdatingQuantity: boolean) => void;
+  quantityAvailable: number;
   hidden: boolean;
 }) {
   const fetcher = useFetcher();
+  const initQuantity = useRef(quantity).current;
 
   return (
     <div className={hidden ? "hidden" : ""}>
@@ -110,11 +110,15 @@ function ChangeQuantityButtons({
         <input
           type="number"
           className="input input-bordered my-2"
-          defaultValue={quantity}
-          // BOOKMARK: not the best solution, since
-          // now the quantity shown in the line item
-          // will have to be pending on fetcher.submitting
-          onChange={(e) => setQuantity(Number(e.target.value))}
+          defaultValue={initQuantity}
+          onChange={(e) => {
+            setQuantity(Number(e.target.value));
+          }}
+          onInvalid={(e) => {
+            setIsUpdatingQuantity(true);
+          }}
+          min={0}
+          max={quantityAvailable}
         />
         <button
           className="btn btn-secondary m-2"
@@ -127,6 +131,16 @@ function ChangeQuantityButtons({
         >
           Save
         </button>
+        <button
+          className="btn btn-secondary m-2"
+          type="button"
+          onClick={() => {
+            setQuantity(initQuantity);
+            setIsUpdatingQuantity(false);
+          }}
+        >
+          Cancel
+        </button>
         <input
           type="hidden"
           name="lineItems"
@@ -136,26 +150,15 @@ function ChangeQuantityButtons({
           })}
         />
       </fetcher.Form>
-      <button
-        className="btn btn-secondary m-2"
-        type="button"
-        onClick={() => setIsUpdatingQuantity(false)}
-      >
-        Cancel
-      </button>
     </div>
   );
 }
 
 export default function CartLineItem({
   item,
-  fetcher,
 }: {
   item: CartLineItemInterface;
-  fetcher: FetcherWithComponents<CartActionError>;
 }) {
-  const [quantity, setQuantity] = useState(item.quantity);
-
   return (
     <div className="card card-side card-bordered bg-base-400">
       <CardImage

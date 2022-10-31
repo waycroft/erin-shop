@@ -1,6 +1,4 @@
-import { useFetcher } from "@remix-run/react";
-import { CartActionError } from "~/routes/cart";
-import type { CartLineItemInterface } from "./CartLineItem";
+import type { CartLineItemInterface } from "~/utils/cartUtils";
 import CartLineItem from "./CartLineItem";
 
 export type Cart = {
@@ -22,19 +20,15 @@ export type Cart = {
 };
 
 export default function CartContent({ contents }: { contents: Cart }) {
-  const fetcher = useFetcher();
-  const cartActionError: CartActionError = fetcher.data;
-  const removeFromCartFailed = cartActionError?.action === "removeLineItems";
-
   return (
     <div>
       <div>
         <ol>
           {contents?.lines?.edges?.map((edge) => (
             <li key={edge.node.id} className="py-2">
-              <CartLineItem item={edge.node} fetcher={fetcher} />
+              <CartLineItem item={edge.node} />
             </li>
-          )) ?? <p>Cart could't be fetched...</p>}
+          )) ?? <p>Cart could't be displayed...</p>}
         </ol>
       </div>
       <div>

@@ -74,6 +74,7 @@ export type ProductVariant = {
     altText: string;
   };
   product: Product;
+  quantityAvailable: number;
 };
 
 export default function SingleProductRoute() {
