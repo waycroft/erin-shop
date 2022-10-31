@@ -18,7 +18,7 @@ export type CartLineItemInterface = {
 
 export type CartAction = "addLineItems" | "updateLineItems" | "removeLineItems";
 
-type CartLineItemId = string;
+export type CartLineItemId = string;
 
 export async function editCart(action: CartAction, formData: FormData) {
   try {

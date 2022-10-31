@@ -1,7 +1,7 @@
 import { FetcherWithComponents, useFetcher } from "@remix-run/react";
 import { useState } from "react";
 import { CartActionError } from "~/routes/cart";
-import { CartLineItemInterface } from "~/utils/cartUtils";
+import { CartLineItemId, CartLineItemInterface } from "~/utils/cartUtils";
 
 function CardImage({ imgUrl, imgTitle }: { imgUrl: string; imgTitle: string }) {
   return (
@@ -88,35 +88,51 @@ function EditLineItemButtons({
 }
 
 function ChangeQuantityButtons({
+  lineItemId,
   quantity,
   setQuantity,
+  isUpdatingQuantity,
   setIsUpdatingQuantity,
   hidden,
 }: {
+  lineItemId: CartLineItemId;
   quantity: number;
   setQuantity: (quantity: number) => void;
+  isUpdatingQuantity: boolean;
   setIsUpdatingQuantity: (isUpdatingQuantity: boolean) => void;
   hidden: boolean;
 }) {
+  const fetcher = useFetcher();
+
   return (
     <div className={hidden ? "hidden" : ""}>
-      <input
-        type="number"
-        className="input input-bordered my-2"
-        defaultValue={quantity}
-      />
-      <button
-        className="btn btn-secondary m-2"
-        type="submit"
-        name="_action"
-        value={"updateLineItems"}
-        onClick={() => {
-          setQuantity(Number(quantity));
-          setIsUpdatingQuantity(false);
-        }}
-      >
-        Save
-      </button>
+      <fetcher.Form method="post" action="/cart">
+        <input
+          type="number"
+          className="input input-bordered my-2"
+          defaultValue={quantity}
+          onChange={(e) => setQuantity(Number(e.target.value))}
+        />
+        <button
+          className="btn btn-secondary m-2"
+          type="submit"
+          name="_action"
+          value={"updateLineItems"}
+          onClick={() => {
+            setIsUpdatingQuantity(false);
+          }}
+        >
+          Save
+        </button>
+        <input
+          type="hidden"
+          name="lineItems"
+          value={JSON.stringify({
+            id: lineItemId,
+            quantity: quantity,
+          })}
+        />
+      </fetcher.Form>
       <button
         className="btn btn-secondary m-2"
         type="button"
