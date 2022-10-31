@@ -1,5 +1,6 @@
 import { useFetcher } from "@remix-run/react";
 import { useEffect, useRef, useState } from "react";
+import invariant from "tiny-invariant";
 import { CartLineItemId, CartLineItemInterface } from "~/utils/cartUtils";
 
 function CardImage({ imgUrl, imgTitle }: { imgUrl: string; imgTitle: string }) {
@@ -31,6 +32,7 @@ function CardBody({ lineItem }: { lineItem: CartLineItemInterface }) {
           lineItemId={lineItem.id}
           quantity={quantity}
           setQuantity={setQuantity}
+          isUpdatingQuantity={isUpdatingQuantity}
           setIsUpdatingQuantity={setIsUpdatingQuantity}
           quantityAvailable={Number(lineItem.merchandise?.quantityAvailable)}
           hidden={!isUpdatingQuantity}
@@ -90,6 +92,7 @@ function ChangeQuantityButtons({
   lineItemId,
   quantity,
   setQuantity,
+  isUpdatingQuantity,
   setIsUpdatingQuantity,
   quantityAvailable,
   hidden,
@@ -97,12 +100,24 @@ function ChangeQuantityButtons({
   lineItemId: CartLineItemId;
   quantity: number;
   setQuantity: (quantity: number) => void;
+  isUpdatingQuantity: boolean;
   setIsUpdatingQuantity: (isUpdatingQuantity: boolean) => void;
   quantityAvailable: number;
   hidden: boolean;
 }) {
   const fetcher = useFetcher();
   const initQuantity = useRef(quantity).current;
+  const quantityInputFieldRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (isUpdatingQuantity) {
+      invariant(
+        quantityInputFieldRef.current,
+        "quantityInputFieldRef.current must not be null in order to focus"
+      );
+      quantityInputFieldRef.current.focus();
+    }
+  }, [isUpdatingQuantity]);
 
   return (
     <div className={hidden ? "hidden" : ""}>
@@ -119,6 +134,7 @@ function ChangeQuantityButtons({
           }}
           min={0}
           max={quantityAvailable}
+          ref={quantityInputFieldRef}
         />
         <button
           className="btn btn-secondary m-2"
@@ -133,7 +149,7 @@ function ChangeQuantityButtons({
         </button>
         <button
           className="btn btn-secondary m-2"
-          type="button"
+          type="reset"
           onClick={() => {
             setQuantity(initQuantity);
             setIsUpdatingQuantity(false);
