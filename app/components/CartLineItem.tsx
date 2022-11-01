@@ -41,13 +41,11 @@ function CardBody({ lineItem }: { lineItem: CartLineItemInterface }) {
           isUpdatingQuantity={isUpdatingQuantity}
           setIsUpdatingQuantity={setIsUpdatingQuantity}
           quantityAvailable={Number(lineItem.merchandise?.quantityAvailable)}
-          hidden={!isUpdatingQuantity}
         />
         <EditLineItemButtons
           lineItemId={lineItem.id}
           isUpdatingQuantity={isUpdatingQuantity}
           setIsUpdatingQuantity={setIsUpdatingQuantity}
-          hidden={isUpdatingQuantity}
         />
       </div>
     </div>
@@ -58,18 +56,16 @@ function EditLineItemButtons({
   lineItemId,
   isUpdatingQuantity,
   setIsUpdatingQuantity,
-  hidden,
 }: {
   lineItemId: string;
   isUpdatingQuantity: boolean;
   setIsUpdatingQuantity: (isUpdatingQuantity: boolean) => void;
-  hidden: boolean;
 }) {
   const fetcher = useFetcher();
 
   return (
     <div>
-      <div className={hidden ? "hidden" : ""}>
+      <div className={isUpdatingQuantity ? "hidden" : ""}>
         <button
           className="btn btn-secondary m-2"
           type="button"
@@ -101,7 +97,6 @@ function ChangeQuantityButtons({
   isUpdatingQuantity,
   setIsUpdatingQuantity,
   quantityAvailable,
-  hidden,
 }: {
   lineItemId: CartLineItemId;
   quantity: number;
@@ -109,7 +104,6 @@ function ChangeQuantityButtons({
   isUpdatingQuantity: boolean;
   setIsUpdatingQuantity: (isUpdatingQuantity: boolean) => void;
   quantityAvailable: number;
-  hidden: boolean;
 }) {
   const fetcher = useFetcher();
   const initQuantity = useRef<number>(quantity).current;
@@ -126,7 +120,7 @@ function ChangeQuantityButtons({
   }, [isUpdatingQuantity]);
 
   return (
-    <div className={hidden ? "hidden" : ""}>
+    <div className={isUpdatingQuantity ? "" : "hidden"}>
       <fetcher.Form method="post" action="/cart">
         <input
           type="number"
