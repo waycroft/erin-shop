@@ -77,7 +77,11 @@ export default function ProductThumbnail({
     <div className="relative">
       <div>
         <Link to={`/piece/${productSlug}`}>
-          <img src={img} alt={alt} className="w-full h-full object-cover rounded-lg" />
+          <img
+            src={img}
+            alt={alt}
+            className="w-full h-full object-cover rounded-lg"
+          />
         </Link>
       </div>
       <div className="hidden md:grid grid-col-1 gap-4 absolute inset-0 bg-black bg-opacity-50 opacity-0 md:hover:opacity-100 transition ease-in duration-75 place-content-center">
@@ -89,6 +93,7 @@ export default function ProductThumbnail({
         />
       </div>
       {fetcher.type === "done" && !!!addToCartFailed ? (
+        /* Can I try component composition here? props.children to render message? */
         <ToastNotification
           type="success"
           message="Added to cart!"
