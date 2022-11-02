@@ -25,6 +25,7 @@ export default function CartContent({ contents }: { contents: Cart }) {
       <div>
         <ol>
           {contents?.lines?.edges?.map((edge) => (
+            // BOOKMARK: optimistic UI for removing a cart item
             <li key={edge.node.id} className="py-2">
               <CartLineItem item={edge.node} key={edge.node.id} />
             </li>
