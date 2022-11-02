@@ -164,6 +164,8 @@ function ChangeQuantityButtons({
         >
           Cancel
         </button>
+        {/* TODO: Might want to re-think putting everything in JSON hidden inputs,
+          since it's awkward using useRef to get the value of the input field */}
         <input
           type="hidden"
           name="lineItems"
