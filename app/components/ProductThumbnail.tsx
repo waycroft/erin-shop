@@ -1,7 +1,12 @@
-import { FetcherWithComponents, Link, useFetcher } from "@remix-run/react";
+import {
+  FetcherWithComponents,
+  Link,
+  useActionData,
+  useFetcher,
+} from "@remix-run/react";
 import ToastNotification from "./ToastNotification";
 
-function ErrorButton({ fetcher }: { fetcher: ReturnType<typeof useFetcher> }) {
+function ErrorButton({ fetcher }: { fetcher: FetcherWithComponents<any> }) {
   return (
     <button
       type="submit"
@@ -17,22 +22,22 @@ function ErrorButton({ fetcher }: { fetcher: ReturnType<typeof useFetcher> }) {
 }
 
 function ProductHoverActionButtons({
-  fetcher,
   addToCartFailed,
   productSlug,
   productVariantId,
+  fetcher,
 }: {
-  fetcher: FetcherWithComponents<any>;
   addToCartFailed: boolean;
   productSlug: string;
   productVariantId: string;
+  fetcher: FetcherWithComponents<any>;
 }) {
   return (
     <div className="flex flex-col gap-2">
       <Link to={`/piece/${productSlug}`}>
         <button className="btn btn-secondary lowercase w-40">view</button>
       </Link>
-      <fetcher.Form method="post" action="/cart">
+      <fetcher.Form method="post" action="/">
         <input
           type="hidden"
           name="merchandise"
@@ -71,7 +76,7 @@ export default function ProductThumbnail({
   productSlug: string;
 }) {
   const fetcher = useFetcher();
-  const addToCartFailed = fetcher.data?.error;
+  const addToCartFailed = useActionData();
 
   return (
     <div className="relative">
@@ -86,20 +91,26 @@ export default function ProductThumbnail({
       </div>
       <div className="hidden md:grid grid-col-1 gap-4 absolute inset-0 bg-black bg-opacity-50 opacity-0 md:hover:opacity-100 transition ease-in duration-75 place-content-center">
         <ProductHoverActionButtons
-          fetcher={fetcher}
           addToCartFailed={!!addToCartFailed}
           productSlug={productSlug}
           productVariantId={productVariantId}
+          fetcher={fetcher}
         />
       </div>
-      {fetcher.type === "done" && !!!addToCartFailed ? (
+      {!!!addToCartFailed ? (
         /* Can I try component composition here? props.children to render message? */
         <ToastNotification
           type="success"
           message="Added to cart!"
           action={{ label: "Go to cart", href: "/cart" }}
         />
-      ) : null}
+      ) : (
+        <ToastNotification
+          type="error"
+          message="Whoops, something went wrong. Please try again."
+          action={{ label: "Go to cart", href: "/cart" }}
+        />
+      )}
     </div>
   );
 }

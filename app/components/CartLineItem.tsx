@@ -34,6 +34,10 @@ function CardBody({ lineItem }: { lineItem: CartLineItemInterface }) {
     }
   }, [fetcher]);
 
+  useEffect(() => {
+    setQuantity(lineItem.quantity);
+  }, [lineItem]);
+
   return (
     <div className="card-body overflow-x-auto bg-base-200">
       <h2 className="card-title">{lineItem.merchandise?.product.title}</h2>
@@ -45,7 +49,7 @@ function CardBody({ lineItem }: { lineItem: CartLineItemInterface }) {
       <div className="card-actions justify-end">
         <ChangeQuantityButtons
           lineItemId={lineItem.id}
-          quantity={lineItem.quantity}
+          quantity={quantity}
           isUpdatingQuantity={isUpdatingQuantity}
           setIsUpdatingQuantity={setIsUpdatingQuantity}
           quantityAvailable={Number(lineItem.merchandise?.quantityAvailable)}
@@ -84,7 +88,7 @@ function EditLineItemButtons({
           Change quantity
         </button>
 
-        <fetcher.Form method="post" action="/cart">
+        <fetcher.Form method="post" action="/">
           <button
             className="btn btn-error m-2"
             type="submit"
@@ -129,7 +133,7 @@ function ChangeQuantityButtons({
 
   return (
     <div className={isUpdatingQuantity ? "" : "hidden"}>
-      <fetcher.Form method="post" action="/cart">
+      <fetcher.Form method="post" action="/">
         <input
           type="number"
           className="input input-bordered my-2"

@@ -1,5 +1,5 @@
 import { LoaderFunction } from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
+import { Form, useFetcher, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import invariant from "tiny-invariant";
 import { getSingleProduct, Product } from "~/utils/productUtils";
@@ -15,7 +15,6 @@ type LoaderData = {
     product: Product;
   };
 };
-
 
 export default function SingleProductRoute() {
   const { data } = useLoaderData<LoaderData>();
@@ -62,7 +61,7 @@ export default function SingleProductRoute() {
           </p>
           <p>{product.productType}</p>
         </div>
-        <fetcher.Form method="post" action="/cart">
+        <fetcher.Form method="post" action="/">
           <input type="hidden" name="productHandle" value={product.handle} />
           {/* TODO: Once Erin starts adding variants, change this */}
           <input

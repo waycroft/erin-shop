@@ -1,4 +1,9 @@
-import { json, LoaderFunction, MetaFunction } from "@remix-run/node";
+import {
+  ActionFunction,
+  json,
+  LoaderFunction,
+  MetaFunction,
+} from "@remix-run/node";
 import {
   Link,
   Links,
@@ -9,12 +14,13 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from "@remix-run/react";
+import invariant from "tiny-invariant";
 import CartContent, { Cart } from "./components/CartContent";
 import Footer from "./components/Footer";
 import PrimaryNav from "./components/PrimaryNav";
 import ServerError from "./components/ServerError";
 import styles from "./styles/app.css";
-import { getCart } from "./utils/cartUtils";
+import { editCart, getCart } from "./utils/cartUtils";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -39,6 +45,21 @@ export const loader: LoaderFunction = async () => {
   } catch (error: any) {
     console.error(error);
     return json({ error: error.message, status: 500 });
+  }
+};
+
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData();
+  const _action = formData.get("_action");
+  invariant(_action, "No action was provided");
+  const action = _action.toString();
+  const isCartAction =
+    action === "addLineItems" ||
+    action === "updateLineItems" ||
+    action === "removeLineItems";
+
+  if (isCartAction) {
+    return await editCart(action, formData);
   }
 };
 
