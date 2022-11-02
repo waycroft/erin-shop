@@ -1,4 +1,4 @@
-import { useFetcher } from "@remix-run/react";
+import { FetcherWithComponents, useFetcher } from "@remix-run/react";
 import { useEffect, useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { CartLineItemId, CartLineItemInterface } from "~/utils/cartUtils";
@@ -18,17 +18,26 @@ function CardImage({ imgUrl, imgTitle }: { imgUrl: string; imgTitle: string }) {
 function CardBody({ lineItem }: { lineItem: CartLineItemInterface }) {
   const [quantity, setQuantity] = useState(lineItem.quantity);
   const [isUpdatingQuantity, setIsUpdatingQuantity] = useState(false);
+  const fetcher = useFetcher();
 
-  // BOOKMARK: Can't find a happy balance between using the lineItem's
-  // quantity and the quantity in the state...
-  console.log("cardbody re-rendered");
-  console.log("lineItem.quantity", lineItem.quantity);
+  useEffect(() => {
+    if (fetcher.submission) {
+      const formData = fetcher.submission.formData;
+      if (formData.get("_action") === "updateLineItems") {
+        const lineItemsFormData = formData.get("lineItems");
+        invariant(lineItemsFormData, "lineItemsFormData must be defined");
+        const lineItems: CartLineItemInterface = JSON.parse(
+          lineItemsFormData.toString()
+        );
+        setQuantity(lineItems.quantity);
+      }
+    }
+  }, [fetcher]);
 
   return (
     <div className="card-body overflow-x-auto bg-base-200">
       <h2 className="card-title">{lineItem.merchandise?.product.title}</h2>
-      {/* <p>{quantity}</p> */}
-      <p>{lineItem.quantity}</p>
+      <p>{quantity}</p>
       <pre>
         item.id:{" "}
         <span className="text-green-500">{lineItem.merchandise?.id}</span>
@@ -36,16 +45,17 @@ function CardBody({ lineItem }: { lineItem: CartLineItemInterface }) {
       <div className="card-actions justify-end">
         <ChangeQuantityButtons
           lineItemId={lineItem.id}
-          quantity={quantity}
-          setQuantity={setQuantity}
+          quantity={lineItem.quantity}
           isUpdatingQuantity={isUpdatingQuantity}
           setIsUpdatingQuantity={setIsUpdatingQuantity}
           quantityAvailable={Number(lineItem.merchandise?.quantityAvailable)}
+          fetcher={fetcher}
         />
         <EditLineItemButtons
           lineItemId={lineItem.id}
           isUpdatingQuantity={isUpdatingQuantity}
           setIsUpdatingQuantity={setIsUpdatingQuantity}
+          fetcher={fetcher}
         />
       </div>
     </div>
@@ -56,13 +66,13 @@ function EditLineItemButtons({
   lineItemId,
   isUpdatingQuantity,
   setIsUpdatingQuantity,
+  fetcher,
 }: {
   lineItemId: string;
   isUpdatingQuantity: boolean;
   setIsUpdatingQuantity: (isUpdatingQuantity: boolean) => void;
+  fetcher: FetcherWithComponents<any>;
 }) {
-  const fetcher = useFetcher();
-
   return (
     <div>
       <div className={isUpdatingQuantity ? "hidden" : ""}>
@@ -93,20 +103,18 @@ function EditLineItemButtons({
 function ChangeQuantityButtons({
   lineItemId,
   quantity,
-  setQuantity,
   isUpdatingQuantity,
   setIsUpdatingQuantity,
   quantityAvailable,
+  fetcher,
 }: {
   lineItemId: CartLineItemId;
   quantity: number;
-  setQuantity: (quantity: number) => void;
   isUpdatingQuantity: boolean;
   setIsUpdatingQuantity: (isUpdatingQuantity: boolean) => void;
   quantityAvailable: number;
+  fetcher: FetcherWithComponents<any>;
 }) {
-  const fetcher = useFetcher();
-  const initQuantity = useRef<number>(quantity).current;
   const quantityInputFieldRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -125,11 +133,11 @@ function ChangeQuantityButtons({
         <input
           type="number"
           className="input input-bordered my-2"
-          defaultValue={initQuantity}
-          onChange={(e) => {
-            setQuantity(Number(e.target.value));
-          }}
-          onInvalid={(e) => {
+          defaultValue={quantity}
+          onInvalid={() => {
+            {
+              /* Don't hide the input field if the user enters an invalid value */
+            }
             setIsUpdatingQuantity(true);
           }}
           min={0}
@@ -151,7 +159,6 @@ function ChangeQuantityButtons({
           className="btn btn-secondary m-2"
           type="reset"
           onClick={() => {
-            setQuantity(initQuantity);
             setIsUpdatingQuantity(false);
           }}
         >
@@ -162,7 +169,7 @@ function ChangeQuantityButtons({
           name="lineItems"
           value={JSON.stringify({
             id: lineItemId,
-            quantity: quantity,
+            quantity: Number(quantityInputFieldRef.current?.value),
           })}
         />
       </fetcher.Form>
