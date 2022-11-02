@@ -12,6 +12,7 @@ import {
 import CartContent, { Cart } from "./components/CartContent";
 import Footer from "./components/Footer";
 import PrimaryNav from "./components/PrimaryNav";
+import ServerError from "./components/ServerError";
 import styles from "./styles/app.css";
 import { getCart } from "./utils/cartUtils";
 
@@ -41,13 +42,9 @@ export const loader: LoaderFunction = async () => {
   }
 };
 
-export function ErrorBoundary() {
-  return (
-    <div className="flex flex-col w-screen h-screen place-content-center">
-      <h1 className="text-4xl">Something went wrong</h1>
-      <p className="text-xl">Please try again in a few minutes...</p>
-    </div>
-  );
+export function ErrorBoundary({ error }: { error: Error }) {
+  console.error(error);
+  return <ServerError />;
 }
 
 export default function App() {

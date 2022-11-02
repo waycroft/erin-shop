@@ -1,8 +1,8 @@
 import { LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import ProductsGallery from "~/components/ProductsGallery";
-import { getProducts } from "~/utils/productUtils";
-import { Product } from "~/utils/productUtils";
+import ServerError from "~/components/ServerError";
+import { getProducts, Product } from "~/utils/productUtils";
 
 type LoaderData = {
   data: {
@@ -19,14 +19,8 @@ export const loader: LoaderFunction = async () => {
 };
 
 export function ErrorBoundary({ error }: { error: Error }) {
-  return (
-    <div>
-      <h1>Oops!</h1>
-      <p>{error.message}</p>
-      <p>Stack:</p>
-      <pre>{error.stack}</pre>
-    </div>
-  );
+  console.error(error);
+  return <ServerError />;
 }
 
 export default function Index() {

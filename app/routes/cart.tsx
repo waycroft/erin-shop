@@ -2,6 +2,7 @@ import { ActionFunction, json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import CartContent, { Cart } from "~/components/CartContent";
+import ServerError from "~/components/ServerError";
 import { CartAction, editCart, getCart } from "~/utils/cartUtils";
 
 type LoaderData = {
@@ -35,21 +36,15 @@ export const action: ActionFunction = async ({ request }) => {
   if (isCartAction) {
     try {
       return json(await editCart(action, formData));
-    } catch (error){
+    } catch (error) {
       throw new Error("Cart action failed");
     }
   }
 };
 
 export function ErrorBoundary({ error }: { error: Error }) {
-  return (
-    <div>
-      <h1>Oops!</h1>
-      <p>{error.message}</p>
-      <p>Stack:</p>
-      <pre>{error.stack}</pre>
-    </div>
-  );
+  console.error(error);
+  return <ServerError />;
 }
 
 export default function CartRoute() {
