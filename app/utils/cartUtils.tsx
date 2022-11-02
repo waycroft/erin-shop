@@ -40,8 +40,6 @@ export async function editCart(action: CartAction, formData: FormData) {
         .map((lineItem) => JSON.parse(lineItem.toString()));
       invariant(lineItems, "No line items were provided for update");
 
-      console.log(lineItems);
-
       await updateLineItemsInCart({
         cartId: process.env.TEST_CART as string,
         lines: lineItems,
@@ -66,7 +64,7 @@ export async function editCart(action: CartAction, formData: FormData) {
     }
   } catch (error: any) {
     console.error(error);
-    return json({ action: action, error: error.message });
+    throw json({ action: action, error: error.message });
   }
 }
 export async function getCart(cartId: string): Promise<StorefrontAPIResponse> {
