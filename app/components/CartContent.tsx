@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { CartLineItemInterface } from "~/utils/cartUtils";
 import CartLineItem from "./CartLineItem";
 
@@ -19,22 +20,28 @@ export type Cart = {
   };
 };
 
-export default function CartContent({ contents }: { contents: Cart }) {
+export default function CartContent({ cart }: { cart: Cart }) {
+  const [cartContents, setCartContents] = useState(cart.lines.edges);
+
   return (
     <div>
       <div>
         <ol>
-          {contents?.lines?.edges?.map((edge) => (
+          {cartContents.map((edge) => (
             // BOOKMARK: optimistic UI for removing a cart item
             <li key={edge.node.id} className="py-2">
-              <CartLineItem item={edge.node} key={edge.node.id} />
+              <CartLineItem
+                key={edge.node.id}
+                item={edge.node}
+                setCart={setCartContents}
+              />
             </li>
           )) ?? <p>Cart could't be displayed...</p>}
         </ol>
       </div>
       <div>
-        <p>Subtotal: {contents?.cost?.subtotalAmount?.amount}</p>
-        <p>Total Quantity: {contents?.totalQuantity}</p>
+        <p>Subtotal: {cart?.cost?.subtotalAmount?.amount}</p>
+        <p>Total Quantity: {cart?.totalQuantity}</p>
       </div>
     </div>
   );

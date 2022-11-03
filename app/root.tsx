@@ -92,7 +92,7 @@ export default function App() {
             <Link to="/cart">
               <h1 className="text-2xl font-bold">Cart</h1>
             </Link>
-            <CartContent contents={data.cart} />
+            <CartContent cart={data.cart} />
           </section>
         </div>
         <ScrollRestoration />

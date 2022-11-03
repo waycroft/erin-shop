@@ -49,15 +49,15 @@ export function ErrorBoundary({ error }: { error: Error }) {
 
 export default function CartRoute() {
   const { data } = useLoaderData<LoaderData>();
-  const cartContents = data?.cart;
+  const cart = data?.cart;
 
   return (
     <section className="p-8">
       <h1 className="text-6xl font-bold">Cart</h1>
       <div className="my-4">
-        <CartContent contents={cartContents} />
+        <CartContent cart={cart} />
       </div>
-      <a href={cartContents?.checkoutUrl} className="btn btn-primary">
+      <a href={cart?.checkoutUrl} className="btn btn-primary">
         Checkout
       </a>
     </section>
