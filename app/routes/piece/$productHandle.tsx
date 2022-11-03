@@ -1,5 +1,5 @@
 import { LoaderFunction } from "@remix-run/node";
-import { Form, useFetcher, useLoaderData } from "@remix-run/react";
+import { useFetcher, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import invariant from "tiny-invariant";
 import { getSingleProduct, Product } from "~/utils/productUtils";
@@ -29,15 +29,15 @@ export default function SingleProductRoute() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 justify-center gap-8">
-      <div className="bg-slate-200">
+      <div className="bg-slate-200 rounded-lg overflow-hidden">
         <img
           src={featuredImage?.url}
           alt={featuredImage?.altText}
-          width="400"
+          // width="400"
         />
       </div>
-      <div className="bg-slate-200">
-        <h1 className="text-4xl font-bold mb-4">{product.title}</h1>
+      <div className="">
+        <h1 className="text-4xl font-light mb-4 font-title">{product.title}</h1>
         <div dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
         <div>
           <p>

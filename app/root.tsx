@@ -29,7 +29,16 @@ export const meta: MetaFunction = () => ({
 });
 
 export function links() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [
+    { rel: "stylesheet", href: styles },
+    { rel: "stylesheet", href: "https://use.typekit.net/urj5czf.css" },
+    { rel: "preconnect", href: "https://fonts.gstatic.com" },
+    { rel: "preconnect", href: "https://fonts.googleapis.com" },
+    {
+      rel: "stylesheet",
+      href: "https://fonts.googleapis.com/css2?family=Inter:wght@100;400;700&display=swap",
+    },
+  ];
 }
 
 type LoaderData = {
@@ -77,7 +86,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="drawer drawer-end">
+      <body className="drawer drawer-end font-body">
         <input id="cart-drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
           {/* All page content goes within "drawer-content". 

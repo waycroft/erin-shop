@@ -6,10 +6,10 @@ export default function PrimaryNav({ cartQuantity }: { cartQuantity: number }) {
   return (
     <nav
       role="navigation"
-      className="navbar flex flex-row justify-between bg-zinc-200 px-8 py-6"
+      className="navbar flex flex-row justify-between px-8 py-6"
     >
-      <div>
-        <Link to="/">ERIN HOFFMAN: SHOP</Link>
+      <div className="font-medium font-title text-4xl">
+        <Link to="/">erinhoffman::collect</Link>
       </div>
       <div>
         <div>

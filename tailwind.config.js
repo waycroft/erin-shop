@@ -4,10 +4,15 @@ module.exports = {
     "./app/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    fontFamily: {
+      title: ["Timonium", "sans-serif"],
+      body: ["Inter", "sans-serif"],
+    },
     extend: {},
   },
   plugins: [require("daisyui")],
   daisyui: {
-    themes: ["luxury"],
+    themes: ["lemonade"],
+    darkTheme: false
   }
 }
