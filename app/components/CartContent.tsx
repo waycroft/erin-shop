@@ -37,7 +37,6 @@ export default function CartContent({ cart }: { cart: Cart }) {
                 const lineItemIdsToRemove = fetcher.submission?.formData
                   .getAll("lineItemId")
                   .map((lineItemId) => lineItemId.toString());
-                console.log("lineItemIdsToRemove", lineItemIdsToRemove);
                 return !lineItemIdsToRemove?.includes(lineItem);
               } else {
                 return true;
