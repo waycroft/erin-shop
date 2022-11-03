@@ -75,7 +75,8 @@ export async function getProducts(quantity: number) {
               height
               width
               id
-              url
+              # url
+              url(transform: {maxWidth: 600})
               altText
             }
             id
@@ -128,7 +129,8 @@ export async function getSingleProduct(productHandle: string) {
                   id
                   height
                   width
-                  url
+                  url(transform: {maxWidth: 1200})
+                  # url
                 }
               }
             }

@@ -86,7 +86,7 @@ export default function ProductThumbnail({
           />
         </Link>
       </div>
-      <div className="hidden md:grid grid-col-1 gap-4 absolute inset-0 bg-black bg-opacity-50 opacity-0 md:hover:opacity-100 transition ease-in duration-75 place-content-center">
+      <div className="hidden md:grid grid-col-1 gap-4 absolute inset-0 bg-black bg-opacity-50 opacity-0 md:hover:opacity-100 transition ease-in duration-75 place-content-center rounded-lg">
         <ProductHoverActionButtons
           addToCartFailed={fetcher.type === "done" && fetcher.data}
           productSlug={productSlug}
