@@ -1,8 +1,6 @@
 import {
   FetcherWithComponents,
-  Link,
-  useActionData,
-  useFetcher,
+  Link, useFetcher
 } from "@remix-run/react";
 import ToastNotification from "./ToastNotification";
 
@@ -76,7 +74,6 @@ export default function ProductThumbnail({
   productSlug: string;
 }) {
   const fetcher = useFetcher();
-  const addToCartFailed = useActionData();
 
   return (
     <div className="relative">
@@ -91,26 +88,27 @@ export default function ProductThumbnail({
       </div>
       <div className="hidden md:grid grid-col-1 gap-4 absolute inset-0 bg-black bg-opacity-50 opacity-0 md:hover:opacity-100 transition ease-in duration-75 place-content-center">
         <ProductHoverActionButtons
-          addToCartFailed={!!addToCartFailed}
+          addToCartFailed={fetcher.type === "done" && fetcher.data}
           productSlug={productSlug}
           productVariantId={productVariantId}
           fetcher={fetcher}
         />
       </div>
-      {!!!addToCartFailed ? (
-        /* Can I try component composition here? props.children to render message? */
-        <ToastNotification
-          type="success"
-          message="Added to cart!"
-          action={{ label: "Go to cart", href: "/cart" }}
-        />
-      ) : (
-        <ToastNotification
-          type="error"
-          message="Whoops, something went wrong. Please try again."
-          action={{ label: "Go to cart", href: "/cart" }}
-        />
-      )}
+      {fetcher.type === "done" ? (
+        fetcher.data ? (
+          <ToastNotification
+            type="error"
+            message="Whoops, something went wrong. Please try again."
+            action={{ label: "Go to cart", href: "/cart" }}
+          />
+        ) : (
+          <ToastNotification
+            type="success"
+            message="Added to cart!"
+            action={{ label: "Go to cart", href: "/cart" }}
+          />
+        )
+      ) : null}
     </div>
   );
 }
