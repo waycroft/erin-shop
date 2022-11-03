@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
     <footer className="footer p-8 bg-base-200 text-base-content">
-      <div>
+      {/* <div>
         <span className="footer-title">Services</span>
         <a className="link link-hover">Branding</a>
         <a className="link link-hover">Design</a>
@@ -38,7 +38,8 @@ export default function Footer() {
             </button>
           </div>
         </div>
-      </div>
+      </div> */}
+      Copyright Erin Hoffman, 2022-2023
     </footer>
   );
 }
