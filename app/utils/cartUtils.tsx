@@ -49,7 +49,7 @@ export async function editCart(action: CartAction, formData: FormData) {
 
     if (action === "removeLineItems") {
       const lineItems: CartLineItemId[] = formData
-        .getAll("lineItemIds")
+        .getAll("lineItemId")
         .map((lineItem) => lineItem.toString());
       invariant(
         lineItems.length > 0,

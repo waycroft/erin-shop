@@ -1,4 +1,4 @@
-import { FetcherWithComponents, useFetcher } from "@remix-run/react";
+import { FetcherWithComponents } from "@remix-run/react";
 import { useEffect, useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { CartLineItemId, CartLineItemInterface } from "~/utils/cartUtils";
@@ -15,10 +15,15 @@ function CardImage({ imgUrl, imgTitle }: { imgUrl: string; imgTitle: string }) {
   );
 }
 
-function CardBody({ lineItem }: { lineItem: CartLineItemInterface }) {
+function CardBody({
+  lineItem,
+  fetcher,
+}: {
+  lineItem: CartLineItemInterface;
+  fetcher: FetcherWithComponents<any>;
+}) {
   const [quantity, setQuantity] = useState(lineItem.quantity);
   const [isUpdatingQuantity, setIsUpdatingQuantity] = useState(false);
-  const fetcher = useFetcher();
 
   useEffect(() => {
     if (fetcher.submission) {
@@ -97,7 +102,7 @@ function EditLineItemButtons({
           >
             Remove
           </button>
-          <input type="hidden" name="lineItemIds" value={lineItemId} />
+          <input type="hidden" name="lineItemId" value={lineItemId} />
         </fetcher.Form>
       </div>
     </div>
@@ -185,8 +190,10 @@ function ChangeQuantityButtons({
 
 export default function CartLineItem({
   item,
+  fetcher,
 }: {
   item: CartLineItemInterface;
+  fetcher: FetcherWithComponents<any>;
 }) {
   return (
     <div className="card card-side card-bordered bg-base-400">
@@ -194,7 +201,7 @@ export default function CartLineItem({
         imgUrl={item.merchandise?.image.url ?? ""}
         imgTitle={item.merchandise?.title ?? ""}
       />
-      <CardBody lineItem={item} />
+      <CardBody lineItem={item} fetcher={fetcher} />
     </div>
   );
 }
