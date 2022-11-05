@@ -19,12 +19,10 @@ function CardImage({ imgUrl, imgTitle }: { imgUrl: string; imgTitle: string }) {
 function CardBody({
   lineItem,
   fetcher,
-  isRemoved,
   handleRemoveLineItem,
 }: {
   lineItem: CartLineItemInterface;
   fetcher: FetcherWithComponents<any>;
-  isRemoved: boolean;
   handleRemoveLineItem: () => void;
 }) {
   const [quantity, setQuantity] = useState(lineItem.quantity);
@@ -216,7 +214,7 @@ export default function CartLineItem({
         <motion.div
           className="card card-side card-bordered bg-base-400"
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.1, ease: "easeInOut" }}
+          transition={{ duration: 0.175, ease: "easeInOut" }}
         >
           <CardImage
             imgUrl={item.merchandise?.image.url ?? ""}
@@ -225,7 +223,6 @@ export default function CartLineItem({
           <CardBody
             lineItem={item}
             fetcher={fetcher}
-            isRemoved={isRemoved}
             handleRemoveLineItem={handleRemoveLineItem}
           />
         </motion.div>

@@ -2275,6 +2275,11 @@ body[dir="rtl"] .checkbox:checked,
   background-color: rgb(226 232 240 / var(--tw-bg-opacity));
 }
 
+.bg-success {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--su) / var(--tw-bg-opacity));
+}
+
 .bg-opacity-50 {
   --tw-bg-opacity: 0.5;
 }

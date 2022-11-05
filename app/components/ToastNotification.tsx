@@ -21,7 +21,7 @@ export default function ToastNotification({
       animate={{ opacity: [100, 0] }}
       transition={{ ease: "easeOut", duration: 4 }}
     >
-      <div className={`alert alert-${type} flex flex-col`}>
+      <div className={`alert alert-${type} flex flex-col bg-success`}>
         <p>{message}</p>
         {action && (
           <Link to={action.href} className="font-bold underline">
