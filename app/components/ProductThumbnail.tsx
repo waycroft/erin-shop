@@ -1,8 +1,6 @@
-import {
-  FetcherWithComponents,
-  Link, useFetcher
-} from "@remix-run/react";
+import { FetcherWithComponents, Link, useFetcher } from "@remix-run/react";
 import ToastNotification from "./ToastNotification";
+import { motion } from "framer-motion";
 
 function ErrorButton({ fetcher }: { fetcher: FetcherWithComponents<any> }) {
   return (
@@ -60,6 +58,11 @@ function ProductHoverActionButtons({
   );
 }
 
+const variants = {
+  visible: { opacity: 1, x: 0, y: 0 },
+  hidden: { opacity: 0, x: -15, y: -7.5},
+};
+
 export default function ProductThumbnail({
   img,
   alt,
@@ -76,7 +79,10 @@ export default function ProductThumbnail({
   const fetcher = useFetcher();
 
   return (
-    <div className="relative">
+    <motion.div
+      className="relative"
+      variants={variants}
+    >
       <div>
         <Link to={`/piece/${productSlug}`}>
           <img
@@ -109,6 +115,6 @@ export default function ProductThumbnail({
           />
         )
       ) : null}
-    </div>
+    </motion.div>
   );
 }

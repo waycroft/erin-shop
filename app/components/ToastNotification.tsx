@@ -1,6 +1,5 @@
 import { Link } from "@remix-run/react";
-
-// TODO: I want to use setTimeout to fade out toast.
+import { motion } from "framer-motion";
 
 export default function ToastNotification({
   type,
@@ -17,7 +16,11 @@ export default function ToastNotification({
   };
 }) {
   return (
-    <div className={`toast toast-${placement}`}>
+    <motion.div
+      className={`toast toast-${placement}`}
+      animate={{ opacity: [100, 0] }}
+      transition={{ ease: "easeOut", duration: 4 }}
+    >
       <div className={`alert alert-${type} flex flex-col`}>
         <p>{message}</p>
         {action && (
@@ -26,6 +29,6 @@ export default function ToastNotification({
           </Link>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }
