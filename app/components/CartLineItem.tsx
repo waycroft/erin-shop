@@ -2,7 +2,7 @@ import { FetcherWithComponents } from "@remix-run/react";
 import { useEffect, useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { CartLineItemId, CartLineItemInterface } from "~/utils/cartUtils";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 function CardImage({ imgUrl, imgTitle }: { imgUrl: string; imgTitle: string }) {
   return (
@@ -20,7 +20,7 @@ function CardBody({
   lineItem,
   fetcher,
   isRemoved,
-  handleRemoveLineItem
+  handleRemoveLineItem,
 }: {
   lineItem: CartLineItemInterface;
   fetcher: FetcherWithComponents<any>;
@@ -211,25 +211,25 @@ export default function CartLineItem({
   }
 
   return (
-    <motion.div
-      className="card card-side card-bordered bg-base-400"
-      animate={isRemoved ? { 
-        opacity: 0,
-      } : { 
-        opacity: 1,
-      }}
-      transition={{ duration: 0.2, ease: "easeInOut" }}
-    >
-      <CardImage
-        imgUrl={item.merchandise?.image.url ?? ""}
-        imgTitle={item.merchandise?.title ?? ""}
-      />
-      <CardBody
-        lineItem={item}
-        fetcher={fetcher}
-        isRemoved={isRemoved}
-        handleRemoveLineItem={handleRemoveLineItem}
-      />
-    </motion.div>
+    <AnimatePresence>
+      {isRemoved ? null : (
+        <motion.div
+          className="card card-side card-bordered bg-base-400"
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.1, ease: "easeInOut" }}
+        >
+          <CardImage
+            imgUrl={item.merchandise?.image.url ?? ""}
+            imgTitle={item.merchandise?.title ?? ""}
+          />
+          <CardBody
+            lineItem={item}
+            fetcher={fetcher}
+            isRemoved={isRemoved}
+            handleRemoveLineItem={handleRemoveLineItem}
+          />
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
