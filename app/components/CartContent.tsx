@@ -27,31 +27,15 @@ export default function CartContent({ cart }: { cart: Cart }) {
     <>
       <div>
         <ol>
-          {cart.lines.edges
-            .filter((edge) => {
-              const lineItem = edge.node.id;
-              if (
-                fetcher.submission?.formData.get("_action") ===
-                "removeLineItems"
-              ) {
-                const lineItemIdsToRemove = fetcher.submission?.formData
-                  .getAll("lineItemId")
-                  .map((lineItemId) => lineItemId.toString());
-                return !lineItemIdsToRemove?.includes(lineItem);
-              } else {
-                return true;
-              }
-            })
-            .map((edge) => (
-              // BOOKMARK: optimistic UI for removing a cart item
-              <li key={edge.node.id} className="py-2">
-                <CartLineItem
-                  key={edge.node.id}
-                  item={edge.node}
-                  fetcher={fetcher}
-                />
-              </li>
-            ))}
+          {cart.lines.edges.map((edge) => (
+            <li key={edge.node.id} className="py-2">
+              <CartLineItem
+                key={edge.node.id}
+                item={edge.node}
+                fetcher={fetcher}
+              />
+            </li>
+          ))}
         </ol>
       </div>
       <div>
