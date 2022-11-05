@@ -2325,12 +2325,12 @@ body[dir="rtl"] .checkbox:checked,
   padding-left: 1rem;
 }
 
-.font-title {
-  font-family: Timonium, sans-serif;
-}
-
 .font-body {
   font-family: Inter, sans-serif;
+}
+
+.font-title {
+  font-family: Timonium, sans-serif;
 }
 
 .text-2xl {
@@ -2351,6 +2351,16 @@ body[dir="rtl"] .checkbox:checked,
 .text-6xl {
   font-size: 3.75rem;
   line-height: 1;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+  line-height: 1rem;
 }
 
 .font-bold {

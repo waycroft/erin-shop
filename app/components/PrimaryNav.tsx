@@ -19,12 +19,12 @@ export default function PrimaryNav({ cartQuantity }: { cartQuantity: number }) {
           <div className="hidden md:flex flex-row">
             <div className="px-4">
               <a href="https://erinphoffman.com/work" target="_blank">
-                Work
+                work
               </a>
             </div>
             <div className="px-4">
               <a href="https://erinphoffman.com/about" target="_blank">
-                About
+                about
               </a>
             </div>
             <div className="px-4">

@@ -39,7 +39,7 @@ export default function Footer() {
           </div>
         </div>
       </div> */}
-      Copyright Erin Hoffman, 2022-2023
+      <span className="text-xs">copyright erin hoffman, 2022-2023</span>
     </footer>
   );
 }
