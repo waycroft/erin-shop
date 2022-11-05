@@ -8,7 +8,7 @@ export default function PrimaryNav({ cartQuantity }: { cartQuantity: number }) {
       role="navigation"
       className="navbar flex flex-row justify-between px-8 py-6"
     >
-      <div className="font-medium font-title text-4xl">
+      <div className="font-light font-title text-3xl">
         <Link to="/">erinhoffman::collect</Link>
       </div>
       <div>

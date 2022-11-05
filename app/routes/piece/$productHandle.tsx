@@ -37,7 +37,7 @@ export default function SingleProductRoute() {
         />
       </div>
       <div className="">
-        <h1 className="text-4xl font-light mb-4 font-title">{product.title}</h1>
+        <h1 className="text-5xl font-medium mb-4 font-title">{product.title}</h1>
         <div dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
         <div>
           <p>
