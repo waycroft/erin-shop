@@ -20,12 +20,12 @@ function CardBody({
   lineItem,
   fetcher,
   isRemoved,
-  setIsRemoved,
+  handleRemoveLineItem
 }: {
   lineItem: CartLineItemInterface;
   fetcher: FetcherWithComponents<any>;
   isRemoved: boolean;
-  setIsRemoved: (isRemoved: boolean) => void;
+  handleRemoveLineItem: () => void;
 }) {
   const [quantity, setQuantity] = useState(lineItem.quantity);
   const [isUpdatingQuantity, setIsUpdatingQuantity] = useState(false);
@@ -69,8 +69,7 @@ function CardBody({
           lineItemId={lineItem.id}
           isUpdatingQuantity={isUpdatingQuantity}
           setIsUpdatingQuantity={setIsUpdatingQuantity}
-          isRemoved={isRemoved}
-          setIsRemoved={setIsRemoved}
+          handleRemoveLineItem={handleRemoveLineItem}
           fetcher={fetcher}
         />
       </div>
@@ -82,15 +81,13 @@ function EditLineItemButtons({
   lineItemId,
   isUpdatingQuantity,
   setIsUpdatingQuantity,
-  isRemoved,
-  setIsRemoved,
+  handleRemoveLineItem,
   fetcher,
 }: {
   lineItemId: string;
   isUpdatingQuantity: boolean;
   setIsUpdatingQuantity: (isUpdatingQuantity: boolean) => void;
-  isRemoved: boolean;
-  setIsRemoved: (isRemoved: boolean) => void;
+  handleRemoveLineItem: () => void;
   fetcher: FetcherWithComponents<any>;
 }) {
   return (
@@ -110,7 +107,7 @@ function EditLineItemButtons({
             type="submit"
             name="_action"
             value={"removeLineItems"}
-            onClick={() => setIsRemoved(!isRemoved)}
+            onClick={handleRemoveLineItem}
           >
             Remove
           </button>
@@ -209,6 +206,10 @@ export default function CartLineItem({
 }) {
   const [isRemoved, setIsRemoved] = useState(false);
 
+  function handleRemoveLineItem() {
+    setIsRemoved(true);
+  }
+
   return (
     <motion.div
       className="card card-side card-bordered bg-base-400"
@@ -227,7 +228,7 @@ export default function CartLineItem({
         lineItem={item}
         fetcher={fetcher}
         isRemoved={isRemoved}
-        setIsRemoved={setIsRemoved}
+        handleRemoveLineItem={handleRemoveLineItem}
       />
     </motion.div>
   );

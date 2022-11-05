@@ -22,7 +22,6 @@ export const loader: LoaderFunction = async () => {
 };
 
 // TODO: Add an undo toast (good feedback that an item was removed)
-// TODO: good opportunity to also use Framer motion to animate items being removed
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const _action = formData.get("_action");
