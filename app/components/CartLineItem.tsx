@@ -2,6 +2,7 @@ import { FetcherWithComponents } from "@remix-run/react";
 import { useEffect, useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { CartLineItemId, CartLineItemInterface } from "~/utils/cartUtils";
+import { motion } from "framer-motion";
 
 function CardImage({ imgUrl, imgTitle }: { imgUrl: string; imgTitle: string }) {
   return (
@@ -18,9 +19,13 @@ function CardImage({ imgUrl, imgTitle }: { imgUrl: string; imgTitle: string }) {
 function CardBody({
   lineItem,
   fetcher,
+  isRemoved,
+  setIsRemoved,
 }: {
   lineItem: CartLineItemInterface;
   fetcher: FetcherWithComponents<any>;
+  isRemoved: boolean;
+  setIsRemoved: (isRemoved: boolean) => void;
 }) {
   const [quantity, setQuantity] = useState(lineItem.quantity);
   const [isUpdatingQuantity, setIsUpdatingQuantity] = useState(false);
@@ -64,6 +69,8 @@ function CardBody({
           lineItemId={lineItem.id}
           isUpdatingQuantity={isUpdatingQuantity}
           setIsUpdatingQuantity={setIsUpdatingQuantity}
+          isRemoved={isRemoved}
+          setIsRemoved={setIsRemoved}
           fetcher={fetcher}
         />
       </div>
@@ -75,11 +82,15 @@ function EditLineItemButtons({
   lineItemId,
   isUpdatingQuantity,
   setIsUpdatingQuantity,
+  isRemoved,
+  setIsRemoved,
   fetcher,
 }: {
   lineItemId: string;
   isUpdatingQuantity: boolean;
   setIsUpdatingQuantity: (isUpdatingQuantity: boolean) => void;
+  isRemoved: boolean;
+  setIsRemoved: (isRemoved: boolean) => void;
   fetcher: FetcherWithComponents<any>;
 }) {
   return (
@@ -99,6 +110,7 @@ function EditLineItemButtons({
             type="submit"
             name="_action"
             value={"removeLineItems"}
+            onClick={() => setIsRemoved(!isRemoved)}
           >
             Remove
           </button>
@@ -195,13 +207,28 @@ export default function CartLineItem({
   item: CartLineItemInterface;
   fetcher: FetcherWithComponents<any>;
 }) {
+  const [isRemoved, setIsRemoved] = useState(false);
+
   return (
-    <div className="card card-side card-bordered bg-base-400">
+    <motion.div
+      className="card card-side card-bordered bg-base-400"
+      animate={isRemoved ? { 
+        opacity: 0,
+      } : { 
+        opacity: 1,
+      }}
+      transition={{ duration: 0.2, ease: "easeInOut" }}
+    >
       <CardImage
         imgUrl={item.merchandise?.image.url ?? ""}
         imgTitle={item.merchandise?.title ?? ""}
       />
-      <CardBody lineItem={item} fetcher={fetcher} />
-    </div>
+      <CardBody
+        lineItem={item}
+        fetcher={fetcher}
+        isRemoved={isRemoved}
+        setIsRemoved={setIsRemoved}
+      />
+    </motion.div>
   );
 }
