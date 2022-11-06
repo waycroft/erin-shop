@@ -40,6 +40,11 @@ export type Product = {
   totalInventory: number;
   tags: string[];
   priceRange: PriceRange;
+  options: {
+    id: string;
+    name: string;
+    values: string[];
+  }[];
   variants: {
     edges: {
       node: ProductVariant;
@@ -83,9 +88,14 @@ export async function getProducts(quantity: number) {
             productType
             title
             handle
+            options(first: 10) {
+              id
+              name
+              values
+            }
             title
             ... on Product {
-              variants(first: 1) {
+              variants(first: 100) {
                 edges {
                   node {
                     id
@@ -120,6 +130,11 @@ export async function getSingleProduct(productHandle: string) {
             minVariantPrice {
               amount
             }
+          }
+          options(first: 10) {
+            id
+            name
+            values
           }
           ... on Product {
             images(first: 1) {

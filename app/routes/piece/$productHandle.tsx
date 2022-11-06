@@ -30,40 +30,44 @@ export default function SingleProductRoute() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 justify-center gap-8">
       <div className="bg-slate-200 rounded-lg overflow-hidden">
+        {/* TODO: Change the carousel to match the selected product option */}
         <img
           src={featuredImage?.url}
           alt={featuredImage?.altText}
-          // width="400"
         />
       </div>
       <div className="">
-        <h1 className="text-5xl font-medium mb-4 font-title">{product.title}</h1>
-        <div dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
+        <h1 className="text-5xl font-medium mb-8 font-title">
+          {product.title}
+        </h1>
+        <div
+          dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
+          className="mb-8 bg-base-200 p-4 rounded-lg"
+        />
         <div>
-          <p>
-            <strong>Available?</strong>
-          </p>
-          <p>{product.availableForSale.toString()}</p>
-          <p>
-            <strong># Available</strong>
-          </p>
-          <p>{product.totalInventory}</p>
-          <p>
-            <strong>Tags</strong>
-          </p>
-          <p>{product.tags.join(", ")}</p>
+          {product.totalInventory <= 0 ? (
+            <div>
+              <p>
+                <strong className="text-error">Sold out</strong>
+              </p>
+            </div>
+          ) : null}
+          <div className="my-4">
+            <p>
+              <strong># Available: </strong>
+              {product.totalInventory}
+            </p>
+          </div>
           <p>
             <strong>Price</strong>
           </p>
-          <p>{"$" + product.priceRange.maxVariantPrice.amount}</p>
           <p>
-            <strong>Product Type</strong>
+            From {"$" + product.priceRange.minVariantPrice.amount}––
+            {"$" + product.priceRange.maxVariantPrice.amount}
           </p>
-          <p>{product.productType}</p>
         </div>
         <fetcher.Form method="post" action="/">
           <input type="hidden" name="productHandle" value={product.handle} />
-          {/* TODO: Once Erin starts adding variants, change this */}
           <input
             type="hidden"
             name="merchandise"
@@ -74,13 +78,32 @@ export default function SingleProductRoute() {
               },
             ])}
           />
-          <div className="flex flex-col w-fit my-4">
-            <label htmlFor="quantity">Quantity</label>
+          <div className="flex flex-col w-full my-4 form-control">
+            {product.options.map((option) => (
+              <div key={option.id} className="my-3">
+                <label htmlFor="variant" className="label">
+                  <span className="label-text">{option.name}</span>
+                </label>
+                <select className="select select-bordered w-full">
+                  {option.values.map((value) => (
+                    <option key={value} value={value}>
+                      {value}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            ))}
+            <label htmlFor="quantity" className="label">
+              <span className="label-text">Quantity</span>
+            </label>
             <input
               type="number"
-              defaultValue={selectedQuantity}
-              className="input input-primary"
+              name="quantity"
+              className="input input-bordered"
+              defaultValue={1}
               onChange={handleChangeSelectedQuantity}
+              min={0}
+              max={product.totalInventory}
             />
             <button
               className="btn btn-primary my-4"
