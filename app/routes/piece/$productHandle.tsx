@@ -110,6 +110,7 @@ export default function SingleProductRoute() {
             </label>
             <input
               type="number"
+              inputMode={"numeric"}
               name="quantity"
               className="input input-bordered"
               defaultValue={1}

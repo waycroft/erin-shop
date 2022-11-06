@@ -151,6 +151,7 @@ function ChangeQuantityButtons({
       <fetcher.Form method="post" action="/">
         <input
           type="number"
+          inputMode={"numeric"}
           className="input input-bordered my-2"
           defaultValue={quantity}
           onInvalid={() => {
