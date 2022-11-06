@@ -48,7 +48,7 @@ function CardBody({
 
   return (
     <div className="card-body overflow-x-auto bg-base-200">
-      <h2 className="card-title">{lineItem.merchandise?.product.title}</h2>
+      <h2 className="card-title">{lineItem.merchandise?.product.title} / {lineItem.merchandise?.title}</h2>
       <p>{quantity}</p>
       <pre>
         item.id:{" "}
