@@ -1128,6 +1128,14 @@ html {
   text-decoration-line: underline;
 }
 
+.menu > :where(li.disabled > *:not(ul):focus) {
+  cursor: auto;
+}
+
+.menu > :where(li.\!disabled > *:not(ul):focus) {
+  cursor: auto !important;
+}
+
 .navbar {
   display: flex;
   align-items: center;
@@ -1339,6 +1347,30 @@ html {
   background-color: hsl(var(--af, var(--a)) / var(--tw-bg-opacity));
   --tw-text-opacity: 1;
   color: hsl(var(--ac) / var(--tw-text-opacity));
+}
+
+.btm-nav>*.disabled, 
+    .btm-nav>*.disabled:hover, 
+    .btm-nav>*[disabled], 
+    .btm-nav>*[disabled]:hover {
+  pointer-events: none;
+  --tw-border-opacity: 0;
+  background-color: hsl(var(--n) / var(--tw-bg-opacity));
+  --tw-bg-opacity: 0.1;
+  color: hsl(var(--bc) / var(--tw-text-opacity));
+  --tw-text-opacity: 0.2;
+}
+
+.btm-nav>*.\!disabled, 
+    .btm-nav>*.\!disabled:hover, 
+    .btm-nav>*[disabled], 
+    .btm-nav>*[disabled]:hover {
+  pointer-events: none !important;
+  --tw-border-opacity: 0 !important;
+  background-color: hsl(var(--n) / var(--tw-bg-opacity)) !important;
+  --tw-bg-opacity: 0.1 !important;
+  color: hsl(var(--bc) / var(--tw-text-opacity)) !important;
+  --tw-text-opacity: 0.2 !important;
 }
 
 .btm-nav>* .label {
@@ -1767,6 +1799,30 @@ body[dir="rtl"] .checkbox:checked,
 .link:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 2px;
+}
+
+.menu li.disabled > * {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+       user-select: none;
+  color: hsl(var(--bc) / var(--tw-text-opacity));
+  --tw-text-opacity: 0.2;
+}
+
+.menu li.\!disabled > * {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+       user-select: none !important;
+  color: hsl(var(--bc) / var(--tw-text-opacity)) !important;
+  --tw-text-opacity: 0.2 !important;
+}
+
+.menu li.disabled > *:hover {
+  background-color: transparent;
+}
+
+.menu li.\!disabled > *:hover {
+  background-color: transparent !important;
 }
 
 .mockup-phone .display {

@@ -2,6 +2,7 @@ import { ActionFunction, json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import CartContent, { Cart } from "~/components/CartContent";
+import CartCheckoutButton from "~/components/CheckoutButton";
 import ServerError from "~/components/ServerError";
 import { CartAction, editCart, getCart } from "~/utils/cartUtils";
 
@@ -21,7 +22,6 @@ export const loader: LoaderFunction = async () => {
   return cart;
 };
 
-// TODO: Add an undo toast (good feedback that an item was removed)
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const _action = formData.get("_action");
@@ -56,9 +56,10 @@ export default function CartRoute() {
       <div className="my-4">
         <CartContent cart={cart} />
       </div>
-      <a href={cart?.checkoutUrl} className="btn btn-primary">
-        Checkout
-      </a>
+      <CartCheckoutButton
+        checkoutUrl={cart?.checkoutUrl}
+        disabled={cart?.totalQuantity <= 0}
+      />
     </section>
   );
 }
