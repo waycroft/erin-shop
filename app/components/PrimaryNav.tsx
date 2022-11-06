@@ -8,16 +8,16 @@ export default function PrimaryNav({ cartQuantity }: { cartQuantity: number }) {
       role="navigation"
       className="navbar flex flex-row justify-between px-8 py-6"
     >
-      <div className="font-light font-title text-3xl">
+      <div className="font-light font-title text-lg sm:text-3xl">
         <Link to="/">erinhoffman::collect</Link>
       </div>
       <div>
         <div>
-          <button className="md:hidden btn btn-square btn-ghost">
+          <button className="mx-4 md:hidden btn btn-square btn-ghost">
             <HamburgerIcon />
           </button>
           <div className="hidden md:flex flex-row">
-            <div className="px-4">
+            <div className="px-2">
               <a href="https://erinphoffman.com/work" target="_blank">
                 work
               </a>
@@ -34,7 +34,7 @@ export default function PrimaryNav({ cartQuantity }: { cartQuantity: number }) {
             </div>
           </div>
         </div>
-        <div className="indicator pl-4">
+        <div className="indicator sm:pl-4">
           {cartQuantity > 0 ? (
             <span className="indicator-item badge badge-accent text-base">
               {cartQuantity}
