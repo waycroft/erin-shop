@@ -17,11 +17,14 @@ type LoaderData = {
 };
 
 export default function SingleProductRoute() {
+  const [selectedQuantity, setSelectedQuantity] = useState(1);
+
   const { data } = useLoaderData<LoaderData>();
   const fetcher = useFetcher();
   const product = data.product;
   const featuredImage = product.images?.edges[0].node;
-  const [selectedQuantity, setSelectedQuantity] = useState(1);
+  const productHasNoOptions =
+    product.options.length === 1 && product.options[0].values.length === 1;
 
   const [roundedMinPrice, roundedMaxPrice] = [
     new Intl.NumberFormat("en-US", {
@@ -66,13 +69,14 @@ export default function SingleProductRoute() {
               {product.totalInventory}
             </p>
           </div>
-          <p>
-            <strong>Price</strong>
-          </p>
-          <p>
-            From {roundedMinPrice}––
-            {roundedMaxPrice}
-          </p>
+          <div className="my-4">
+            <p>
+              <strong>Price: </strong>
+              {productHasNoOptions
+                ? roundedMinPrice
+                : `${roundedMinPrice} - ${roundedMaxPrice}`}
+            </p>
+          </div>
         </div>
         <fetcher.Form method="post" action="/">
           <input type="hidden" name="productHandle" value={product.handle} />
