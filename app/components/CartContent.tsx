@@ -1,5 +1,5 @@
 import { useFetcher } from "@remix-run/react";
-import type { CartLineItemInterface } from "~/utils/cartUtils";
+import { CartLineItemInterface } from "~/utils/cartUtils";
 import CartLineItem from "./CartLineItem";
 
 export type Cart = {
@@ -22,6 +22,7 @@ export type Cart = {
 
 export default function CartContent({ cart }: { cart: Cart }) {
   const fetcher = useFetcher();
+  // TODO: should be using state to manage cart line items (better for reactive, optimistic UI and eventually being able to undo)
 
   return (
     <>

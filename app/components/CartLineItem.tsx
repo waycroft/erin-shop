@@ -1,8 +1,8 @@
 import { FetcherWithComponents } from "@remix-run/react";
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { CartLineItemId, CartLineItemInterface } from "~/utils/cartUtils";
-import { AnimatePresence, motion } from "framer-motion";
 
 function CardImage({ imgUrl, imgTitle }: { imgUrl: string; imgTitle: string }) {
   return (

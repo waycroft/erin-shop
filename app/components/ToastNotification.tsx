@@ -12,7 +12,7 @@ export default function ToastNotification({
   placement?: string;
   action?: {
     label: string;
-    href: string;
+    href?: string;
   };
 }) {
   return (
@@ -23,7 +23,7 @@ export default function ToastNotification({
     >
       <div className={`alert alert-${type} flex flex-col bg-success`}>
         <p>{message}</p>
-        {action && (
+        {action?.href && (
           <Link to={action.href} className="font-bold underline">
             {action.label}
           </Link>
