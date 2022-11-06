@@ -49,14 +49,10 @@ function CardBody({
 
   return (
     <div className="card-body overflow-x-auto bg-base-200">
-      <h2 className="card-title">
-        {lineItem.merchandise?.product.title} / {lineItem.merchandise?.title}
-      </h2>
-      <p>{quantity}</p>
-      <pre>
-        item.id:{" "}
-        <span className="text-green-500">{lineItem.merchandise?.id}</span>
-      </pre>
+      <h2 className="card-title">{lineItem.merchandise?.product.title}</h2>
+      <p>
+        <strong>Quantity:</strong> {quantity}
+      </p>
       <div className="card-actions justify-end">
         <ChangeQuantityButtons
           lineItemId={lineItem.id}

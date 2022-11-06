@@ -91,20 +91,22 @@ export default function SingleProductRoute() {
             ])}
           />
           <div className="flex flex-col w-full my-4 form-control">
-            {product.options.map((option) => (
-              <div key={option.id} className="my-3">
-                <label htmlFor="variant" className="label">
-                  <span className="label-text">{option.name}</span>
-                </label>
-                <select className="select select-bordered w-full">
-                  {option.values.map((value) => (
-                    <option key={value} value={value}>
-                      {value}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            ))}
+            {productHasNoOptions
+              ? null
+              : product.options.map((option) => (
+                  <div key={option.id} className="my-3">
+                    <label htmlFor="variant" className="label">
+                      <span className="label-text">{option.name}</span>
+                    </label>
+                    <select className="select select-bordered w-full">
+                      {option.values.map((value) => (
+                        <option key={value} value={value}>
+                          {value}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                ))}
             <label htmlFor="quantity" className="label">
               <span className="label-text">Quantity</span>
             </label>

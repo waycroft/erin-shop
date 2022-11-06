@@ -66,6 +66,10 @@ export type ProductVariant = {
   };
   product: Product;
   quantityAvailable: number;
+  selectedOptions: {
+    name: string;
+    value: string;
+  }[];
 };
 
 export async function getProducts(quantity: number) {

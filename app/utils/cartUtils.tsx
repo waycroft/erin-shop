@@ -92,6 +92,10 @@ export async function getCart(cartId: string): Promise<StorefrontAPIResponse> {
                     id
                     title
                     quantityAvailable
+                    selectedOptions {
+                      name
+                      value
+                    }
                     price {
                       amount
                     }
