@@ -23,20 +23,26 @@ export default function SingleProductRoute() {
   const featuredImage = product.images?.edges[0].node;
   const [selectedQuantity, setSelectedQuantity] = useState(1);
 
+  const [roundedMinPrice, roundedMaxPrice] = [
+    new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    }).format(Number(product.priceRange.minVariantPrice.amount)),
+    new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    }).format(Number(product.priceRange.maxVariantPrice.amount)),
+  ];
+
   const handleChangeSelectedQuantity = (event: React.ChangeEvent) => {
     setSelectedQuantity(Number((event.target as HTMLInputElement).value));
   };
-
-  console.log(product.options)
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 justify-center gap-8">
       <div className="bg-slate-200 rounded-lg overflow-hidden">
         {/* TODO: Change the carousel to match the selected product option */}
-        <img
-          src={featuredImage?.url}
-          alt={featuredImage?.altText}
-        />
+        <img src={featuredImage?.url} alt={featuredImage?.altText} />
       </div>
       <div className="">
         <h1 className="text-5xl font-medium mb-8 font-title">
@@ -64,8 +70,8 @@ export default function SingleProductRoute() {
             <strong>Price</strong>
           </p>
           <p>
-            From {"$" + product.priceRange.minVariantPrice.amount}––
-            {"$" + product.priceRange.maxVariantPrice.amount}
+            From {roundedMinPrice}––
+            {roundedMaxPrice}
           </p>
         </div>
         <fetcher.Form method="post" action="/">
