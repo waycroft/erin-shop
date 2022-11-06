@@ -118,7 +118,7 @@ export default function SingleProductRoute() {
               max={product.totalInventory}
             />
             <button
-              className="btn btn-primary my-4"
+              className="btn btn-block my-4"
               name="_action"
               value="addLineItems"
               type="submit"
