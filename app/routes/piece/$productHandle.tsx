@@ -27,6 +27,8 @@ export default function SingleProductRoute() {
     setSelectedQuantity(Number((event.target as HTMLInputElement).value));
   };
 
+  console.log(product.options)
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 justify-center gap-8">
       <div className="bg-slate-200 rounded-lg overflow-hidden">

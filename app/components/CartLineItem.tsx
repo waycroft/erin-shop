@@ -161,7 +161,7 @@ function ChangeQuantityButtons({
           ref={quantityInputFieldRef}
         />
         <button
-          className="btn btn-secondary m-2"
+          className="btn btn-primary m-2"
           type="submit"
           name="_action"
           value={"updateLineItems"}
