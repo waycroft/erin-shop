@@ -25,7 +25,16 @@ export async function editCart(action: CartAction, formData: FormData) {
     if (action === "addLineItems") {
       const merchandiseInputData = formData.get("merchandise");
       invariant(merchandiseInputData, "No merchandise was provided to add");
-      const merchandise = JSON.parse(merchandiseInputData.toString());
+      const merchandise: Merchandise[] = JSON.parse(
+        merchandiseInputData.toString()
+      );
+
+      invariant(
+        merchandise.every((item) => {
+          return item.merchandiseId && item.quantity;
+        }),
+        "merchandise must be an array of objects with a merchandiseId and quantity"
+      );
 
       await addLineItemsToCart({
         cartId: process.env.TEST_CART as string,
@@ -55,7 +64,7 @@ export async function editCart(action: CartAction, formData: FormData) {
         lineItems.length > 0,
         "No line items were provided for removal"
       );
-      
+
       await removeLineItemsFromCart({
         cartId: process.env.TEST_CART as string,
         lineIds: lineItems,
