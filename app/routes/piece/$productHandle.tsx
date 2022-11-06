@@ -2,6 +2,7 @@ import { LoaderFunction } from "@remix-run/node";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import invariant from "tiny-invariant";
+import ServerError from "~/components/ServerError";
 import { getSingleProduct, Product } from "~/utils/productUtils";
 
 export const loader: LoaderFunction = async ({ params }) => {
@@ -15,6 +16,11 @@ type LoaderData = {
     product: Product;
   };
 };
+
+export function ErrorBoundary({ error }: { error: Error }) {
+  console.error(error);
+  return <ServerError />;
+}
 
 export default function SingleProductRoute() {
   const [selectedQuantity, setSelectedQuantity] = useState(1);
@@ -79,7 +85,6 @@ export default function SingleProductRoute() {
           </div>
         </div>
         <fetcher.Form method="post" action="/">
-          <input type="hidden" name="productHandle" value={product.handle} />
           <input
             type="hidden"
             name="merchandise"

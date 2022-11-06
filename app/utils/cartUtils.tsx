@@ -21,59 +21,51 @@ export type CartAction = "addLineItems" | "updateLineItems" | "removeLineItems";
 export type CartLineItemId = string;
 
 export async function editCart(action: CartAction, formData: FormData) {
-  try {
-    if (action === "addLineItems") {
-      const merchandiseInputData = formData.get("merchandise");
-      invariant(merchandiseInputData, "No merchandise was provided to add");
-      const merchandise: Merchandise[] = JSON.parse(
-        merchandiseInputData.toString()
-      );
+  if (action === "addLineItems") {
+    const merchandiseInputData = formData.get("merchandise");
+    invariant(merchandiseInputData, "No merchandise was provided to add");
+    const merchandise: Merchandise[] = JSON.parse(
+      merchandiseInputData.toString()
+    );
 
-      invariant(
-        merchandise.every((item) => {
-          return item.merchandiseId && item.quantity;
-        }),
-        "merchandise must be an array of objects with a merchandiseId and quantity"
-      );
+    invariant(
+      merchandise.every((item) => {
+        return item.merchandiseId && item.quantity;
+      }),
+      "merchandise must be an array of objects with a merchandiseId and quantity"
+    );
 
-      await addLineItemsToCart({
-        cartId: process.env.TEST_CART as string,
-        lines: merchandise,
-      });
-      return null;
-    }
+    await addLineItemsToCart({
+      cartId: process.env.TEST_CART as string,
+      lines: merchandise,
+    });
+    return null;
+  }
 
-    if (action === "updateLineItems") {
-      const lineItems: CartLineItemInterface[] = formData
-        .getAll("lineItems")
-        .map((lineItem) => JSON.parse(lineItem.toString()));
-      invariant(lineItems, "No line items were provided for update");
+  if (action === "updateLineItems") {
+    const lineItems: CartLineItemInterface[] = formData
+      .getAll("lineItems")
+      .map((lineItem) => JSON.parse(lineItem.toString()));
+    invariant(lineItems, "No line items were provided for update");
 
-      await updateLineItemsInCart({
-        cartId: process.env.TEST_CART as string,
-        lines: lineItems,
-      });
-      return null;
-    }
+    await updateLineItemsInCart({
+      cartId: process.env.TEST_CART as string,
+      lines: lineItems,
+    });
+    return null;
+  }
 
-    if (action === "removeLineItems") {
-      const lineItems: CartLineItemId[] = formData
-        .getAll("lineItemId")
-        .map((lineItem) => lineItem.toString());
-      invariant(
-        lineItems.length > 0,
-        "No line items were provided for removal"
-      );
+  if (action === "removeLineItems") {
+    const lineItems: CartLineItemId[] = formData
+      .getAll("lineItemId")
+      .map((lineItem) => lineItem.toString());
+    invariant(lineItems.length > 0, "No line items were provided for removal");
 
-      await removeLineItemsFromCart({
-        cartId: process.env.TEST_CART as string,
-        lineIds: lineItems,
-      });
-      return null;
-    }
-  } catch (error: any) {
-    console.error(error);
-    throw json({ action: action, error: error.message });
+    await removeLineItemsFromCart({
+      cartId: process.env.TEST_CART as string,
+      lineIds: lineItems,
+    });
+    return null;
   }
 }
 export async function getCart(cartId: string): Promise<StorefrontAPIResponse> {

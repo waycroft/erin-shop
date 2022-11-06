@@ -33,11 +33,7 @@ export const action: ActionFunction = async ({ request }) => {
     action === "removeLineItems";
 
   if (isCartAction) {
-    try {
-      return json(await editCart(action, formData));
-    } catch (error) {
-      throw new Error("Cart action failed");
-    }
+    return json(await editCart(action, formData));
   }
 };
 
