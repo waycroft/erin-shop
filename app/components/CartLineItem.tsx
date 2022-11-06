@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { CartLineItemId, CartLineItemInterface } from "~/utils/cartUtils";
+import XErrorIcon from "./icons/XErrorIcon";
 
 function CardImage({ imgUrl, imgTitle }: { imgUrl: string; imgTitle: string }) {
   return (
@@ -48,7 +49,9 @@ function CardBody({
 
   return (
     <div className="card-body overflow-x-auto bg-base-200">
-      <h2 className="card-title">{lineItem.merchandise?.product.title} / {lineItem.merchandise?.title}</h2>
+      <h2 className="card-title">
+        {lineItem.merchandise?.product.title} / {lineItem.merchandise?.title}
+      </h2>
       <p>{quantity}</p>
       <pre>
         item.id:{" "}
@@ -92,7 +95,7 @@ function EditLineItemButtons({
     <div>
       <div className={isUpdatingQuantity ? "hidden" : ""}>
         <button
-          className="btn btn-secondary m-2"
+          className="btn m-2"
           type="button"
           onClick={() => setIsUpdatingQuantity(!isUpdatingQuantity)}
         >
@@ -101,13 +104,13 @@ function EditLineItemButtons({
 
         <fetcher.Form method="post" action="/">
           <button
-            className="btn btn-error m-2"
+            className="btn btn-circle btn-sm btn-outline m-2"
             type="submit"
             name="_action"
             value={"removeLineItems"}
             onClick={handleRemoveLineItem}
           >
-            Remove
+            <XErrorIcon />
           </button>
           <input type="hidden" name="lineItemId" value={lineItemId} />
         </fetcher.Form>
@@ -172,7 +175,7 @@ function ChangeQuantityButtons({
           Save
         </button>
         <button
-          className="btn btn-secondary m-2"
+          className="btn btn-outline m-2"
           type="reset"
           onClick={() => {
             setIsUpdatingQuantity(false);

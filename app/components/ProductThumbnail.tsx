@@ -31,7 +31,7 @@ function ProductHoverActionButtons({
   return (
     <div className="flex flex-col gap-2">
       <Link to={`/piece/${productSlug}`}>
-        <button className="btn btn-secondary lowercase w-40">view</button>
+        <button className="btn btn-outline lowercase w-40">view</button>
       </Link>
       <fetcher.Form method="post" action="/">
         <input
@@ -46,7 +46,7 @@ function ProductHoverActionButtons({
         ) : (
           <button
             type="submit"
-            className="btn btn-primary lowercase w-40"
+            className="btn lowercase w-40"
             name="_action"
             value="addLineItems"
           >
@@ -92,7 +92,7 @@ export default function ProductThumbnail({
           />
         </Link>
       </div>
-      <div className="hidden md:grid grid-col-1 gap-4 absolute inset-0 bg-black bg-opacity-50 opacity-0 md:hover:opacity-100 transition ease-in duration-75 place-content-center rounded-lg">
+      <div className="hidden md:grid grid-col-1 gap-4 absolute inset-0 bg-base-100 bg-opacity-70 opacity-0 md:hover:opacity-100 transition ease-in duration-75 place-content-center rounded-lg">
         <ProductHoverActionButtons
           addToCartFailed={fetcher.type === "done" && fetcher.data}
           productSlug={productSlug}
