@@ -169,3 +169,47 @@ export async function getSingleProduct(productHandle: string) {
     { handle: productHandle }
   );
 }
+
+export async function getVariantBySelectedOptions(
+  productHandle: string,
+  selectedOptions: { name: string; value: string }[]
+) {
+  return await storefront(
+    gql`
+      query getProductByHandle(
+        $handle: String
+        $selectedOptions: [SelectedOptionInput!]!
+      ) {
+        product(handle: $handle) {
+          availableForSale
+          descriptionHtml
+          id
+          tags
+          title
+          handle
+          totalInventory
+          productType
+          variantBySelectedOptions(selectedOptions: $selectedOptions) {
+            ... on ProductVariant {
+              id
+              currentlyNotInStock
+              availableForSale
+              price {
+                amount
+              }
+              sku
+              title
+              quantityAvailable
+            }
+          }
+          options(first: 10) {
+            id
+            name
+            values
+          }
+        }
+      }
+    `,
+    { handle: productHandle, selectedOptions: selectedOptions }
+  );
+}

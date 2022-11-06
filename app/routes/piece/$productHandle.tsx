@@ -84,7 +84,7 @@ export default function SingleProductRoute() {
             </p>
           </div>
         </div>
-        <fetcher.Form method="post" action="/">
+        <fetcher.Form method="post" action="/cart">
           <input
             type="hidden"
             name="merchandise"
