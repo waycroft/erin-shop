@@ -141,7 +141,7 @@ export async function getSingleProduct(productHandle: string) {
             values
           }
           ... on Product {
-            images(first: 1) {
+            images(first: 12) {
               edges {
                 node {
                   altText
