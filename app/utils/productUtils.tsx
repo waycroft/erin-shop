@@ -155,10 +155,31 @@ export async function getSingleProduct(productHandle: string) {
                 }
               }
             }
-            variants(first: 1) {
+            variants(first: 12) {
               edges {
                 node {
                   id
+                  title
+                  availableForSale
+                  currentlyNotInStock
+                  price {
+                    amount
+                  }
+                  sku
+                  image {
+                    height
+                    width
+                    id
+                    url(
+                      transform: { maxWidth: 1200, maxHeight: 1200, crop: CENTER }
+                    )
+                    altText
+                  }
+                  quantityAvailable
+                  selectedOptions {
+                    name
+                    value
+                  }
                 }
               }
             }
