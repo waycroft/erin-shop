@@ -1,4 +1,3 @@
-import { json } from "@remix-run/node";
 import invariant from "tiny-invariant";
 import { ProductVariant } from "~/utils/productUtils";
 import storefront, { StorefrontAPIResponse } from "./storefront";
@@ -22,18 +21,15 @@ export type CartLineItemId = string;
 
 export async function editCart(action: CartAction, formData: FormData) {
   if (action === "addLineItems") {
-    const merchandiseInputData = formData.get("merchandise");
-    invariant(merchandiseInputData, "No merchandise was provided to add");
-    const merchandise: Merchandise[] = JSON.parse(
-      merchandiseInputData.toString()
-    );
-
-    invariant(
-      merchandise.every((item) => {
-        return item.merchandiseId && item.quantity;
-      }),
-      "merchandise must be an array of objects with a merchandiseId and quantity"
-    );
+    const merchandiseIds = formData
+      .getAll("merchandiseId")
+      .map((id) => id.toString());
+    const quantities = formData
+      .getAll("quantity")
+      .map((quantity) => parseInt(quantity.toString()));
+    const merchandise = merchandiseIds.map((merchandiseId, index) => {
+      return { merchandiseId, quantity: quantities[index] };
+    });
 
     await addLineItemsToCart({
       cartId: process.env.TEST_CART as string,

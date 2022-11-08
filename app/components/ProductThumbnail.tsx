@@ -36,10 +36,13 @@ function ProductHoverActionButtons({
       <fetcher.Form method="post" action="/">
         <input
           type="hidden"
-          name="merchandise"
-          value={JSON.stringify([
-            { merchandiseId: productVariantId, quantity: 1 },
-          ])}
+          name="merchandiseId"
+          value={productVariantId}
+        />
+        <input
+          type="hidden"
+          name="quantity"
+          value={1}
         />
         {!!addToCartFailed ? (
           <ErrorButton fetcher={fetcher} />
