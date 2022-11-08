@@ -1,14 +1,32 @@
-import { LoaderFunction } from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
-import { useState } from "react";
+import { ActionFunction, json, LoaderFunction } from "@remix-run/node";
+import { Form, useLoaderData, useTransition } from "@remix-run/react";
+import { ChangeEvent, useState } from "react";
 import invariant from "tiny-invariant";
 import ServerError from "~/components/ServerError";
+import { CartLineItemInterface, editCart } from "~/utils/cartUtils";
 import { getSingleProduct, Product } from "~/utils/productUtils";
 
 export const loader: LoaderFunction = async ({ params }) => {
   const { productHandle } = params;
   invariant(productHandle, "No product handle was provided");
-  return await getSingleProduct(productHandle);
+  const data = await getSingleProduct(productHandle);
+  return data;
+};
+
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData();
+  const _action = formData.get("_action");
+  invariant(_action, "No action was provided");
+  const action = _action.toString();
+  const isOptionChangeAction = action === "changeOption";
+  const isCartAction =
+    action === "addLineItems" ||
+    action === "updateLineItems" ||
+    action === "removeLineItems";
+
+  if (isCartAction) {
+    return json(await editCart(action, formData));
+  }
 };
 
 type LoaderData = {
@@ -23,14 +41,25 @@ export function ErrorBoundary({ error }: { error: Error }) {
 }
 
 export default function SingleProductRoute() {
-  const [selectedQuantity, setSelectedQuantity] = useState(1);
-
   const { data } = useLoaderData<LoaderData>();
-  const fetcher = useFetcher();
+  const transition = useTransition();
   const product = data.product;
   const featuredImage = product.images?.edges[0].node;
   const productHasNoOptions =
     product.options.length === 1 && product.options[0].values.length === 1;
+
+  const [selectedOptions, setSelectedOptions] = useState(
+    product.options.reduce((accumulator, currentOption) => {
+      accumulator[currentOption.name] = currentOption.values[0];
+      return accumulator;
+    }, {} as Record<string, string>)
+  );
+
+  // TODO: add a state for the selected options
+  // When the user selects an option, update the state
+  // (updates image too––that way user gets immediate feedback on what they're adding to cart)
+  // Add the query output for getVariantBySelectedOptions into the loader data
+  // such then when the state is updated, the loader gets the exact variant to be used for the add to cart mutation
 
   const [roundedMinPrice, roundedMaxPrice] = [
     new Intl.NumberFormat("en-US", {
@@ -43,8 +72,14 @@ export default function SingleProductRoute() {
     }).format(Number(product.priceRange.maxVariantPrice.amount)),
   ];
 
-  const handleChangeSelectedQuantity = (event: React.ChangeEvent) => {
-    setSelectedQuantity(Number((event.target as HTMLInputElement).value));
+  const handleChangeSelectedOptions = (
+    event: ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { name, value } = event.target;
+    setSelectedOptions((prevSelectedOptions) => ({
+      ...prevSelectedOptions,
+      [name]: value,
+    }));
   };
 
   return (
@@ -84,44 +119,47 @@ export default function SingleProductRoute() {
             </p>
           </div>
         </div>
-        <fetcher.Form method="post" action="/cart">
+        <Form method="post">
           <input
             type="hidden"
-            name="merchandise"
-            value={JSON.stringify([
-              {
-                merchandiseId: product.variants.edges[0].node.id,
-                quantity: selectedQuantity,
-              },
-            ])}
+            name="merchandiseId"
+            value={product.variants.edges[0].node.id}
           />
           <div className="flex flex-col w-full my-4 form-control">
-            {productHasNoOptions
-              ? null
-              : product.options.map((option) => (
-                  <div key={option.id} className="my-3">
-                    <label htmlFor="variant" className="label">
-                      <span className="label-text">{option.name}</span>
-                    </label>
-                    <select className="select select-bordered w-full">
-                      {option.values.map((value) => (
-                        <option key={value} value={value}>
-                          {value}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                ))}
-            <label htmlFor="quantity" className="label">
-              <span className="label-text">Quantity</span>
-            </label>
+            <div className="my-2">
+              <h2 className="text-lg font-bold my-2">Options</h2>
+              {productHasNoOptions
+                ? null
+                : product.options.map((option) => (
+                    <div key={option.id} className="">
+                      <label htmlFor={option.name} className="label">
+                        <span className="label-text">{option.name}</span>
+                      </label>
+                      <select
+                        className="select select-bordered w-full"
+                        onChange={handleChangeSelectedOptions}
+                        name={option.name}
+                      >
+                        {option.values.map((value) => (
+                          <option key={value} value={value}>
+                            {value}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  ))}
+            </div>
+            <div className="my-2">
+              <label htmlFor="quantity" className="label">
+                <span className="label-text">Quantity</span>
+              </label>
+            </div>
             <input
               type="number"
               inputMode="numeric"
               name="quantity"
               className="input input-bordered"
               defaultValue={1}
-              onChange={handleChangeSelectedQuantity}
               min={0}
               max={product.totalInventory}
             />
@@ -131,10 +169,10 @@ export default function SingleProductRoute() {
               value="addLineItems"
               type="submit"
             >
-              {fetcher.state !== "idle" ? "Added!" : "Add to Cart"}
+              {transition.state !== "idle" ? "Added!" : "Add to Cart"}
             </button>
           </div>
-        </fetcher.Form>
+        </Form>
       </div>
     </div>
   );
