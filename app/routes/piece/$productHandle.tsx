@@ -1,16 +1,53 @@
 import { ActionFunction, json, LoaderFunction } from "@remix-run/node";
-import { Form, useLoaderData, useTransition } from "@remix-run/react";
-import { ChangeEvent, useState } from "react";
+import {
+  Form,
+  useLoaderData,
+  useSearchParams,
+  useSubmit,
+  useTransition,
+} from "@remix-run/react";
 import invariant from "tiny-invariant";
 import ServerError from "~/components/ServerError";
-import { CartLineItemInterface, editCart } from "~/utils/cartUtils";
-import { getSingleProduct, Product } from "~/utils/productUtils";
+import { editCart } from "~/utils/cartUtils";
+import {
+  getSingleProduct,
+  getVariantBySelectedOptions,
+  Product,
+  ProductVariant,
+} from "~/utils/productUtils";
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ request, params }) => {
   const { productHandle } = params;
   invariant(productHandle, "No product handle was provided");
-  const data = await getSingleProduct(productHandle);
-  return data;
+
+  const productRes = await getSingleProduct(productHandle);
+  const product = productRes.data.product;
+  invariant(product, "No product was found");
+
+  const defaultVariant = product.variants.edges[0].node;
+  const selectedOptions = parseSelectedOptionsFromQueryParams(request);
+
+  if (selectedOptions.length > 0) {
+    const { data } = await getVariantBySelectedOptions(
+      productHandle,
+      selectedOptions
+    );
+    const selectedVariant = data.product?.variantBySelectedOptions;
+    invariant(selectedVariant, "No variant was found based on selection");
+    return json({
+      data: {
+        product,
+        selectedVariant: selectedVariant,
+      },
+    });
+  } else {
+    return json({
+      data: {
+        product,
+        selectedVariant: defaultVariant,
+      },
+    });
+  }
 };
 
 export const action: ActionFunction = async ({ request }) => {
@@ -18,7 +55,7 @@ export const action: ActionFunction = async ({ request }) => {
   const _action = formData.get("_action");
   invariant(_action, "No action was provided");
   const action = _action.toString();
-  const isOptionChangeAction = action === "changeOption";
+
   const isCartAction =
     action === "addLineItems" ||
     action === "updateLineItems" ||
@@ -32,8 +69,23 @@ export const action: ActionFunction = async ({ request }) => {
 type LoaderData = {
   data: {
     product: Product;
+    selectedVariant: ProductVariant;
   };
 };
+
+function parseSelectedOptionsFromQueryParams(request: Request) {
+  const selectedOptions: { name: string; value: string }[] = [];
+
+  const url = new URL(request.url);
+  const queryParams = new URLSearchParams(url.search);
+  for (const [key, value] of queryParams) {
+    if (key.indexOf("options_") > -1) {
+      const optionName = key.replace("options_", "");
+      selectedOptions.push({ name: optionName, value: value });
+    }
+  }
+  return selectedOptions;
+}
 
 export function ErrorBoundary({ error }: { error: Error }) {
   console.error(error);
@@ -42,24 +94,15 @@ export function ErrorBoundary({ error }: { error: Error }) {
 
 export default function SingleProductRoute() {
   const { data } = useLoaderData<LoaderData>();
-  const transition = useTransition();
   const product = data.product;
+  const selectedVariant = data.selectedVariant;
   const featuredImage = product.images?.edges[0].node;
   const productHasNoOptions =
     product.options.length === 1 && product.options[0].values.length === 1;
 
-  const [selectedOptions, setSelectedOptions] = useState(
-    product.options.reduce((accumulator, currentOption) => {
-      accumulator[currentOption.name] = currentOption.values[0];
-      return accumulator;
-    }, {} as Record<string, string>)
-  );
-
-  // TODO: add a state for the selected options
-  // When the user selects an option, update the state
-  // (updates image too––that way user gets immediate feedback on what they're adding to cart)
-  // Add the query output for getVariantBySelectedOptions into the loader data
-  // such then when the state is updated, the loader gets the exact variant to be used for the add to cart mutation
+  const transition = useTransition();
+  const submit = useSubmit();
+  const [params] = useSearchParams();
 
   const [roundedMinPrice, roundedMaxPrice] = [
     new Intl.NumberFormat("en-US", {
@@ -71,16 +114,6 @@ export default function SingleProductRoute() {
       currency: "USD",
     }).format(Number(product.priceRange.maxVariantPrice.amount)),
   ];
-
-  const handleChangeSelectedOptions = (
-    event: ChangeEvent<HTMLSelectElement>
-  ) => {
-    const { name, value } = event.target;
-    setSelectedOptions((prevSelectedOptions) => ({
-      ...prevSelectedOptions,
-      [name]: value,
-    }));
-  };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 justify-center gap-8">
@@ -119,12 +152,7 @@ export default function SingleProductRoute() {
             </p>
           </div>
         </div>
-        <Form method="post">
-          <input
-            type="hidden"
-            name="merchandiseId"
-            value={product.variants.edges[0].node.id}
-          />
+        <Form method="get" onChange={(e) => submit(e.currentTarget)}>
           <div className="flex flex-col w-full my-4 form-control">
             <div className="my-2">
               <h2 className="text-lg font-bold my-2">Options</h2>
@@ -137,8 +165,10 @@ export default function SingleProductRoute() {
                       </label>
                       <select
                         className="select select-bordered w-full"
-                        onChange={handleChangeSelectedOptions}
-                        name={option.name}
+                        name={"options_" + option.name}
+                        defaultValue={params
+                          .get("options_" + option.name)
+                          ?.toString()}
                       >
                         {option.values.map((value) => (
                           <option key={value} value={value}>
@@ -159,19 +189,39 @@ export default function SingleProductRoute() {
               inputMode="numeric"
               name="quantity"
               className="input input-bordered"
-              defaultValue={1}
+              defaultValue={Number(params.get("quantity")) || 1}
               min={0}
               max={product.totalInventory}
             />
-            <button
-              className="btn btn-block my-4"
-              name="_action"
-              value="addLineItems"
-              type="submit"
-            >
-              {transition.state !== "idle" ? "Added!" : "Add to Cart"}
-            </button>
+            <input
+              type="hidden"
+              name="variantId"
+              value={selectedVariant.id}
+              readOnly
+            />
           </div>
+        </Form>
+        <Form method="post">
+          <input
+            type="hidden"
+            name="merchandiseId"
+            value={params.get("variantId") ?? selectedVariant.id}
+            readOnly
+          />
+          <input
+            type="hidden"
+            name="quantity"
+            value={Number(params.get("quantity")) ?? 1}
+            readOnly
+          />
+          <button
+            className="btn btn-block my-4"
+            name="_action"
+            value="addLineItems"
+            type="submit"
+          >
+            {transition.type === "actionSubmission" ? "Added!" : "Add to Cart"}
+          </button>
         </Form>
       </div>
     </div>

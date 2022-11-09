@@ -1,3 +1,4 @@
+import { Cart } from "~/components/CartContent";
 import storefront from "./storefront";
 
 var gql = String.raw;
@@ -50,6 +51,7 @@ export type Product = {
       node: ProductVariant;
     }[];
   };
+  variantBySelectedOptions: ProductVariant;
 };
 
 export type ProductVariant = {
@@ -71,6 +73,10 @@ export type ProductVariant = {
     value: string;
   }[];
 };
+
+export function isProduct(product: Product | Cart): product is Product {
+  return (product as Product).availableForSale !== undefined;
+}
 
 export async function getProducts(quantity: number) {
   return await storefront(
@@ -114,6 +120,7 @@ export async function getProducts(quantity: number) {
   );
 }
 
+// TODO: There's gotta be a way to use the @include directive to conditionally query for variantBySelectedOptions
 export async function getSingleProduct(productHandle: string) {
   return await storefront(
     gql`
@@ -171,7 +178,11 @@ export async function getSingleProduct(productHandle: string) {
                     width
                     id
                     url(
-                      transform: { maxWidth: 1200, maxHeight: 1200, crop: CENTER }
+                      transform: {
+                        maxWidth: 1200
+                        maxHeight: 1200
+                        crop: CENTER
+                      }
                     )
                     altText
                   }
@@ -187,7 +198,9 @@ export async function getSingleProduct(productHandle: string) {
         }
       }
     `,
-    { handle: productHandle }
+    {
+      handle: productHandle,
+    }
   );
 }
 
@@ -202,14 +215,6 @@ export async function getVariantBySelectedOptions(
         $selectedOptions: [SelectedOptionInput!]!
       ) {
         product(handle: $handle) {
-          availableForSale
-          descriptionHtml
-          id
-          tags
-          title
-          handle
-          totalInventory
-          productType
           variantBySelectedOptions(selectedOptions: $selectedOptions) {
             ... on ProductVariant {
               id
