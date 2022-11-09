@@ -155,7 +155,13 @@ export default function SingleProductRoute() {
         <Form method="get">
           <div className="flex flex-col w-full my-4 form-control">
             <div className="my-2">
-              <h2 className="text-lg font-bold my-2">Options</h2>
+              <h2
+                className={`${
+                  productHasNoOptions ? "hidden" : ""
+                } text-lg font-bold my-2`}
+              >
+                Options
+              </h2>
               {productHasNoOptions
                 ? null
                 : product.options.map((option) => (
