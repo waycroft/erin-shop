@@ -152,7 +152,7 @@ export default function SingleProductRoute() {
             </p>
           </div>
         </div>
-        <Form method="get" onChange={(e) => submit(e.currentTarget)}>
+        <Form method="get">
           <div className="flex flex-col w-full my-4 form-control">
             <div className="my-2">
               <h2 className="text-lg font-bold my-2">Options</h2>
@@ -169,6 +169,7 @@ export default function SingleProductRoute() {
                         defaultValue={params
                           .get("options_" + option.name)
                           ?.toString()}
+                        onChange={(e) => submit(e.currentTarget.form)}
                       >
                         {option.values.map((value) => (
                           <option key={value} value={value}>
@@ -179,9 +180,22 @@ export default function SingleProductRoute() {
                     </div>
                   ))}
             </div>
+          </div>
+        </Form>
+        <Form method="post">
+          <div className="flex flex-col w-full my-4 form-control">
+            <input
+              type="hidden"
+              name="merchandiseId"
+              value={selectedVariant.id}
+              readOnly
+            />
             <div className="my-2">
               <label htmlFor="quantity" className="label">
                 <span className="label-text">Quantity</span>
+                <span className="text-primary">
+                  {selectedVariant.quantityAvailable} available
+                </span>
               </label>
             </div>
             <input
@@ -189,39 +203,22 @@ export default function SingleProductRoute() {
               inputMode="numeric"
               name="quantity"
               className="input input-bordered"
-              defaultValue={Number(params.get("quantity")) || 1}
+              defaultValue={1}
               min={0}
-              max={product.totalInventory}
+              max={selectedVariant.quantityAvailable}
             />
-            <input
-              type="hidden"
-              name="variantId"
-              value={selectedVariant.id}
-              readOnly
-            />
+            <button
+              className="btn btn-block my-4"
+              name="_action"
+              value="addLineItems"
+              type="submit"
+              disabled={transition.state === "submitting"}
+            >
+              {transition.type === "actionSubmission"
+                ? "Added!"
+                : "Add to Cart"}
+            </button>
           </div>
-        </Form>
-        <Form method="post">
-          <input
-            type="hidden"
-            name="merchandiseId"
-            value={params.get("variantId") ?? selectedVariant.id}
-            readOnly
-          />
-          <input
-            type="hidden"
-            name="quantity"
-            value={Number(params.get("quantity")) ?? 1}
-            readOnly
-          />
-          <button
-            className="btn btn-block my-4"
-            name="_action"
-            value="addLineItems"
-            type="submit"
-          >
-            {transition.type === "actionSubmission" ? "Added!" : "Add to Cart"}
-          </button>
         </Form>
       </div>
     </div>

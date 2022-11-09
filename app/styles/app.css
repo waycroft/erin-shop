@@ -2625,6 +2625,16 @@ body[dir="rtl"] .checkbox:checked,
   color: hsl(var(--er) / var(--tw-text-opacity));
 }
 
+.text-base-200 {
+  --tw-text-opacity: 1;
+  color: hsl(var(--b2, var(--b1)) / var(--tw-text-opacity));
+}
+
+.text-primary {
+  --tw-text-opacity: 1;
+  color: hsl(var(--p) / var(--tw-text-opacity));
+}
+
 .underline {
   text-decoration-line: underline;
 }
