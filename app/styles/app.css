@@ -2039,6 +2039,14 @@ body[dir="rtl"] .checkbox:checked,
   font-size: 0.875rem;
 }
 
+.btn-md {
+  height: 3rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  min-height: 3rem;
+  font-size: 0.875rem;
+}
+
 .btn-block {
   width: 100%;
 }

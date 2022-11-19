@@ -4,8 +4,8 @@ import { useContext, useEffect, useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { CartIdContext } from "~/utils/cartContext";
 import { CartLineItemId, CartLineItemInterface } from "~/utils/cartUtils";
+import EditIcon from "./icons/EditIcon";
 import TrashIcon from "./icons/TrashIcon";
-import XErrorIcon from "./icons/XErrorIcon";
 
 function CardImage({ imgUrl, imgTitle }: { imgUrl: string; imgTitle: string }) {
   return (
@@ -95,16 +95,16 @@ function EditLineItemButtons({
     <div>
       <div className={isUpdatingQuantity ? "hidden" : ""}>
         <button
-          className="btn m-2"
+          className="btn btn-circle btn-outline btn-md"
           type="button"
           onClick={() => setIsUpdatingQuantity(!isUpdatingQuantity)}
         >
-          Change quantity
+          <EditIcon />
         </button>
 
         <fetcher.Form method="post" action="/">
           <button
-            className="btn btn-circle btn-sm btn-outline m-2"
+            className="btn btn-circle btn-md btn-outline"
             type="submit"
             name="_action"
             value={"removeLineItems"}
