@@ -1,10 +1,10 @@
 import { ActionFunction, json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
-import CartContent, { Cart } from "~/components/CartContent";
+import CartContent from "~/components/CartContent";
 import CartCheckoutButton from "~/components/CheckoutButton";
 import ServerError from "~/components/ServerError";
-import { CartAction, editCart, getCart } from "~/utils/cartUtils";
+import { Cart, CartAction, editCart, getCart } from "~/utils/cartUtils";
 
 type LoaderData = {
   data: {
