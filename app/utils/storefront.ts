@@ -1,10 +1,13 @@
 import { Cart } from "~/components/CartContent";
-import { Product, ProductVariant } from "./productUtils";
+import { Product } from "./productUtils";
 
 export type StorefrontAPIResponse = {
   data: {
     product? : Product;
     cart?: Cart;
+    cartCreate?: {
+      cart: Cart;
+    }
   }
   errors?: {
     message: string;
