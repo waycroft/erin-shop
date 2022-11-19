@@ -43,6 +43,27 @@ export type CartAction = "addLineItems" | "updateLineItems" | "removeLineItems";
 
 export type CartLineItemId = string;
 
+export async function handleIncomingCartSession(session: Session) {
+  let cart: Cart;
+  if (session.has("cartId")) {
+    console.log("session has cart");
+    const res = await getCart(session.get("cartId"));
+    invariant(!(res.errors && res.userErrors), "Error fetching cart");
+    cart = res.data.cart;
+  } else {
+    console.log("session does not have cart");
+    const res = await createCart();
+    invariant(!(res.errors && res.userErrors), "Error creating cart");
+    invariant(
+      res.data?.cartCreate?.cart,
+      "createCart() didn't return a cart for some reason"
+    );
+    cart = res.data.cartCreate.cart;
+    session.set("cartId", cart.id);
+  }
+  return cart;
+}
+
 export async function editCart(action: CartAction, formData: FormData) {
   if (action === "addLineItems") {
     const merchandiseIds = formData
@@ -88,7 +109,9 @@ export async function editCart(action: CartAction, formData: FormData) {
     return null;
   }
 }
-export async function getCart(cartId: string): Promise<StorefrontAPIResponseObject> {
+export async function getCart(
+  cartId: string
+): Promise<StorefrontAPIResponseObject> {
   return await storefront(
     gql`
       query getCart($cartId: ID!) {

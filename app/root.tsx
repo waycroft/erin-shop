@@ -3,6 +3,7 @@ import {
   json,
   LoaderFunction,
   MetaFunction,
+  Session,
 } from "@remix-run/node";
 import {
   Link,
@@ -15,12 +16,13 @@ import {
   useLoaderData,
 } from "@remix-run/react";
 import invariant from "tiny-invariant";
-import CartContent, { Cart } from "./components/CartContent";
+import CartContent from "./components/CartContent";
 import Footer from "./components/Footer";
 import PrimaryNav from "./components/PrimaryNav";
 import ServerError from "./components/ServerError";
+import { commitSession, getSession } from "./sessions";
 import styles from "./styles/app.css";
-import { editCart, getCart } from "./utils/cartUtils";
+import { Cart, editCart, handleIncomingCartSession } from "./utils/cartUtils";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -41,20 +43,12 @@ export function links() {
   ];
 }
 
-type LoaderData = {
-  data: {
-    cart: Cart;
-  };
-};
-
-export const loader: LoaderFunction = async () => {
-  try {
-    const cart = await getCart(process.env.TEST_CART as string);
-    return cart;
-  } catch (error: any) {
-    console.error(error);
-    return json({ error: error.message, status: 500 });
-  }
+export const loader: LoaderFunction = async ({ request }) => {
+  const session: Session = await getSession(request.headers.get("Cookie"));
+  let cart: Cart = await handleIncomingCartSession(session);
+  return json(cart, {
+    headers: { "Set-Cookie": await commitSession(session) },
+  });
 };
 
 export const action: ActionFunction = async ({ request }) => {
@@ -77,8 +71,10 @@ export function ErrorBoundary({ error }: { error: Error }) {
   return <ServerError />;
 }
 
+type LoaderData = Cart;
+
 export default function App() {
-  const { data } = useLoaderData<LoaderData>();
+  const cart = useLoaderData<LoaderData>();
 
   return (
     <html lang="en">
@@ -91,7 +87,7 @@ export default function App() {
         <div className="drawer-content">
           {/* All page content goes within "drawer-content". 
           Since the cart will be accessible on all pages, it's included here in the root. */}
-          <PrimaryNav cartQuantity={data.cart.totalQuantity} />
+          <PrimaryNav cartQuantity={cart.totalQuantity} />
           <Outlet />
           <Footer />
         </div>
@@ -101,7 +97,7 @@ export default function App() {
             <Link to="/cart">
               <h1 className="text-2xl font-bold">Cart</h1>
             </Link>
-            <CartContent cart={data.cart} />
+            <CartContent cart={cart} />
           </section>
         </div>
         <ScrollRestoration />
