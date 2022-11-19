@@ -94,6 +94,9 @@ function EditLineItemButtons({
   return (
     <div>
       <div className={isUpdatingQuantity ? "hidden" : ""}>
+      {/* Using this pattern (using CSS display) as opposed to conditionally
+      rendering the node, because it still needs to exist in the DOM tree
+      to perform the form submit */}
         <button
           className="btn btn-circle btn-outline btn-md"
           type="button"
@@ -150,6 +153,9 @@ function ChangeQuantityButtons({
 
   return (
     <div className={isUpdatingQuantity ? "" : "hidden"}>
+    {/* Using this pattern (using CSS display) as opposed to conditionally
+    rendering the node, because it still needs to exist in the DOM tree
+    to perform the form submit */}
       <fetcher.Form method="post" action="/">
         <input
           type="number"
