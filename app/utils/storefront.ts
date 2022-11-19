@@ -1,7 +1,7 @@
 import { Cart } from "~/components/CartContent";
 import { Product } from "./productUtils";
 
-export type StorefrontAPIResponse = {
+export type StorefrontAPIResponseObject = {
   data: {
     product? : Product;
     cart?: Cart;
@@ -21,7 +21,7 @@ export type StorefrontAPIResponse = {
 export default async function (
   query: string,
   variables = {}
-): Promise<StorefrontAPIResponse> {
+): Promise<StorefrontAPIResponseObject> {
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
   headers.append(
@@ -41,7 +41,7 @@ export default async function (
       }),
     }
   );
-  const json: StorefrontAPIResponse = await res.json();
+  const json: StorefrontAPIResponseObject = await res.json();
   if (json.errors) {
     throw new Error(json.errors[0].message);
   }

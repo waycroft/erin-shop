@@ -1,6 +1,6 @@
 import invariant from "tiny-invariant";
 import { ProductVariant } from "~/utils/productUtils";
-import storefront, { StorefrontAPIResponse } from "./storefront";
+import storefront, { StorefrontAPIResponseObject } from "./storefront";
 
 var gql = String.raw;
 
@@ -13,6 +13,11 @@ export type CartLineItemInterface = {
   id: string;
   quantity: number;
   merchandise?: ProductVariant;
+};
+
+type NewCartInput = {
+  merchandise: Merchandise[];
+  attributes?: Record<string, string>[];
 };
 
 export type CartAction = "addLineItems" | "updateLineItems" | "removeLineItems";
@@ -64,7 +69,7 @@ export async function editCart(action: CartAction, formData: FormData) {
     return null;
   }
 }
-export async function getCart(cartId: string): Promise<StorefrontAPIResponse> {
+export async function getCart(cartId: string): Promise<StorefrontAPIResponseObject> {
   return await storefront(
     gql`
       query getCart($cartId: ID!) {
@@ -121,13 +126,9 @@ export async function getCart(cartId: string): Promise<StorefrontAPIResponse> {
   );
 }
 
-export async function createCart({
-  lines,
-  attributes = {},
-}: {
-  lines?: Merchandise[];
-  attributes?: object;
-}): Promise<StorefrontAPIResponse> {
+export async function createCart(
+  input?: NewCartInput
+): Promise<StorefrontAPIResponseObject> {
   return await storefront(
     gql`
       mutation cartCreate($cartInput: CartInput) {
@@ -179,12 +180,7 @@ export async function createCart({
         }
       }
     `,
-    {
-      cartInput: {
-        lines: lines,
-        attributes: attributes,
-      },
-    }
+    input ? { cartInput: input } : {}
   );
 }
 
@@ -194,7 +190,7 @@ export async function addLineItemsToCart({
 }: {
   cartId: string;
   lines: Merchandise[];
-}): Promise<StorefrontAPIResponse> {
+}): Promise<StorefrontAPIResponseObject> {
   return await storefront(
     gql`
       mutation cartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!) {
@@ -245,7 +241,7 @@ export async function removeLineItemsFromCart({
 }: {
   cartId: string;
   lineIds: CartLineItemId[];
-}): Promise<StorefrontAPIResponse> {
+}): Promise<StorefrontAPIResponseObject> {
   return await storefront(
     gql`
       mutation cartLinesRemove($cartId: ID!, $lineIds: [ID!]!) {
@@ -296,7 +292,7 @@ export async function updateLineItemsInCart({
 }: {
   cartId: string;
   lines: CartLineItemInterface[];
-}): Promise<StorefrontAPIResponse> {
+}): Promise<StorefrontAPIResponseObject> {
   return await storefront(
     gql`
       mutation cartLinesUpdate($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
