@@ -2557,6 +2557,10 @@ body[dir="rtl"] .checkbox:checked,
   padding-right: 4rem;
 }
 
+.text-right {
+  text-align: right;
+}
+
 .font-body {
   font-family: Inter, sans-serif;
 }
@@ -2686,6 +2690,18 @@ body[dir="rtl"] .checkbox:checked,
 
   .md\:hidden {
     display: none;
+  }
+
+  .md\:w-3\/12 {
+    width: 25%;
+  }
+
+  .md\:w-4\/12 {
+    width: 33.333333%;
+  }
+
+  .md\:w-5\/12 {
+    width: 41.666667%;
   }
 
   .md\:grid-cols-2 {

@@ -142,12 +142,6 @@ export default function SingleProductRoute() {
           ) : null}
           <div className="my-4">
             <p>
-              <strong># Available: </strong>
-              {product.totalInventory}
-            </p>
-          </div>
-          <div className="my-4">
-            <p>
               <strong>Price: </strong>
               {productHasNoOptions
                 ? roundedMinPrice
@@ -212,13 +206,13 @@ export default function SingleProductRoute() {
               type="number"
               inputMode="numeric"
               name="quantity"
-              className="input input-bordered"
+              className="input input-bordered md:w-5/12"
               defaultValue={1}
               min={0}
               max={selectedVariant.quantityAvailable}
             />
             <button
-              className="btn btn-block my-4"
+              className="btn btn-block my-4 md:w-5/12"
               name="_action"
               value="addLineItems"
               type="submit"
