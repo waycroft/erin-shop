@@ -28,6 +28,7 @@ export default async function (
     "X-Shopify-Storefront-Access-Token",
     process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN as string
   );
+  headers.append("Shopify-Storefront-Private-Token", process.env.SHOPIFY_STOREFRONT_PRIVATE_TOKEN as string);
 
   let res: Response;
   res = await fetch(
