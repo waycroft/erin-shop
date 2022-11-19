@@ -66,7 +66,7 @@ export async function handleIncomingCartSession(session: Session) {
 
 export async function editCart(action: CartAction, formData: FormData) {
   const cartId = formData.get("cartId")?.toString();
-  invariant(cartId, "No cartId provided");
+  invariant(!!cartId, "No cartId provided");
 
   if (action === "addLineItems") {
     const merchandiseIds = formData
@@ -78,7 +78,6 @@ export async function editCart(action: CartAction, formData: FormData) {
     const merchandise = merchandiseIds.map((merchandiseId, index) => {
       return { merchandiseId, quantity: quantities[index] };
     });
-
     await addLineItemsToCart({
       cartId: cartId,
       lines: merchandise,
@@ -91,7 +90,6 @@ export async function editCart(action: CartAction, formData: FormData) {
       .getAll("lineItems")
       .map((lineItem) => JSON.parse(lineItem.toString()));
     invariant(lineItems, "No line items were provided for update");
-
     await updateLineItemsInCart({
       cartId: cartId,
       lines: lineItems,
@@ -104,7 +102,6 @@ export async function editCart(action: CartAction, formData: FormData) {
       .getAll("lineItemId")
       .map((lineItem) => lineItem.toString());
     invariant(lineItems.length > 0, "No line items were provided for removal");
-
     await removeLineItemsFromCart({
       cartId: cartId,
       lineIds: lineItems,

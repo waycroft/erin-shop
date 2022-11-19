@@ -1,7 +1,8 @@
 import { FetcherWithComponents } from "@remix-run/react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import invariant from "tiny-invariant";
+import { CartIdContext } from "~/utils/cartContext";
 import { CartLineItemId, CartLineItemInterface } from "~/utils/cartUtils";
 import XErrorIcon from "./icons/XErrorIcon";
 
@@ -87,6 +88,8 @@ function EditLineItemButtons({
   handleRemoveLineItem: () => void;
   fetcher: FetcherWithComponents<any>;
 }) {
+  const cartId = useContext(CartIdContext);
+
   return (
     <div>
       <div className={isUpdatingQuantity ? "hidden" : ""}>
@@ -108,6 +111,7 @@ function EditLineItemButtons({
           >
             <XErrorIcon />
           </button>
+          <input type="hidden" name="cartId" value={cartId} />
           <input type="hidden" name="lineItemId" value={lineItemId} />
         </fetcher.Form>
       </div>
@@ -131,6 +135,7 @@ function ChangeQuantityButtons({
   fetcher: FetcherWithComponents<any>;
 }) {
   const quantityInputFieldRef = useRef<HTMLInputElement>(null);
+  const cartId = useContext(CartIdContext);
 
   useEffect(() => {
     if (isUpdatingQuantity) {
@@ -180,6 +185,7 @@ function ChangeQuantityButtons({
         >
           Cancel
         </button>
+        <input type="hidden" name="cartId" value={cartId} />
         {/* TODO: Might want to re-think putting everything in JSON hidden inputs,
           since it's awkward using useRef to get the value of the input field */}
         <input

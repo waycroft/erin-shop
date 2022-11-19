@@ -6,8 +6,10 @@ import {
   useSubmit,
   useTransition,
 } from "@remix-run/react";
+import { useContext } from "react";
 import invariant from "tiny-invariant";
 import ServerError from "~/components/ServerError";
+import { CartIdContext } from "~/utils/cartContext";
 import { editCart } from "~/utils/cartUtils";
 import {
   getSingleProduct,
@@ -99,6 +101,7 @@ export default function SingleProductRoute() {
   const featuredImage = product.images?.edges[0].node;
   const productHasNoOptions =
     product.options.length === 1 && product.options[0].values.length === 1;
+  const cartId = useContext(CartIdContext);
 
   const transition = useTransition();
   const submit = useSubmit();
@@ -190,6 +193,7 @@ export default function SingleProductRoute() {
         </Form>
         <Form method="post">
           <div className="flex flex-col w-full my-4 form-control">
+            <input type="hidden" name="cartId" value={cartId} readOnly />
             <input
               type="hidden"
               name="merchandiseId"

@@ -1,6 +1,8 @@
 import { FetcherWithComponents, Link, useFetcher } from "@remix-run/react";
 import ToastNotification from "./ToastNotification";
 import { motion } from "framer-motion";
+import { useContext } from "react";
+import { CartIdContext } from "~/utils/cartContext";
 
 function ErrorButton({ fetcher }: { fetcher: FetcherWithComponents<any> }) {
   return (
@@ -28,12 +30,19 @@ function ProductHoverActionButtons({
   productVariantId: string;
   fetcher: FetcherWithComponents<any>;
 }) {
+  const cartId = useContext(CartIdContext);
+
   return (
     <div className="flex flex-col gap-2">
       <Link to={`/piece/${productSlug}`}>
         <button className="btn btn-outline lowercase w-40">view</button>
       </Link>
       <fetcher.Form method="post" action="/">
+        <input
+          type="hidden"
+          name="cartId"
+          value={cartId}
+        />
         <input
           type="hidden"
           name="merchandiseId"

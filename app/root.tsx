@@ -22,6 +22,7 @@ import PrimaryNav from "./components/PrimaryNav";
 import ServerError from "./components/ServerError";
 import { commitSession, getSession } from "./sessions";
 import styles from "./styles/app.css";
+import { CartIdContext } from "./utils/cartContext";
 import { Cart, editCart, handleIncomingCartSession } from "./utils/cartUtils";
 
 export const meta: MetaFunction = () => ({
@@ -82,28 +83,30 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="drawer drawer-end font-body">
-        <input id="cart-drawer" type="checkbox" className="drawer-toggle" />
-        <div className="drawer-content">
-          {/* All page content goes within "drawer-content". 
-          Since the cart will be accessible on all pages, it's included here in the root. */}
-          <PrimaryNav cartQuantity={cart.totalQuantity} />
-          <Outlet />
-          <Footer />
-        </div>
-        <div className="drawer-side">
-          <label htmlFor="cart-drawer" className="drawer-overlay"></label>
-          <section className="p-4 overflow-y-auto w-80 text-base-content bg-base-100 drop-shadow-xl">
-            <Link to="/cart">
-              <h1 className="text-2xl font-bold">Cart</h1>
-            </Link>
-            <CartContent cart={cart} />
-          </section>
-        </div>
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
-      </body>
+      <CartIdContext.Provider value={cart.id}>
+        <body className="drawer drawer-end font-body">
+          <input id="cart-drawer" type="checkbox" className="drawer-toggle" />
+          <div className="drawer-content">
+            {/* All page content goes within "drawer-content".
+            Since the cart will be accessible on all pages, it's included here in the root. */}
+            <PrimaryNav cartQuantity={cart.totalQuantity} />
+            <Outlet />
+            <Footer />
+          </div>
+          <div className="drawer-side">
+            <label htmlFor="cart-drawer" className="drawer-overlay"></label>
+            <section className="p-4 overflow-y-auto w-80 text-base-content bg-base-100 drop-shadow-xl">
+              <Link to="/cart">
+                <h1 className="text-2xl font-bold">Cart</h1>
+              </Link>
+              <CartContent cart={cart} />
+            </section>
+          </div>
+          <ScrollRestoration />
+          <Scripts />
+          <LiveReload />
+        </body>
+      </CartIdContext.Provider>
     </html>
   );
 }
