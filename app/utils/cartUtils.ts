@@ -1,8 +1,27 @@
+import { Session } from "@remix-run/node";
 import invariant from "tiny-invariant";
 import { ProductVariant } from "~/utils/productUtils";
 import storefront, { StorefrontAPIResponseObject } from "./storefront";
 
 var gql = String.raw;
+
+export type Cart = {
+  id: string;
+  checkoutUrl: string;
+  cost: {
+    subtotalAmount: {
+      amount: string;
+    };
+  };
+  totalQuantity: number;
+  updatedAt: string;
+  createdAt: string;
+  lines: {
+    edges: {
+      node: CartLineItemInterface;
+    }[];
+  };
+};
 
 export type Merchandise = {
   merchandiseId: string;
