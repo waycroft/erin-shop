@@ -121,11 +121,11 @@ export async function getCart(cartId: string): Promise<StorefrontAPIResponse> {
   );
 }
 
-export async function createAndAddToCart({
+export async function createCart({
   lines,
   attributes = {},
 }: {
-  lines: Merchandise[];
+  lines?: Merchandise[];
   attributes?: object;
 }): Promise<StorefrontAPIResponse> {
   return await storefront(
@@ -143,7 +143,7 @@ export async function createAndAddToCart({
             totalQuantity
             updatedAt
             createdAt
-            lines(first: 10) {
+            lines(first: 50) {
               edges {
                 node {
                   id
