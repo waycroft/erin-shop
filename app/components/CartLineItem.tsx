@@ -4,6 +4,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { CartIdContext } from "~/utils/cartContext";
 import { CartLineItemId, CartLineItemInterface } from "~/utils/cartUtils";
+import TrashIcon from "./icons/TrashIcon";
 import XErrorIcon from "./icons/XErrorIcon";
 
 function CardImage({ imgUrl, imgTitle }: { imgUrl: string; imgTitle: string }) {
@@ -109,7 +110,7 @@ function EditLineItemButtons({
             value={"removeLineItems"}
             onClick={handleRemoveLineItem}
           >
-            <XErrorIcon />
+            <TrashIcon />
           </button>
           <input type="hidden" name="cartId" value={cartId} />
           <input type="hidden" name="lineItemId" value={lineItemId} />
