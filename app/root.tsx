@@ -17,6 +17,7 @@ import {
 import invariant from "tiny-invariant";
 import CartContent from "./components/CartContent";
 import CartHeader from "./components/CartHeader";
+import CartCheckoutButton from "./components/CheckoutButton";
 import Footer from "./components/Footer";
 import PrimaryNav from "./components/PrimaryNav";
 import ServerError from "./components/ServerError";
@@ -100,7 +101,8 @@ export default function App() {
                 totalQuantity={cart.totalQuantity}
                 itemsAlign="end"
               >
-                <h1 className="text-4xl font-bold my-2">Cart</h1>
+                <h1 className="hidden">Cart</h1>
+                <CartCheckoutButton checkoutUrl={cart.checkoutUrl} disabled={cart.totalQuantity <= 0} />
                 <a href="/cart" className="hover:underline">
                   Go to cart
                 </a>

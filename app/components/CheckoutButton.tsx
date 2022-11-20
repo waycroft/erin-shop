@@ -1,9 +1,9 @@
 export default function CartCheckoutButton({
   checkoutUrl,
-  disabled,
+  disabled = false,
 }: {
   checkoutUrl: string;
-  disabled: boolean;
+  disabled?: boolean;
 }) {
   return (
     <div>
@@ -12,9 +12,14 @@ export default function CartCheckoutButton({
           Checkout
         </a>
       ) : (
-        <button className="btn btn-primary" disabled>
-          Checkout
-        </button>
+        <div
+          className="tooltip tooltip-right"
+          data-tip="Nothing in your cart yet!"
+        >
+          <button className="btn btn-primary" disabled>
+            Checkout
+          </button>
+        </div>
       )}
     </div>
   );

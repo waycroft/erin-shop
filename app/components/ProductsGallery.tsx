@@ -35,7 +35,7 @@ export default function ProductsGallery({ products }: { products: Product[] }) {
             }
           />
         ) : (
-          <div>(Missing product thumbnail</div>
+          <div>(Missing product thumbnail)</div>
         )
       )}
     </motion.div>
