@@ -16,7 +16,7 @@ export default function CartHeader({
 
   return (
     <div
-      className={`my-4 flex flex-row justify-between items-${itemsAlign} container mx-auto`}
+      className={`mt-4 mb-16 flex flex-row justify-between items-${itemsAlign} container mx-auto`}
     >
       <div>
         <p className="text-3xl mb-2">{formattedSubtotal}</p>
