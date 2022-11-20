@@ -2,10 +2,16 @@ import { ActionFunction, json, LoaderFunction, Session } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import CartContent from "~/components/CartContent";
+import CartHeader from "~/components/CartHeader";
 import CartCheckoutButton from "~/components/CheckoutButton";
 import ServerError from "~/components/ServerError";
 import { commitSession, getSession } from "~/sessions";
-import { Cart, CartAction, editCart, handleIncomingCartSession } from "~/utils/cartUtils";
+import {
+  Cart,
+  CartAction,
+  editCart,
+  handleIncomingCartSession,
+} from "~/utils/cartUtils";
 
 export type CartActionError = {
   action: CartAction;
@@ -47,14 +53,20 @@ export default function CartRoute() {
 
   return (
     <section className="p-8">
-      <h1 className="text-4xl font-bold text-center sm:text-left">Cart</h1>
       <div className="my-4">
+        <CartHeader
+          subtotal={Number(cart.cost.subtotalAmount.amount)}
+          totalQuantity={cart.totalQuantity}
+          itemsAlign="center"
+        >
+          <h1 className="hidden">Cart</h1>
+          <CartCheckoutButton
+            checkoutUrl={cart?.checkoutUrl}
+            disabled={cart?.totalQuantity <= 0}
+          />
+        </CartHeader>
         <CartContent cart={cart} />
       </div>
-      <CartCheckoutButton
-        checkoutUrl={cart?.checkoutUrl}
-        disabled={cart?.totalQuantity <= 0}
-      />
     </section>
   );
 }
