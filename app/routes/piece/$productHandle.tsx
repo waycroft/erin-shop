@@ -97,6 +97,7 @@ export function ErrorBoundary({ error }: { error: Error }) {
 export default function SingleProductRoute() {
   const { data } = useLoaderData<LoaderData>();
   const product = data.product;
+  const availableForSale = product.availableForSale;
   const selectedVariant = data.selectedVariant;
   const featuredImage = product.images?.edges[0].node;
   const productHasNoOptions =
@@ -133,7 +134,7 @@ export default function SingleProductRoute() {
           className="mb-8 bg-base-200 p-4 rounded-lg"
         />
         <div>
-          {product.totalInventory <= 0 ? (
+          {!availableForSale ? (
             <div>
               <p>
                 <strong className="text-error">Sold out</strong>
@@ -194,34 +195,38 @@ export default function SingleProductRoute() {
               value={selectedVariant.id}
               readOnly
             />
-            <div className="my-2">
-              <label htmlFor="quantity" className="label">
-                <span className="label-text">Quantity</span>
-                <span className="text-primary">
-                  {selectedVariant.quantityAvailable} available
-                </span>
-              </label>
-            </div>
-            <input
-              type="number"
-              inputMode="numeric"
-              name="quantity"
-              className="input input-bordered md:w-5/12"
-              defaultValue={1}
-              min={0}
-              max={selectedVariant.quantityAvailable}
-            />
-            <button
-              className="btn btn-block my-4 md:w-5/12"
-              name="_action"
-              value="addLineItems"
-              type="submit"
-              disabled={transition.state === "submitting"}
-            >
-              {transition.type === "actionSubmission"
-                ? "Added!"
-                : "Add to Cart"}
-            </button>
+            {availableForSale ? (
+              <div>
+                <div className="my-2">
+                  <label htmlFor="quantity" className="label">
+                    <span className="label-text">Quantity</span>
+                    <span className="text-primary">
+                      {selectedVariant.quantityAvailable} available
+                    </span>
+                  </label>
+                </div>
+                <input
+                  type="number"
+                  inputMode="numeric"
+                  name="quantity"
+                  className="input input-bordered md:w-5/12"
+                  defaultValue={1}
+                  min={0}
+                  max={selectedVariant.quantityAvailable}
+                />
+                <button
+                  className="btn btn-block my-4 md:w-5/12"
+                  name="_action"
+                  value="addLineItems"
+                  type="submit"
+                  disabled={transition.state === "submitting"}
+                >
+                  {transition.type === "actionSubmission"
+                    ? "Added!"
+                    : "Add to Cart"}
+                </button>
+              </div>
+            ) : null}
           </div>
         </Form>
       </div>
