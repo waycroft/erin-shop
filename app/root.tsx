@@ -13,6 +13,7 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
+  useMatches,
 } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import CartContent from "./components/CartContent";
@@ -77,6 +78,8 @@ type LoaderData = Cart;
 
 export default function App() {
   const cart = useLoaderData<LoaderData>();
+  const matches = useMatches();
+
   return (
     <html lang="en">
       <head>
@@ -99,13 +102,23 @@ export default function App() {
               <CartHeader
                 subtotal={Number(cart.cost.subtotalAmount.amount)}
                 totalQuantity={cart.totalQuantity}
-                itemsAlign="end"
+                itemsAlign="center"
               >
-                <h1 className="hidden">Cart</h1>
-                <CartCheckoutButton checkoutUrl={cart.checkoutUrl} disabled={cart.totalQuantity <= 0} />
-                <a href="/cart" className="hover:underline">
-                  Go to cart
-                </a>
+                <div className="flex flex-col gap-2">
+                  <h1 className="hidden">Cart</h1>
+                  <CartCheckoutButton
+                    checkoutUrl={cart.checkoutUrl}
+                    disabled={cart.totalQuantity <= 0}
+                  />
+                  {matches[matches.length - 1].pathname !== "/cart" ? (
+                    <a
+                      href="/cart"
+                      className="btn btn-secondary btn-sm btn-outline lowercase"
+                    >
+                      Go to cart
+                    </a>
+                  ) : null}
+                </div>
               </CartHeader>
               <CartContent cart={cart} />
             </section>
