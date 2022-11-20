@@ -46,12 +46,10 @@ export type CartLineItemId = string;
 export async function handleIncomingCartSession(session: Session) {
   let cart: Cart;
   if (session.has("cartId")) {
-    console.log("session has cart");
     const res = await getCart(session.get("cartId"));
     invariant(!(res.errors && res.userErrors), "Error fetching cart");
     cart = res.data.cart;
   } else {
-    console.log("session does not have cart");
     const res = await createCart();
     invariant(!(res.errors && res.userErrors), "Error creating cart");
     invariant(
