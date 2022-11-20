@@ -115,7 +115,7 @@ export async function getCart(
       query getCart($cartId: ID!) {
         cart(id: $cartId) {
           id
-          checkoutUrl
+          checkoutUrl @include(if: ${process.env.STORE_IS_ACTIVE === "true"})
           cost {
             subtotalAmount {
               amount

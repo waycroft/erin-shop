@@ -78,6 +78,7 @@ type LoaderData = Cart;
 
 export default function App() {
   const cart = useLoaderData<LoaderData>();
+  const isStoreActive = cart.checkoutUrl != null;
   const matches = useMatches();
 
   return (
@@ -108,7 +109,7 @@ export default function App() {
                   <h1 className="hidden">Cart</h1>
                   <CartCheckoutButton
                     checkoutUrl={cart.checkoutUrl}
-                    disabled={cart.totalQuantity <= 0}
+                    disabled={cart?.totalQuantity <= 0 || !isStoreActive}
                   />
                   {matches[matches.length - 1].pathname !== "/cart" ? (
                     <a

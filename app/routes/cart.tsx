@@ -50,6 +50,7 @@ type LoaderData = Cart;
 
 export default function CartRoute() {
   const cart = useLoaderData<LoaderData>();
+  const isStoreActive = cart.checkoutUrl != null;
 
   return (
     <section className="p-8">
@@ -62,7 +63,7 @@ export default function CartRoute() {
           <h1 className="hidden">Cart</h1>
           <CartCheckoutButton
             checkoutUrl={cart?.checkoutUrl}
-            disabled={cart?.totalQuantity <= 0}
+            disabled={cart?.totalQuantity <= 0 || !isStoreActive}
           />
         </CartHeader>
         <CartContent cart={cart} />
