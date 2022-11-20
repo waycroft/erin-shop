@@ -9,9 +9,9 @@ export default function CartContent({ cart }: { cart: Cart }) {
   return (
     <>
       <div>
-        <ol>
+        <ol className="divide-y">
           {cart.lines.edges.map((edge) => (
-            <li key={edge.node.id} className="py-2">
+            <li key={edge.node.id} className="py-4">
               <CartLineItem
                 key={edge.node.id}
                 item={edge.node}
@@ -20,10 +20,6 @@ export default function CartContent({ cart }: { cart: Cart }) {
             </li>
           ))}
         </ol>
-      </div>
-      <div>
-        <p>Subtotal: {cart?.cost?.subtotalAmount?.amount}</p>
-        <p>Total Quantity: {cart?.totalQuantity}</p>
       </div>
     </>
   );

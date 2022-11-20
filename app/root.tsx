@@ -6,7 +6,6 @@ import {
   Session,
 } from "@remix-run/node";
 import {
-  Link,
   Links,
   LiveReload,
   Meta,
@@ -76,6 +75,10 @@ type LoaderData = Cart;
 
 export default function App() {
   const cart = useLoaderData<LoaderData>();
+  const formattedSubtotal = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(Number(cart.cost.subtotalAmount.amount));
 
   return (
     <html lang="en">
@@ -95,10 +98,19 @@ export default function App() {
           </div>
           <div className="drawer-side">
             <label htmlFor="cart-drawer" className="drawer-overlay"></label>
-            <section className="p-4 overflow-y-auto w-5/6 md:w-6/12 text-base-content bg-base-100 drop-shadow-xl">
-              <Link to="/cart">
-                <h1 className="text-2xl font-bold">Cart</h1>
-              </Link>
+            <section className="p-4 overflow-y-auto w-5/6 md:w-8/12 lg:w-6/12 text-base-content bg-base-100 drop-shadow-xl">
+              <div className="my-4 flex flex-row justify-between items-end text-right">
+                <div>
+                  <h1 className="text-4xl font-bold my-2">Cart</h1>
+                  <a href="/cart" className="hover:underline">
+                    Go to cart
+                  </a>
+                </div>
+                <div>
+                  <p className="text-3xl my-2">{formattedSubtotal}</p>
+                  <p>Total Quantity: {cart?.totalQuantity}</p>
+                </div>
+              </div>
               <CartContent cart={cart} />
             </section>
           </div>

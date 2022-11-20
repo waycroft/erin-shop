@@ -9,11 +9,11 @@ import TrashIcon from "./icons/TrashIcon";
 
 function CardImage({ imgUrl, imgTitle }: { imgUrl: string; imgTitle: string }) {
   return (
-    <figure className="bg-base-200 p-4">
+    <figure className="bg-base-100 m-4">
       <img
         src={imgUrl}
         alt={`An image of ${imgTitle}`}
-        className="max-h-48 rounded-lg"
+        className="w-36 h-36 object-cover rounded-lg border-2 border-neutral"
       />
     </figure>
   );
@@ -28,9 +28,11 @@ function CardBody({
   fetcher: FetcherWithComponents<any>;
   handleRemoveLineItem: () => void;
 }) {
+  //TODO: replace these with a reducer
   const [quantity, setQuantity] = useState(lineItem.quantity);
   const [isUpdatingQuantity, setIsUpdatingQuantity] = useState(false);
 
+  //TODO: think about alternative patterns over using useEffect
   useEffect(() => {
     if (fetcher.submission) {
       const formData = fetcher.submission.formData;
@@ -50,11 +52,13 @@ function CardBody({
   }, [lineItem]);
 
   return (
-    <div className="card-body overflow-x-auto bg-base-200">
-      <h2 className="card-title">{lineItem.merchandise?.product.title}</h2>
-      <p>
-        <strong>Quantity:</strong> {quantity}
-      </p>
+    <div className="card-body overflow-x-auto bg-base-100 justify-between">
+      <div>
+        <h2 className="font-bold text-lg">
+          {lineItem.merchandise?.product.title}
+        </h2>
+        <p>Quantity: {lineItem.quantity}</p>
+      </div>
       <div className="card-actions justify-end">
         <ChangeQuantityButtons
           lineItemId={lineItem.id}
@@ -92,33 +96,35 @@ function EditLineItemButtons({
   const cartId = useContext(CartIdContext);
 
   return (
-    <div>
-      <div className={isUpdatingQuantity ? "hidden" : "flex flex-row"}>
+    <div className={isUpdatingQuantity ? "hidden" : "w-full sm:w-auto"}>
       {/* Using this pattern (using CSS display) as opposed to conditionally
       rendering the node, because it still needs to exist in the DOM tree
       to perform the form submit */}
+      <fetcher.Form
+        method="post"
+        action="/"
+        className="flex flex-row gap-2 my-2"
+      >
         <button
-          className="btn btn-circle btn-outline btn-md"
+          className="btn btn-outline btn-md flex-grow sm:btn-circle"
           type="button"
           onClick={() => setIsUpdatingQuantity(!isUpdatingQuantity)}
         >
           <EditIcon />
         </button>
 
-        <fetcher.Form method="post" action="/">
-          <button
-            className="btn btn-circle btn-md btn-outline"
-            type="submit"
-            name="_action"
-            value={"removeLineItems"}
-            onClick={handleRemoveLineItem}
-          >
-            <TrashIcon />
-          </button>
-          <input type="hidden" name="cartId" value={cartId} />
-          <input type="hidden" name="lineItemId" value={lineItemId} />
-        </fetcher.Form>
-      </div>
+        <button
+          className="btn btn-outline btn-md flex-grow sm:btn-circle"
+          type="submit"
+          name="_action"
+          value={"removeLineItems"}
+          onClick={handleRemoveLineItem}
+        >
+          <TrashIcon />
+        </button>
+        <input type="hidden" name="cartId" value={cartId} />
+        <input type="hidden" name="lineItemId" value={lineItemId} />
+      </fetcher.Form>
     </div>
   );
 }
@@ -153,7 +159,7 @@ function ChangeQuantityButtons({
 
   return (
     <div className={isUpdatingQuantity ? "" : "hidden"}>
-    {/* Using this pattern (using CSS display) as opposed to conditionally
+      {/* Using this pattern (using CSS display) as opposed to conditionally
     rendering the node, because it still needs to exist in the DOM tree
     to perform the form submit */}
       <fetcher.Form method="post" action="/">
@@ -225,7 +231,7 @@ export default function CartLineItem({
     <AnimatePresence>
       {isRemoved ? null : (
         <motion.div
-          className="card card-side card-bordered bg-base-400"
+          className="card sm:card-side card-compact"
           exit={{ opacity: 0 }}
           transition={{ duration: 0.175, ease: "easeInOut" }}
         >
