@@ -16,13 +16,13 @@ export default function CartHeader({
 
   return (
     <div
-      className={`my-4 flex flex-row justify-between items-${itemsAlign}`}
+      className={`my-4 flex flex-row justify-between items-${itemsAlign} container mx-auto`}
     >
-      <div className="flex flex-col gap-2">{children}</div>
-      <div className="text-right">
-        <p className="text-3xl my-2">{formattedSubtotal}</p>
+      <div>
+        <p className="text-3xl mb-2">{formattedSubtotal}</p>
         <p>Total Quantity: {totalQuantity}</p>
       </div>
+      <div className="flex flex-col gap-2">{children}</div>
     </div>
   );
 }

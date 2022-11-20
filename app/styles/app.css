@@ -2191,6 +2191,14 @@ body[dir="rtl"] .checkbox:checked,
   padding-right: 0.688rem;
 }
 
+.btn-sm {
+  height: 2rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  min-height: 2rem;
+  font-size: 0.875rem;
+}
+
 .btn-md {
   height: 3rem;
   padding-left: 1rem;
@@ -2504,6 +2512,10 @@ body[dir="rtl"] .checkbox:checked,
 
 .mb-8 {
   margin-bottom: 2rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
 }
 
 .inline-block {
@@ -2827,6 +2839,16 @@ body[dir="rtl"] .checkbox:checked,
   padding-bottom: 0.25rem;
 }
 
+.px-0 {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.\!px-0 {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
 .pr-16 {
   padding-right: 4rem;
 }
@@ -3031,6 +3053,15 @@ body[dir="rtl"] .checkbox:checked,
        object-fit: cover;
   }
 
+  .sm\:my-4 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .sm\:ml-4 {
+    margin-left: 1rem;
+  }
+
   .sm\:w-auto {
     width: auto;
   }
@@ -3039,8 +3070,17 @@ body[dir="rtl"] .checkbox:checked,
     width: 41.666667%;
   }
 
+  .sm\:flex-row {
+    flex-direction: row;
+  }
+
   .sm\:items-start {
     align-items: flex-start;
+  }
+
+  .sm\:py-4 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
   }
 
   .sm\:pl-4 {

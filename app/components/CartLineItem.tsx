@@ -9,7 +9,7 @@ import TrashIcon from "./icons/TrashIcon";
 
 function CardImage({ imgUrl, imgTitle }: { imgUrl: string; imgTitle: string }) {
   return (
-    <figure className="bg-base-100 m-4">
+    <figure className="bg-base-100 sm:py-4">
       <img
         src={imgUrl}
         alt={`An image of ${imgTitle}`}
@@ -52,7 +52,7 @@ function CardBody({
   }, [lineItem]);
 
   return (
-    <div className="card-body overflow-x-auto bg-base-100 justify-between">
+    <div className="card-body overflow-x-auto bg-base-100 justify-between !px-0 sm:ml-4">
       <div>
         <h2 className="font-bold text-lg">
           {lineItem.merchandise?.product.title}
