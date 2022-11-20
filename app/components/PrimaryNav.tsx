@@ -36,8 +36,7 @@ export default function PrimaryNav({ cartQuantity }: { cartQuantity: number }) {
         </div>
         <div className="indicator sm:pl-4">
           {cartQuantity > 0 ? (
-            <span className="indicator-item badge badge-primary badge-lg text-base">
-              {cartQuantity}
+            <span className="indicator-item badge badge-accent badge-xs text-base">
             </span>
           ) : null}
           <label htmlFor="cart-drawer" className="drawer-button btn btn-circle">
