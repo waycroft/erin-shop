@@ -1320,6 +1320,14 @@ html {
   bottom: auto;
 }
 
+.tooltip-left:before {
+  transform: translateY(-50%);
+  top: 50%;
+  left: auto;
+  right: var(--tooltip-offset);
+  bottom: auto;
+}
+
 .tooltip-right:before {
   transform: translateY(-50%);
   top: 50%;
@@ -2185,6 +2193,15 @@ body[dir="rtl"] .checkbox:checked,
   top: var(--tooltip-tail-offset);
   left: 50%;
   right: auto;
+  bottom: auto;
+}
+
+.tooltip-left:after {
+  transform: translateY(-50%);
+  border-color: transparent transparent transparent var(--tooltip-color);
+  top: 50%;
+  left: auto;
+  right: calc(var(--tooltip-tail-offset) + 1px);
   bottom: auto;
 }
 
@@ -3144,10 +3161,27 @@ body[dir="rtl"] .checkbox:checked,
 }
 
 @media (min-width: 768px) {
+  .md\:tooltip-right:before {
+    transform: translateY(-50%);
+    top: 50%;
+    left: var(--tooltip-offset);
+    right: auto;
+    bottom: auto;
+  }
+
    
     .btn.loading.md\:btn-lg:before {
     height: 1.25rem;
     width: 1.25rem;
+  }
+
+  .md\:tooltip-right:after {
+    transform: translateY(-50%);
+    border-color: transparent var(--tooltip-color) transparent transparent;
+    top: 50%;
+    left: calc(var(--tooltip-tail-offset) + 1px);
+    right: auto;
+    bottom: auto;
   }
 
   .md\:btn-lg {

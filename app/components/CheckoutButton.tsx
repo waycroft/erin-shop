@@ -13,7 +13,7 @@ export default function CartCheckoutButton({
         </a>
       ) : (
         <div
-          className="tooltip tooltip-right"
+          className="tooltip tooltip-left"
           data-tip="Nothing in your cart yet!"
         >
           <button className="btn btn-primary" disabled>
