@@ -1,4 +1,4 @@
-import { Cart } from "~/components/CartContent";
+import { Cart } from "./cartUtils";
 import { Product } from "./productUtils";
 
 export type StorefrontAPIResponseObject = {
