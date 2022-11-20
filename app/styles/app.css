@@ -2461,6 +2461,10 @@ body[dir="rtl"] .checkbox:checked,
   width: 9rem;
 }
 
+.max-w-2xl {
+  max-width: 42rem;
+}
+
 .flex-grow {
   flex-grow: 1;
 }

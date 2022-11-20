@@ -9,7 +9,7 @@ export default function CartContent({ cart }: { cart: Cart }) {
   return (
     <>
       <div>
-        <ol className="divide-y">
+        <ol className="divide-y container mx-auto">
           {cart.lines.edges.map((edge) => (
             <li key={edge.node.id} className="py-4">
               <CartLineItem
