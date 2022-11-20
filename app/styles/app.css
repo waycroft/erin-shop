@@ -2207,6 +2207,14 @@ body[dir="rtl"] .checkbox:checked,
   font-size: 0.875rem;
 }
 
+.btn-lg {
+  height: 4rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  min-height: 4rem;
+  font-size: 1.125rem;
+}
+
 .btn-block {
   width: 100%;
 }
@@ -3098,6 +3106,27 @@ body[dir="rtl"] .checkbox:checked,
 }
 
 @media (min-width: 768px) {
+   
+    .btn.loading.md\:btn-lg:before {
+    height: 1.25rem;
+    width: 1.25rem;
+  }
+
+  .md\:btn-lg {
+    height: 4rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    min-height: 4rem;
+    font-size: 1.125rem;
+  }
+
+   {
+    height: 4rem;
+    width: 4rem;
+    border-radius: 9999px;
+    padding: 0px;
+  }
+
   .md\:flex {
     display: flex;
   }

@@ -8,7 +8,7 @@ export default function CartCheckoutButton({
   return (
     <div>
       {!disabled ? (
-        <a href={checkoutUrl} className="btn btn-primary lowercase">
+        <a href={checkoutUrl} className="btn btn-primary md:btn-lg lowercase">
           Checkout
         </a>
       ) : (
