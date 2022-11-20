@@ -1,4 +1,9 @@
-import { ActionFunction, json, LoaderFunction } from "@remix-run/node";
+import {
+  ActionFunction,
+  json,
+  LinksFunction,
+  LoaderFunction,
+} from "@remix-run/node";
 import {
   Form,
   useLoaderData,
@@ -17,6 +22,12 @@ import {
   Product,
   ProductVariant,
 } from "~/utils/productUtils";
+import { Splide, SplideSlide } from "@splidejs/react-splide";
+import splide from "./styles/splide.min.css";
+
+export const links: LinksFunction = () => {
+  return [{ rel: "stylesheet", href: splide }];
+};
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const { productHandle } = params;
@@ -121,10 +132,18 @@ export default function SingleProductRoute() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 justify-center gap-8 container mx-auto">
-      <div className="bg-slate-200 rounded-lg overflow-hidden">
-        {/* TODO: Change the carousel to match the selected product option */}
-        <img src={featuredImage?.url} alt={featuredImage?.altText} />
-      </div>
+      <Splide
+        aria-label="Product images"
+        options={{
+          perPage: 1,
+        }}
+      >
+        {product.images.edges.map((image) => (
+          <SplideSlide key={image.node.id}>
+            <img src={image.node.url} alt={image.node.altText} />
+          </SplideSlide>
+        ))}
+      </Splide>
       <div className="">
         <h1 className="text-5xl font-medium mb-8 font-title">
           {product.title}
