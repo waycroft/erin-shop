@@ -78,13 +78,11 @@ const variants = {
 export default function ProductThumbnail({
   img,
   alt,
-  title,
   productVariantId,
   productSlug,
 }: {
   img: string;
   alt?: string;
-  title?: string;
   productVariantId: string;
   productSlug: string;
 }) {
