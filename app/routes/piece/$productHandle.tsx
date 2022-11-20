@@ -120,7 +120,7 @@ export default function SingleProductRoute() {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 justify-center gap-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 justify-center gap-8 container mx-auto">
       <div className="bg-slate-200 rounded-lg overflow-hidden">
         {/* TODO: Change the carousel to match the selected product option */}
         <img src={featuredImage?.url} alt={featuredImage?.altText} />
@@ -129,10 +129,12 @@ export default function SingleProductRoute() {
         <h1 className="text-5xl font-medium mb-8 font-title">
           {product.title}
         </h1>
-        <div
-          dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
-          className="mb-8 bg-base-200 p-4 rounded-lg"
-        />
+        {product.descriptionHtml.length > 0 ? (
+          <div
+            dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
+            className="mb-8 py-4 rounded-lg"
+          />
+        ) : null}
         <div>
           {!availableForSale ? (
             <div>
@@ -140,52 +142,47 @@ export default function SingleProductRoute() {
                 <strong className="text-error">Sold out</strong>
               </p>
             </div>
-          ) : null}
-          <div className="my-4">
-            <p>
-              <strong>Price: </strong>
-              {productHasNoOptions
-                ? roundedMinPrice
-                : `${roundedMinPrice} - ${roundedMaxPrice}`}
-            </p>
-          </div>
-        </div>
-        <Form method="get">
-          <div className="flex flex-col w-full my-4 form-control">
-            <div className="my-2">
-              <h2
-                className={`${
-                  productHasNoOptions ? "hidden" : ""
-                } text-lg font-bold my-2`}
-              >
-                Options
-              </h2>
-              {productHasNoOptions
-                ? null
-                : product.options.map((option) => (
-                    <div key={option.id} className="">
-                      <label htmlFor={option.name} className="label">
-                        <span className="label-text">{option.name}</span>
-                      </label>
-                      <select
-                        className="select select-bordered w-full"
-                        name={"options_" + option.name}
-                        defaultValue={params
-                          .get("options_" + option.name)
-                          ?.toString()}
-                        onChange={(e) => submit(e.currentTarget.form)}
-                      >
-                        {option.values.map((value) => (
-                          <option key={value} value={value}>
-                            {value}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  ))}
+          ) : (
+            <div className="my-4">
+              <p>
+                <strong>Price: </strong>
+                {productHasNoOptions
+                  ? roundedMinPrice
+                  : `${roundedMinPrice} - ${roundedMaxPrice}`}
+              </p>
             </div>
-          </div>
-        </Form>
+          )}
+        </div>
+        {productHasNoOptions ? null : (
+          <Form method="get">
+            <div className="flex flex-col w-full my-4 form-control">
+              <div className="my-2">
+                <h2 className="text-lg font-bold my-2">Options</h2>
+                {product.options.map((option) => (
+                  <div key={option.id} className="">
+                    <label htmlFor={option.name} className="label">
+                      <span className="label-text">{option.name}</span>
+                    </label>
+                    <select
+                      className="select select-bordered w-full"
+                      name={"options_" + option.name}
+                      defaultValue={params
+                        .get("options_" + option.name)
+                        ?.toString()}
+                      onChange={(e) => submit(e.currentTarget.form)}
+                    >
+                      {option.values.map((value) => (
+                        <option key={value} value={value}>
+                          {value}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Form>
+        )}
         <Form method="post">
           <div className="flex flex-col w-full my-4 form-control">
             <input type="hidden" name="cartId" value={cartId} readOnly />
@@ -200,31 +197,33 @@ export default function SingleProductRoute() {
                 <div className="my-2">
                   <label htmlFor="quantity" className="label">
                     <span className="label-text">Quantity</span>
-                    <span className="text-primary">
+                    <span className="label-text-alt">
                       {selectedVariant.quantityAvailable} available
                     </span>
                   </label>
                 </div>
-                <input
-                  type="number"
-                  inputMode="numeric"
-                  name="quantity"
-                  className="input input-bordered md:w-5/12"
-                  defaultValue={1}
-                  min={0}
-                  max={selectedVariant.quantityAvailable}
-                />
-                <button
-                  className="btn btn-block my-4 md:w-5/12"
-                  name="_action"
-                  value="addLineItems"
-                  type="submit"
-                  disabled={transition.state === "submitting"}
-                >
-                  {transition.type === "actionSubmission"
-                    ? "Added!"
-                    : "Add to Cart"}
-                </button>
+                <div className="input-group flex flex-row">
+                  <input
+                    type="number"
+                    inputMode="numeric"
+                    name="quantity"
+                    className="input input-bordered flex-grow"
+                    defaultValue={1}
+                    min={0}
+                    max={selectedVariant.quantityAvailable}
+                  />
+                  <button
+                    className="btn w-1/2 sm:w-5/12"
+                    name="_action"
+                    value="addLineItems"
+                    type="submit"
+                    disabled={transition.state === "submitting"}
+                  >
+                    {transition.type === "actionSubmission"
+                      ? "Added!"
+                      : "Add to Cart"}
+                  </button>
+                </div>
               </div>
             ) : null}
           </div>
