@@ -93,7 +93,7 @@ function EditLineItemButtons({
 
   return (
     <div>
-      <div className={isUpdatingQuantity ? "hidden" : ""}>
+      <div className={isUpdatingQuantity ? "hidden" : "flex flex-row"}>
       {/* Using this pattern (using CSS display) as opposed to conditionally
       rendering the node, because it still needs to exist in the DOM tree
       to perform the form submit */}
