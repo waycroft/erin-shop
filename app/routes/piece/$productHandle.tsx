@@ -23,10 +23,10 @@ import {
   ProductVariant,
 } from "~/utils/productUtils";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
-import splide from "./styles/splide.min.css";
+import splideStyles from "~/styles/splide.min.css";
 
 export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: splide }];
+  return [{ rel: "stylesheet", href: splideStyles }];
 };
 
 export const loader: LoaderFunction = async ({ request, params }) => {
@@ -110,7 +110,6 @@ export default function SingleProductRoute() {
   const product = data.product;
   const availableForSale = product.availableForSale;
   const selectedVariant = data.selectedVariant;
-  const featuredImage = product.images?.edges[0].node;
   const productHasNoOptions =
     product.options.length === 1 && product.options[0].values.length === 1;
   const cartId = useContext(CartIdContext);
@@ -136,6 +135,8 @@ export default function SingleProductRoute() {
         aria-label="Product images"
         options={{
           perPage: 1,
+          type: "fade",
+          pagination: false
         }}
       >
         {product.images.edges.map((image) => (
