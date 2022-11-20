@@ -9,7 +9,7 @@ export default function ToastNotification({
 }: {
   type: "success" | "error";
   message: string;
-  placement?: string;
+  placement?: "top" | "bottom";
   action?: {
     label: string;
     href?: string;
