@@ -17,7 +17,7 @@ export default function ToastNotification({
 }) {
   return (
     <motion.div
-      className={`toast toast-${placement}`}
+      className={`toast toast-${placement} z-10`}
       animate={{ opacity: [100, 0] }}
       transition={{ ease: "easeOut", duration: 4 }}
     >
