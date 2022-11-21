@@ -53,7 +53,7 @@ export default function CartRoute() {
   const isStoreActive = cart.checkoutUrl != null;
 
   return (
-    <section className="p-8">
+    <section className="p-8 max-w-3xl container mx-auto">
       <div className="my-4">
         <CartHeader
           subtotal={Number(cart.cost.subtotalAmount.amount)}

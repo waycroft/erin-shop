@@ -2534,6 +2534,14 @@ body[dir="rtl"] .checkbox:checked,
   width: 50%;
 }
 
+.max-w-5xl {
+  max-width: 64rem;
+}
+
+.max-w-3xl {
+  max-width: 48rem;
+}
+
 .flex-grow {
   flex-grow: 1;
 }

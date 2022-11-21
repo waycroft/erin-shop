@@ -11,7 +11,7 @@ export default function CartContent({ cart }: { cart: Cart }) {
     <>
       <div className="h-full">
         {cartHasItems ? (
-          <ol className="divide-y container mx-auto">
+          <ol className="divide-y">
             {cart.lines.edges.map((edge) => (
               <li key={edge.node.id} className="py-4">
                 <CartLineItem
