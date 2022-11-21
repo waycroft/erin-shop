@@ -52,7 +52,7 @@ function CardBody({
   }, [lineItem]);
 
   return (
-    <div className="card-body overflow-x-auto bg-base-100 justify-between !px-0 sm:ml-4">
+    <div className="card-body overflow-x-auto bg-base-100 justify-between !px-0 !pb-0 sm:ml-4">
       <div>
         <h2 className="font-bold text-lg">
           {lineItem.merchandise?.product.title}
