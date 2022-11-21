@@ -24,6 +24,7 @@ import {
 } from "~/utils/productUtils";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import splideStyles from "~/styles/splide.min.css";
+import formatNumberIntoCurrency from "~/utils/helpers/formatCurrency";
 
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: splideStyles }];
@@ -119,14 +120,8 @@ export default function SingleProductRoute() {
   const [params] = useSearchParams();
 
   const [roundedMinPrice, roundedMaxPrice] = [
-    new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-    }).format(Number(product.priceRange.minVariantPrice.amount)),
-    new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-    }).format(Number(product.priceRange.maxVariantPrice.amount)),
+    formatNumberIntoCurrency(product.priceRange.minVariantPrice.amount),
+    formatNumberIntoCurrency(product.priceRange.maxVariantPrice.amount),
   ];
 
   return (

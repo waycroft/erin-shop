@@ -1,3 +1,5 @@
+import formatNumberIntoCurrency from "~/utils/helpers/formatCurrency";
+
 export default function CartHeader({
   subtotal,
   totalQuantity,
@@ -9,10 +11,7 @@ export default function CartHeader({
   itemsAlign: "start" | "center" | "end";
   children?: React.ReactNode;
 }) {
-  const formattedSubtotal = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-  }).format(subtotal);
+  const formattedSubtotal = formatNumberIntoCurrency(subtotal);
 
   return (
     <div
