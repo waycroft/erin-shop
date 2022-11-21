@@ -163,41 +163,43 @@ function ChangeQuantityButtons({
     rendering the node, because it still needs to exist in the DOM tree
     to perform the form submit */}
       <fetcher.Form method="post" action="/">
-        <input
-          type="number"
-          inputMode="numeric"
-          className="input input-bordered my-2"
-          defaultValue={quantity}
-          onInvalid={() => {
-            {
-              /* Don't hide the input field if the user enters an invalid value */
-            }
-            setIsUpdatingQuantity(true);
-          }}
-          min={0}
-          max={quantityAvailable}
-          ref={quantityInputFieldRef}
-        />
-        <button
-          className="btn btn-primary m-2"
-          type="submit"
-          name="_action"
-          value={"updateLineItems"}
-          onClick={() => {
-            setIsUpdatingQuantity(false);
-          }}
-        >
-          Save
-        </button>
-        <button
-          className="btn btn-outline m-2"
-          type="reset"
-          onClick={() => {
-            setIsUpdatingQuantity(false);
-          }}
-        >
-          Cancel
-        </button>
+        <div className="form-control flex flex-row my-2">
+          <input
+            type="number"
+            inputMode="numeric"
+            className="input input-bordered mx-2"
+            defaultValue={quantity}
+            onInvalid={() => {
+              {
+                /* Don't hide the input field if the user enters an invalid value */
+              }
+              setIsUpdatingQuantity(true);
+            }}
+            min={0}
+            max={quantityAvailable}
+            ref={quantityInputFieldRef}
+          />
+          <button
+            className="btn btn-primary"
+            type="submit"
+            name="_action"
+            value={"updateLineItems"}
+            onClick={() => {
+              setIsUpdatingQuantity(false);
+            }}
+          >
+            Save
+          </button>
+          <button
+            className="btn btn-outline mx-2"
+            type="reset"
+            onClick={() => {
+              setIsUpdatingQuantity(false);
+            }}
+          >
+            Cancel
+          </button>
+        </div>
         <input type="hidden" name="cartId" value={cartId} />
         {/* TODO: Might want to re-think putting everything in JSON hidden inputs,
           since it's awkward using useRef to get the value of the input field */}
