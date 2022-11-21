@@ -18,7 +18,7 @@ export default function CartHeader({
     <div
       className={`mt-4 mb-16 flex flex-row justify-between items-${itemsAlign} container mx-auto`}
     >
-      <div>
+      <div className={totalQuantity <= 0 ? "text-base-300" : ""}>
         <p className="text-3xl mb-2">{formattedSubtotal}</p>
         <p>Total Quantity: {totalQuantity}</p>
       </div>

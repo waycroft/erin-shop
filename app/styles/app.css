@@ -2485,6 +2485,10 @@ body[dir="rtl"] .checkbox:checked,
   height: 1.25rem;
 }
 
+.h-screen {
+  height: 100vh;
+}
+
 .w-5\/6 {
   width: 83.333333%;
 }
@@ -2683,6 +2687,10 @@ body[dir="rtl"] .checkbox:checked,
   padding-bottom: 0px !important;
 }
 
+.text-center {
+  text-align: center;
+}
+
 .font-body {
   font-family: Inter, sans-serif;
 }
@@ -2740,6 +2748,16 @@ body[dir="rtl"] .checkbox:checked,
 .text-error {
   --tw-text-opacity: 1;
   color: hsl(var(--er) / var(--tw-text-opacity));
+}
+
+.text-base-200 {
+  --tw-text-opacity: 1;
+  color: hsl(var(--b2, var(--b1)) / var(--tw-text-opacity));
+}
+
+.text-base-300 {
+  --tw-text-opacity: 1;
+  color: hsl(var(--b3, var(--b2)) / var(--tw-text-opacity));
 }
 
 .underline {
