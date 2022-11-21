@@ -1,4 +1,4 @@
-import { useFetcher, useMatches } from "@remix-run/react";
+import { useMatches } from "@remix-run/react";
 import { Cart } from "~/utils/cartUtils";
 import CartContent from "./CartContent";
 import CartHeader from "./CartHeader";
