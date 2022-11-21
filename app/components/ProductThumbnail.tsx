@@ -76,13 +76,11 @@ export default function ProductThumbnail({
   return (
     <motion.div className="relative" variants={variants}>
       <div>
-        <Link to={`/piece/${productSlug}`}>
-          <img
-            src={img}
-            alt={alt}
-            className="w-full h-full object-cover rounded-lg"
-          />
-        </Link>
+        <img
+          src={img}
+          alt={alt}
+          className="w-full h-full object-cover rounded-lg"
+        />
       </div>
       <div className="hidden md:grid grid-col-1 gap-4 absolute inset-0 bg-base-100 bg-opacity-70 opacity-0 md:hover:opacity-100 transition ease-in duration-75 place-content-center rounded-lg">
         <ProductHoverActionButtons
