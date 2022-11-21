@@ -19,6 +19,7 @@ import invariant from "tiny-invariant";
 import CartContent from "./components/CartContent";
 import CartHeader from "./components/CartHeader";
 import CartCheckoutButton from "./components/CheckoutButton";
+import Drawer from "./components/Drawer";
 import Footer from "./components/Footer";
 import PrimaryNav from "./components/PrimaryNav";
 import ServerError from "./components/ServerError";
@@ -97,33 +98,7 @@ export default function App() {
             <Outlet />
             <Footer />
           </div>
-          <div className="drawer-side">
-            <label htmlFor="cart-drawer" className="drawer-overlay"></label>
-            <section className="h-screen p-4 overflow-y-auto w-5/6 md:w-8/12 lg:w-6/12 max-w-3xl text-base-content bg-base-100 drop-shadow-xl">
-              <CartHeader
-                subtotal={Number(cart.cost.subtotalAmount.amount)}
-                totalQuantity={cart.totalQuantity}
-                itemsAlign="center"
-              >
-                <div className="flex flex-col gap-2">
-                  <h1 className="hidden">Cart</h1>
-                  <CartCheckoutButton
-                    checkoutUrl={cart.checkoutUrl}
-                    disabled={cart?.totalQuantity <= 0 || !isStoreActive}
-                  />
-                  {matches[matches.length - 1].pathname !== "/cart" ? (
-                    <a
-                      href="/cart"
-                      className="btn btn-secondary btn-sm btn-outline lowercase"
-                    >
-                      Go to cart
-                    </a>
-                  ) : null}
-                </div>
-              </CartHeader>
-              <CartContent cart={cart} />
-            </section>
-          </div>
+          <Drawer cart={cart} isStoreActive={isStoreActive} />
           <ScrollRestoration />
           <Scripts />
           <LiveReload />
