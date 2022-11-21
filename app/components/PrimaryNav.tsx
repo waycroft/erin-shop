@@ -2,7 +2,13 @@ import { Link } from "@remix-run/react";
 import CartIcon from "./icons/CartIcon";
 import HamburgerIcon from "./icons/HamburgerIcon";
 
-export default function PrimaryNav({ cartQuantity }: { cartQuantity: number }) {
+export default function PrimaryNav({
+  cartQuantity,
+  setIsMobileNavOpen,
+}: {
+  cartQuantity: number;
+  setIsMobileNavOpen: (state: boolean) => void;
+}) {
   return (
     <nav
       role="navigation"
@@ -13,7 +19,7 @@ export default function PrimaryNav({ cartQuantity }: { cartQuantity: number }) {
       </div>
       <div>
         <div>
-          <button className="mx-4 md:hidden btn btn-square btn-ghost">
+          <button className="mx-4 md:hidden btn btn-square btn-ghost" onClick={() => setIsMobileNavOpen(true)}>
             <HamburgerIcon />
           </button>
           <div className="hidden md:flex flex-row">
@@ -29,15 +35,14 @@ export default function PrimaryNav({ cartQuantity }: { cartQuantity: number }) {
             </div>
             <div className="px-4">
               <a href="https://erinphoffman.com" target="_blank">
-                erinphoffman.com
+                erinhoffman.com
               </a>
             </div>
           </div>
         </div>
         <div className="indicator sm:pl-4">
           {cartQuantity > 0 ? (
-            <span className="indicator-item badge badge-accent badge-xs text-base">
-            </span>
+            <span className="indicator-item badge badge-accent badge-xs text-base"></span>
           ) : null}
           <label htmlFor="cart-drawer" className="drawer-button btn btn-circle">
             <CartIcon />

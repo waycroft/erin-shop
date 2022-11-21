@@ -14,9 +14,11 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from "@remix-run/react";
+import { useState } from "react";
 import invariant from "tiny-invariant";
 import Drawer from "./components/Drawer";
 import Footer from "./components/Footer";
+import MobileNavSheet from "./components/MobileNavSheet";
 import PrimaryNav from "./components/PrimaryNav";
 import ServerError from "./components/ServerError";
 import { commitSession, getSession } from "./sessions";
@@ -77,6 +79,8 @@ export default function App() {
   const cart = useLoaderData<LoaderData>();
   const isStoreActive = cart.checkoutUrl != null;
 
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+
   return (
     <html lang="en">
       <head>
@@ -89,7 +93,10 @@ export default function App() {
           <div className="drawer-content">
             {/* All page content goes within "drawer-content".
             Since the cart will be accessible on all pages, it's included here in the root. */}
-            <PrimaryNav cartQuantity={cart.totalQuantity} />
+            <PrimaryNav cartQuantity={cart.totalQuantity} setIsMobileNavOpen={setIsMobileNavOpen}/>
+            {isMobileNavOpen ? (
+              <MobileNavSheet setIsMobileNavOpen={setIsMobileNavOpen} />
+            ) : null}
             <Outlet />
             <Footer />
           </div>
