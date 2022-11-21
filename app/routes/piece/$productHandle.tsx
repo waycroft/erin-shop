@@ -183,7 +183,7 @@ export default function SingleProductRoute() {
           >
             <SplideTrack>
               {product.images.edges.map((image) => (
-                <SplideSlide key={image.node.id}>
+                <SplideSlide key={image.node.id} className="rounded-lg">
                   <img src={image.node.url} alt={image.node.altText} />
                 </SplideSlide>
               ))}
