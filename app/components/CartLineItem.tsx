@@ -7,14 +7,24 @@ import { CartLineItemId, CartLineItemInterface } from "~/utils/cartUtils";
 import EditIcon from "./icons/EditIcon";
 import TrashIcon from "./icons/TrashIcon";
 
-function CardImage({ imgUrl, imgTitle }: { imgUrl: string; imgTitle: string }) {
+function CardImage({
+  imgUrl,
+  imgTitle,
+  productHandle,
+}: {
+  imgUrl: string;
+  imgTitle: string;
+  productHandle: string;
+}) {
   return (
     <figure className="bg-base-100 sm:py-4">
-      <img
-        src={imgUrl}
-        alt={`An image of ${imgTitle}`}
-        className="w-36 h-36 object-cover rounded-lg border-2 border-neutral"
-      />
+      <a href={`/piece/${productHandle}`}>
+        <img
+          src={imgUrl}
+          alt={`An image of ${imgTitle}`}
+          className="w-36 h-36 object-cover rounded-lg border-2 border-neutral"
+        />
+      </a>
     </figure>
   );
 }
@@ -240,6 +250,7 @@ export default function CartLineItem({
           <CardImage
             imgUrl={item.merchandise?.image.url ?? ""}
             imgTitle={item.merchandise?.title ?? ""}
+            productHandle={item.merchandise?.product.handle}
           />
           <CardBody
             lineItem={item}
