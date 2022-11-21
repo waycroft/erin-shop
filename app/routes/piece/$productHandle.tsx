@@ -11,20 +11,20 @@ import {
   useSubmit,
   useTransition,
 } from "@remix-run/react";
-import { useContext } from "react";
+import { Splide, SplideSlide, SplideTrack } from "@splidejs/react-splide";
+import { useContext, useEffect, useRef } from "react";
 import invariant from "tiny-invariant";
 import ServerError from "~/components/ServerError";
+import splideStyles from "~/styles/splide.min.css";
 import { CartIdContext } from "~/utils/cartContext";
 import { editCart } from "~/utils/cartUtils";
+import formatNumberIntoCurrency from "~/utils/helpers/formatCurrency";
 import {
   getSingleProduct,
   getVariantBySelectedOptions,
   Product,
   ProductVariant,
 } from "~/utils/productUtils";
-import { Splide, SplideSlide } from "@splidejs/react-splide";
-import splideStyles from "~/styles/splide.min.css";
-import formatNumberIntoCurrency from "~/utils/helpers/formatCurrency";
 
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: splideStyles }];
@@ -113,8 +113,10 @@ export default function SingleProductRoute() {
   const selectedVariant = data.selectedVariant;
   const productHasNoOptions =
     product.options.length === 1 && product.options[0].values.length === 1;
-  const cartId = useContext(CartIdContext);
+  const mainSplideElem = useRef(null);
+  const thumbnailSplideElem = useRef(null);
 
+  const cartId = useContext(CartIdContext);
   const transition = useTransition();
   const submit = useSubmit();
   const [params] = useSearchParams();
@@ -124,23 +126,72 @@ export default function SingleProductRoute() {
     formatNumberIntoCurrency(product.priceRange.maxVariantPrice.amount),
   ];
 
+  const mainSplideCarouselOptions = {
+    type: "fade",
+    perPage: 1,
+    arrows: false,
+    pagination: false,
+  };
+  const thumbnailSplideCarouselOptions = {
+    type: "slide",
+    rewind: true,
+    gap: "1rem",
+    pagination: false,
+    fixedWidth: 110,
+    fixedHeight: 70,
+    cover: true,
+    isNavigation: true,
+    updateOnMove: true,
+    paginationKeyboard: true,
+    focus: "center",
+    trimSpace: "move",
+  };
+
+  useEffect(() => {
+    if (mainSplideElem.current && thumbnailSplideElem.current) {
+      mainSplideElem.current.sync(thumbnailSplideElem.current.splide);
+    }
+  }, []);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 justify-center gap-8 container mx-auto">
-      <Splide
-        aria-label="Product images"
-        options={{
-          perPage: 1,
-          type: "fade",
-          pagination: false
-        }}
-      >
-        {product.images.edges.map((image) => (
-          <SplideSlide key={image.node.id}>
-            <img src={image.node.url} alt={image.node.altText} className="rounded-lg" />
-          </SplideSlide>
-        ))}
-      </Splide>
-      <div className="">
+      <div className="flex flex-col gap-4">
+        <Splide
+          aria-label="Product images"
+          ref={mainSplideElem}
+          hasTrack={false}
+          options={mainSplideCarouselOptions}
+        >
+          <SplideTrack>
+            {product.images.edges.map((image) => (
+              <SplideSlide key={image.node.id}>
+                <img
+                  src={image.node.url}
+                  alt={image.node.altText}
+                  className="rounded-lg"
+                />
+              </SplideSlide>
+            ))}
+          </SplideTrack>
+        </Splide>
+        {product.images.edges.length > 1 ? (
+          <Splide
+            aria-label="Product thumbnails"
+            ref={thumbnailSplideElem}
+            hasTrack={false}
+            options={thumbnailSplideCarouselOptions}
+          >
+            <SplideTrack>
+              {product.images.edges.map((image) => (
+                <SplideSlide key={image.node.id}>
+                  <img src={image.node.url} alt={image.node.altText} />
+                </SplideSlide>
+              ))}
+            </SplideTrack>
+          </Splide>
+        ) : null}
+      </div>
+      <div>
         <h1 className="text-5xl font-medium mb-8 font-title">
           {product.title}
         </h1>
