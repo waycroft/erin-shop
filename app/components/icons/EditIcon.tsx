@@ -1,4 +1,4 @@
-export default function XErrorIcon() {
+export default function EditIcon() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
