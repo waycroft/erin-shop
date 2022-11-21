@@ -141,7 +141,7 @@ export default function SingleProductRoute() {
       >
         {product.images.edges.map((image) => (
           <SplideSlide key={image.node.id}>
-            <img src={image.node.url} alt={image.node.altText} />
+            <img src={image.node.url} alt={image.node.altText} className="rounded-lg" />
           </SplideSlide>
         ))}
       </Splide>
