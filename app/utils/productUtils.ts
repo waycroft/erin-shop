@@ -1,4 +1,4 @@
-import { Cart } from "~/components/CartContent";
+import { Cart } from "./cartUtils";
 import storefront from "./storefront";
 
 var gql = String.raw;
