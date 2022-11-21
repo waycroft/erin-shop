@@ -13,12 +13,8 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
-  useMatches,
 } from "@remix-run/react";
 import invariant from "tiny-invariant";
-import CartContent from "./components/CartContent";
-import CartHeader from "./components/CartHeader";
-import CartCheckoutButton from "./components/CheckoutButton";
 import Drawer from "./components/Drawer";
 import Footer from "./components/Footer";
 import PrimaryNav from "./components/PrimaryNav";
@@ -80,7 +76,6 @@ type LoaderData = Cart;
 export default function App() {
   const cart = useLoaderData<LoaderData>();
   const isStoreActive = cart.checkoutUrl != null;
-  const matches = useMatches();
 
   return (
     <html lang="en">
