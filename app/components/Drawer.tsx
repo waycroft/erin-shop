@@ -16,7 +16,7 @@ export default function Drawer({
   return (
     <div className="drawer-side">
       <label htmlFor="cart-drawer" className="drawer-overlay"></label>
-      <section className="h-screen p-4 overflow-y-auto w-5/6 md:w-8/12 lg:w-6/12 max-w-3xl text-base-content bg-base-100 drop-shadow-xl">
+      <section className="h-screen overflow-y-scroll p-4 w-5/6 md:w-8/12 lg:w-6/12 max-w-3xl text-base-content bg-base-100">
         <CartHeader
           subtotal={Number(cart.cost.subtotalAmount.amount)}
           totalQuantity={cart.totalQuantity}
