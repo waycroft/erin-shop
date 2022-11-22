@@ -1,41 +1,14 @@
-# Welcome to Remix!
+# [collect.erinhoffman.com](https://collect.erinhoffman.com)
 
-- [Remix Docs](https://remix.run/docs)
+Online shop for artist Erin Hoffman.
 
-## Fly Setup
+Built using the amazing [Remix](https://remix.run) and Shopify Storefront API.
 
-1. [Install `flyctl`](https://fly.io/docs/getting-started/installing-flyctl/)
+Thanks to [Heroicons](https://heroicons.com/), [TailwindCSS](https://tailwindcss.com/), [DaisyUI](daisyui.com/), the [beta React documentation](https://beta.reactjs.org/), and [fly.io](https://fly.io) for making this fun and easy.
 
-2. Sign up and log in to Fly
-
-```sh
-flyctl auth signup
-```
-
-3. Setup Fly. It might ask if you want to deploy, say no since you haven't built the app yet.
-
-```sh
-flyctl launch
-```
-
-## Development
-
-From your terminal:
-
-```sh
-npm run dev
-```
-
-This starts your app in development mode, rebuilding assets on file changes.
-
-## Deployment
-
-If you've followed the setup instructions already, all you need to do is run this:
-
-```sh
-npm run deploy
-```
-
-You can run `flyctl info` to get the url and ip address of your server.
-
-Check out the [fly docs](https://fly.io/docs/getting-started/node/) for more information.
+# TODO:
+- loading indicators on cart update (normal)
+- custom gallery sorting (normal)
+- catch boundaries (normal)
+- testing, both unit + e2e (normal)
+- custom email receipts (low)
