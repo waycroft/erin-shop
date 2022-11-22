@@ -15,4 +15,5 @@ Thanks to [Heroicons](https://heroicons.com/), [TailwindCSS](https://tailwindcss
 - catch boundaries (normal)
 - testing, both unit + e2e (normal)
 - github actions which include tests + fly deploy (normal)
+- robots.txt + any other SEO considerations (normal)
 - custom email receipts (low)
