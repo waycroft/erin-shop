@@ -3,6 +3,7 @@ import {
   json,
   LinksFunction,
   LoaderFunction,
+  MetaFunction,
 } from "@remix-run/node";
 import {
   Form,
@@ -28,6 +29,17 @@ import {
 
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: splideStyles }];
+};
+
+export const meta: MetaFunction = ({ data }) => {
+  const title = "Erin Hoffman: Collect:" + data.data.product.title;
+  const description = "The product page for " + data.data.product.title;
+  const img = data.data.product.images.edges[0].node.url;
+  return {
+    title: title,
+    description: description,
+    "og:image": img,
+  };
 };
 
 export const loader: LoaderFunction = async ({ request, params }) => {
