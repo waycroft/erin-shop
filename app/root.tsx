@@ -26,11 +26,26 @@ import styles from "./styles/app.css";
 import { CartIdContext } from "./utils/cartContext";
 import { Cart, editCart, handleIncomingCartSession } from "./utils/cartUtils";
 
-export const meta: MetaFunction = () => ({
-  charset: "utf-8",
-  title: "Erin Hoffman: Shop",
-  viewport: "width=device-width,initial-scale=1",
-});
+export const meta: MetaFunction = () => {
+  const description = "Original art by Erin Hoffman";
+  const title = "Erin Hoffman: Collect";
+  const url = "https://collect.erinhoffman.com";
+  const img =
+    "https://erinhoffman.sfo3.digitaloceanspaces.com/opengraph_img.png";
+  return {
+    charset: "utf-8",
+    viewport: "width=device-width,initial-scale=1",
+    title: title,
+    "og:title": title,
+    "og:url": url,
+    "og:type": "website",
+    "og:image": img,
+    description: description,
+    "og:description": description,
+    content: description,
+    "twitter:card": "summary_large_image",
+  };
+};
 
 export function links() {
   return [
@@ -93,7 +108,10 @@ export default function App() {
           <div className="drawer-content">
             {/* All page content goes within "drawer-content".
             Since the cart will be accessible on all pages, it's included here in the root. */}
-            <PrimaryNav cartQuantity={cart.totalQuantity} setIsMobileNavOpen={setIsMobileNavOpen}/>
+            <PrimaryNav
+              cartQuantity={cart.totalQuantity}
+              setIsMobileNavOpen={setIsMobileNavOpen}
+            />
             {isMobileNavOpen ? (
               <MobileNavSheet setIsMobileNavOpen={setIsMobileNavOpen} />
             ) : null}
