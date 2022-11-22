@@ -10,6 +10,7 @@ Thanks to [Heroicons](https://heroicons.com/), [TailwindCSS](https://tailwindcss
 - show on index page (gallery) if an item is sold out (high)
 - The "__session" cookie is not signed, but session cookies should be signed to prevent tampering on the client before they are sent back to the server. See https://remix.run/api/remix#signing-cookies for more information. (high)
 - Item title prints on index gallery on hover, or beneath image on mobile (normal)
+- Explicitly show max quantity available in sidebar cart, so that user understands why the quantity can't be changed above 1 (or whatever)
 - Lighthouse review (normal)
 - banner showing that we're "not currently taking orders" if store is set to inactive (normal)
 - loading indicators on cart update (normal)
