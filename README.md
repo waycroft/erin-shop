@@ -9,6 +9,7 @@ Thanks to [Heroicons](https://heroicons.com/), [TailwindCSS](https://tailwindcss
 # TODO:
 - show on index page (gallery) if an item is sold out (high)
 - The "__session" cookie is not signed, but session cookies should be signed to prevent tampering on the client before they are sent back to the server. See https://remix.run/api/remix#signing-cookies for more information. (high)
+- Sidebar cart gets cut off on mobile (high)
 - Item title prints on index gallery on hover, or beneath image on mobile (normal)
 - See if there's an `inputmode` available for changing item quantity that's not a numpad, but rather a selector (scroll + select)
 - Explicitly show max quantity available in sidebar cart, so that user understands why the quantity can't be changed above 1 (or whatever)
@@ -21,4 +22,4 @@ Thanks to [Heroicons](https://heroicons.com/), [TailwindCSS](https://tailwindcss
 - testing, both unit + e2e (normal)
 - github actions which include tests + fly deploy (normal)
 - robots.txt + any other SEO considerations (normal)
-- custom email receipts (low)
+- custom thank you email (low)
