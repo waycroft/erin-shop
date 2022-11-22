@@ -12,6 +12,7 @@ import {
   useSubmit,
   useTransition,
 } from "@remix-run/react";
+import type { Options as SplideOptions } from "@splidejs/react-splide";
 import { Splide, SplideSlide, SplideTrack } from "@splidejs/react-splide";
 import { useContext, useEffect, useRef } from "react";
 import invariant from "tiny-invariant";
@@ -125,8 +126,8 @@ export default function SingleProductRoute() {
   const selectedVariant = data.selectedVariant;
   const productHasNoOptions =
     product.options.length === 1 && product.options[0].values.length === 1;
-  const mainSplideElem = useRef(null);
-  const thumbnailSplideElem = useRef(null);
+  const mainSplideElem = useRef<Splide>(null);
+  const thumbnailSplideElem = useRef<Splide>(null);
 
   const cartId = useContext(CartIdContext);
   const transition = useTransition();
@@ -138,13 +139,13 @@ export default function SingleProductRoute() {
     formatNumberIntoCurrency(product.priceRange.maxVariantPrice.amount),
   ];
 
-  const mainSplideCarouselOptions = {
+  const mainSplideCarouselOptions: SplideOptions = {
     type: "fade",
     perPage: 1,
     arrows: false,
     pagination: false,
   };
-  const thumbnailSplideCarouselOptions = {
+  const thumbnailSplideCarouselOptions: SplideOptions = {
     type: "slide",
     rewind: true,
     gap: "1rem",
@@ -160,10 +161,20 @@ export default function SingleProductRoute() {
   };
 
   useEffect(() => {
-    if (mainSplideElem.current && thumbnailSplideElem.current) {
+    if (
+      mainSplideElem &&
+      thumbnailSplideElem &&
+      mainSplideElem.current &&
+      thumbnailSplideElem.current
+    ) {
+      invariant(thumbnailSplideElem.current.splide, "No splide instance");
       mainSplideElem.current.sync(thumbnailSplideElem.current.splide);
     }
   }, []);
+
+  useEffect(() => {
+    console.log("mainSplideElem", mainSplideElem);
+  }, [mainSplideElem]);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 justify-center gap-8 container mx-auto">
