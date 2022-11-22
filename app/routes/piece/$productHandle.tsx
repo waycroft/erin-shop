@@ -172,10 +172,6 @@ export default function SingleProductRoute() {
     }
   }, []);
 
-  useEffect(() => {
-    console.log("mainSplideElem", mainSplideElem);
-  }, [mainSplideElem]);
-
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 justify-center gap-8 container mx-auto">
       <div className="flex flex-col gap-4">
