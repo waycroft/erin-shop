@@ -16,6 +16,14 @@ export default function MobileNavSheet({
         <ol className="flex flex-col gap-8 place-content-center h-full text-center">
           <li>
             <a
+              href="/cart"
+              className="p-4"
+            >
+              cart
+            </a>
+          </li>
+          <li>
+            <a
               href="https://erinphoffman.com/work"
               target="_blank"
               className="p-4"

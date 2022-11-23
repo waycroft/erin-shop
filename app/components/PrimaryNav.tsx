@@ -45,7 +45,9 @@ export default function PrimaryNav({
             <span className="indicator-item badge badge-accent badge-xs text-base"></span>
           ) : null}
           <label htmlFor="cart-drawer" className="drawer-button btn btn-circle">
-            <CartIcon />
+            <Link to="/cart" prefetch="render">
+              <CartIcon />
+            </Link>
           </label>
         </div>
       </div>

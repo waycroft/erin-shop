@@ -3,7 +3,7 @@ import {
   json,
   LoaderFunction,
   MetaFunction,
-  Session,
+  Session
 } from "@remix-run/node";
 import {
   Links,
@@ -12,11 +12,10 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLoaderData,
+  useLoaderData
 } from "@remix-run/react";
 import { useState } from "react";
 import invariant from "tiny-invariant";
-import Drawer from "./components/Drawer";
 import Footer from "./components/Footer";
 import MobileNavSheet from "./components/MobileNavSheet";
 import PrimaryNav from "./components/PrimaryNav";
@@ -92,7 +91,6 @@ type LoaderData = Cart;
 
 export default function App() {
   const cart = useLoaderData<LoaderData>();
-  const isStoreActive = cart.checkoutUrl != null;
 
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
@@ -103,22 +101,16 @@ export default function App() {
         <Links />
       </head>
       <CartIdContext.Provider value={cart.id}>
-        <body className="drawer drawer-end font-body">
-          <input id="cart-drawer" type="checkbox" className="drawer-toggle" />
-          <div className="drawer-content">
-            {/* All page content goes within "drawer-content".
-            Since the cart will be accessible on all pages, it's included here in the root. */}
-            <PrimaryNav
-              cartQuantity={cart.totalQuantity}
-              setIsMobileNavOpen={setIsMobileNavOpen}
-            />
-            {isMobileNavOpen ? (
-              <MobileNavSheet setIsMobileNavOpen={setIsMobileNavOpen} />
-            ) : null}
-            <Outlet />
-            <Footer />
-          </div>
-          <Drawer cart={cart} isStoreActive={isStoreActive} />
+        <body className="font-body">
+          <PrimaryNav
+            cartQuantity={cart.totalQuantity}
+            setIsMobileNavOpen={setIsMobileNavOpen}
+          />
+          {isMobileNavOpen ? (
+            <MobileNavSheet setIsMobileNavOpen={setIsMobileNavOpen} />
+          ) : null}
+          <Outlet />
+          <Footer />
           <ScrollRestoration />
           <Scripts />
           <LiveReload />

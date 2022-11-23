@@ -2493,6 +2493,11 @@ body[dir="rtl"] .checkbox:checked,
   height: 6rem;
 }
 
+.\!h-fit {
+  height: -moz-fit-content !important;
+  height: fit-content !important;
+}
+
 .w-36 {
   width: 9rem;
 }
@@ -2608,8 +2613,20 @@ body[dir="rtl"] .checkbox:checked,
   border-bottom-width: calc(1px * var(--tw-divide-y-reverse));
 }
 
+.overflow-scroll {
+  overflow: scroll;
+}
+
+.\!overflow-scroll {
+  overflow: scroll !important;
+}
+
 .overflow-x-auto {
   overflow-x: auto;
+}
+
+.overflow-y-auto {
+  overflow-y: auto;
 }
 
 .overflow-y-scroll {
@@ -2902,10 +2919,1204 @@ body[dir="rtl"] .checkbox:checked,
 }
 
 @media (min-width: 768px) {
+  .md\:drawer {
+    display: grid;
+    width: 100%;
+    overflow: hidden;
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  .md\:drawer.drawer-end {
+    direction: rtl;
+  }
+
+  .drawer.md\:drawer-end {
+    direction: rtl;
+  }
+
+  .md\:drawer.drawer-end > * {
+    direction: ltr;
+  }
+
+  .drawer.md\:drawer-end > * {
+    direction: ltr;
+  }
+
+  .md\:drawer.drawer-end > .drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+    --tw-translate-x: 100%;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    justify-self: end;
+  }
+
+  .drawer.md\:drawer-end > .drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+    --tw-translate-x: 100%;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    justify-self: end;
+  }
+
+  .drawer.drawer-end > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+    --tw-translate-x: 100%;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    justify-self: end;
+  }
+
+  .md\:drawer.drawer-end > .drawer-toggle:checked ~ .drawer-side > .drawer-overlay + * {
+    --tw-translate-x: 0px;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  }
+
+  .drawer.md\:drawer-end > .drawer-toggle:checked ~ .drawer-side > .drawer-overlay + * {
+    --tw-translate-x: 0px;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  }
+
+  .drawer.drawer-end > .md\:drawer-toggle:checked ~ .drawer-side > .drawer-overlay + * {
+    --tw-translate-x: 0px;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  }
+
+   {
+    height: inherit;
+  }
+
+  .md\:drawer-toggle {
+    position: absolute;
+    height: 0px;
+    width: 0px;
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+    opacity: 0;
+  }
+
+  .md\:drawer-toggle ~ .drawer-content {
+    z-index: 0;
+    grid-column-start: 1;
+    grid-row-start: 1;
+    overflow-y: auto;
+    transition-property: all;
+    transition-duration: 300ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .md\:drawer-toggle ~ .drawer-side {
+    grid-column-start: 1;
+    grid-row-start: 1;
+    display: grid;
+    max-height: 100vh;
+  }
+
+  .md\:drawer-toggle ~ .drawer-side > .drawer-overlay {
+    visibility: hidden;
+    grid-column-start: 1;
+    grid-row-start: 1;
+    opacity: 0;
+    cursor: pointer;
+    --tw-bg-opacity: 1;
+    background-color: hsl(var(--nf, var(--n)) / var(--tw-bg-opacity));
+    transition-property: all;
+    transition-duration: 300ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .md\:drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+    z-index: 10;
+    grid-column-start: 1;
+    grid-row-start: 1;
+    --tw-translate-x: -100%;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    transition-property: all;
+    transition-duration: 300ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .md\:drawer-toggle:checked ~ .drawer-side {
+    overflow-y: auto;
+  }
+
+  .md\:drawer-toggle:checked ~ .drawer-side > .drawer-overlay {
+    visibility: visible;
+    opacity: 0.999999;
+    --tw-bg-opacity: 0.4;
+  }
+
+  .md\:drawer-toggle:checked ~ .drawer-side > .drawer-overlay + * {
+    --tw-translate-x: 0px;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  }
+
+  [dir="rtl"] .md\:drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+    --tw-translate-x: 100%;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  }
+
+  [dir="rtl"] .md\:drawer-toggle:checked ~ .drawer-side > .drawer-overlay + * {
+    --tw-translate-x: 0px;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  }
+
+  [dir="rtl"] .md\:drawer.drawer-end > .drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+    --tw-translate-x: -100%;
+  }
+
+  [dir="rtl"] .drawer.md\:drawer-end > .drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+    --tw-translate-x: -100%;
+  }
+
+  [dir="rtl"] .drawer.drawer-end > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+    --tw-translate-x: -100%;
+  }
+
+  [dir="rtl"] .md\:drawer.drawer-end > .drawer-toggle:checked ~ .drawer-side > .drawer-overlay + * {
+    --tw-translate-x: 0px;
+  }
+
+  [dir="rtl"] .drawer.md\:drawer-end > .drawer-toggle:checked ~ .drawer-side > .drawer-overlay + * {
+    --tw-translate-x: 0px;
+  }
+
+  [dir="rtl"] .drawer.drawer-end > .md\:drawer-toggle:checked ~ .drawer-side > .drawer-overlay + * {
+    --tw-translate-x: 0px;
+  }
+
+  [dir="rtl"] .md\:drawer.drawer-end > .drawer-toggle:checked ~ .drawer-content {
+    --tw-translate-x: 0.5rem;
+  }
+
+  [dir="rtl"] .drawer.md\:drawer-end > .drawer-toggle:checked ~ .drawer-content {
+    --tw-translate-x: 0.5rem;
+  }
+
+  [dir="rtl"] .drawer.drawer-end > .md\:drawer-toggle:checked ~ .drawer-content {
+    --tw-translate-x: 0.5rem;
+  }
+
+  @media (min-width: 1024px) {
+     {
+      grid-auto-columns: max-content auto;
+    }
+
+    .drawer-mobile > .md\:drawer-toggle ~ .drawer-content {
+      height: auto;
+    }
+
+    @media (min-width: 1024px) {
+      .drawer-mobile > .md\:drawer-toggle ~ .drawer-content {
+        grid-column-start: 2;
+      }
+
+      .drawer-mobile > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay {
+        visibility: visible;
+      }
+
+      .drawer-mobile > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-content {
+        grid-column-start: 1;
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side {
+        grid-column-start: 2;
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay {
+        visibility: visible;
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+    }
+
+    .drawer-mobile > .md\:drawer-toggle ~ .drawer-side {
+      overflow-y: auto;
+    }
+
+     {
+      grid-auto-columns: auto max-content;
+      direction: ltr;
+    }
+
+    .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-content {
+      height: auto;
+    }
+
+    .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side {
+      overflow-y: auto;
+    }
+
+     {
+      grid-auto-columns: max-content auto;
+    }
+
+    .drawer-mobile > .md\:drawer-toggle ~ .drawer-content {
+      height: auto;
+    }
+
+    @media (min-width: 1024px) {
+      .drawer-mobile > .md\:drawer-toggle ~ .drawer-content {
+        grid-column-start: 2;
+      }
+
+      .drawer-mobile > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay {
+        visibility: visible;
+      }
+
+      .drawer-mobile > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-content {
+        grid-column-start: 1;
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side {
+        grid-column-start: 2;
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay {
+        visibility: visible;
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+    }
+
+    .drawer-mobile > .md\:drawer-toggle ~ .drawer-side {
+      overflow-y: auto;
+    }
+
+     {
+      grid-auto-columns: auto max-content;
+      direction: ltr;
+    }
+
+    .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-content {
+      height: auto;
+    }
+
+    .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side {
+      overflow-y: auto;
+    }
+
+     {
+      grid-auto-columns: max-content auto;
+    }
+
+    .drawer-mobile > .md\:drawer-toggle ~ .drawer-content {
+      height: auto;
+    }
+
+    @media (min-width: 1024px) {
+      .drawer-mobile > .md\:drawer-toggle ~ .drawer-content {
+        grid-column-start: 2;
+      }
+
+      .drawer-mobile > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay {
+        visibility: visible;
+      }
+
+      .drawer-mobile > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-content {
+        grid-column-start: 1;
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side {
+        grid-column-start: 2;
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay {
+        visibility: visible;
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+    }
+
+    .drawer-mobile > .md\:drawer-toggle ~ .drawer-side {
+      overflow-y: auto;
+    }
+
+     {
+      grid-auto-columns: auto max-content;
+      direction: ltr;
+    }
+
+    .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-content {
+      height: auto;
+    }
+
+    .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side {
+      overflow-y: auto;
+    }
+
+     {
+      grid-auto-columns: max-content auto;
+    }
+
+    .drawer-mobile > .md\:drawer-toggle ~ .drawer-content {
+      height: auto;
+    }
+
+    @media (min-width: 1024px) {
+      .drawer-mobile > .md\:drawer-toggle ~ .drawer-content {
+        grid-column-start: 2;
+      }
+
+      .drawer-mobile > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay {
+        visibility: visible;
+      }
+
+      .drawer-mobile > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-content {
+        grid-column-start: 1;
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side {
+        grid-column-start: 2;
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay {
+        visibility: visible;
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+    }
+
+    .drawer-mobile > .md\:drawer-toggle ~ .drawer-side {
+      overflow-y: auto;
+    }
+
+     {
+      grid-auto-columns: auto max-content;
+      direction: ltr;
+    }
+
+    .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-content {
+      height: auto;
+    }
+
+    .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side {
+      overflow-y: auto;
+    }
+
+     {
+      grid-auto-columns: max-content auto;
+      height: auto;
+    }
+
+    @media (min-width: 1024px) {
+       {
+        grid-column-start: 2;
+        visibility: visible;
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+
+      .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-content {
+        grid-column-start: 1;
+      }
+
+      .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-side {
+        grid-column-start: 2;
+      }
+
+      .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-side > .drawer-overlay {
+        visibility: visible;
+      }
+
+      .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+
+      overflow-y: auto;
+    }
+
+    .drawer-mobile.md\:drawer-end {
+      grid-auto-columns: auto max-content;
+      direction: ltr;
+    }
+
+    .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-content {
+      height: auto;
+    }
+
+    .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-side {
+      overflow-y: auto;
+    }
+
+     {
+      grid-auto-columns: max-content auto;
+    }
+
+    .drawer-mobile > .md\:drawer-toggle ~ .drawer-content {
+      height: auto;
+    }
+
+    @media (min-width: 1024px) {
+      .drawer-mobile > .md\:drawer-toggle ~ .drawer-content {
+        grid-column-start: 2;
+      }
+
+      .drawer-mobile > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay {
+        visibility: visible;
+      }
+
+      .drawer-mobile > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-content {
+        grid-column-start: 1;
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side {
+        grid-column-start: 2;
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay {
+        visibility: visible;
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+    }
+
+    .drawer-mobile > .md\:drawer-toggle ~ .drawer-side {
+      overflow-y: auto;
+    }
+
+     {
+      grid-auto-columns: auto max-content;
+      direction: ltr;
+    }
+
+    .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-content {
+      height: auto;
+    }
+
+    .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side {
+      overflow-y: auto;
+    }
+
+     {
+      grid-auto-columns: max-content auto;
+      height: auto;
+    }
+
+    @media (min-width: 1024px) {
+       {
+        grid-column-start: 2;
+        visibility: visible;
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+
+      .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-content {
+        grid-column-start: 1;
+      }
+
+      .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-side {
+        grid-column-start: 2;
+      }
+
+      .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-side > .drawer-overlay {
+        visibility: visible;
+      }
+
+      .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+
+      overflow-y: auto;
+    }
+
+    .drawer-mobile.md\:drawer-end {
+      grid-auto-columns: auto max-content;
+      direction: ltr;
+    }
+
+    .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-content {
+      height: auto;
+    }
+
+    .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-side {
+      overflow-y: auto;
+    }
+
+     {
+      grid-auto-columns: max-content auto;
+    }
+
+    .drawer-mobile > .md\:drawer-toggle ~ .drawer-content {
+      height: auto;
+    }
+
+    @media (min-width: 1024px) {
+      .drawer-mobile > .md\:drawer-toggle ~ .drawer-content {
+        grid-column-start: 2;
+      }
+
+      .drawer-mobile > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay {
+        visibility: visible;
+      }
+
+      .drawer-mobile > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-content {
+        grid-column-start: 1;
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side {
+        grid-column-start: 2;
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay {
+        visibility: visible;
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+    }
+
+    .drawer-mobile > .md\:drawer-toggle ~ .drawer-side {
+      overflow-y: auto;
+    }
+
+     {
+      grid-auto-columns: auto max-content;
+      direction: ltr;
+    }
+
+    .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-content {
+      height: auto;
+    }
+
+    .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side {
+      overflow-y: auto;
+    }
+
+     {
+      grid-auto-columns: max-content auto;
+      height: auto;
+    }
+
+    @media (min-width: 1024px) {
+       {
+        grid-column-start: 2;
+        visibility: visible;
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+
+      .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-content {
+        grid-column-start: 1;
+      }
+
+      .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-side {
+        grid-column-start: 2;
+      }
+
+      .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-side > .drawer-overlay {
+        visibility: visible;
+      }
+
+      .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+
+      overflow-y: auto;
+    }
+
+    .drawer-mobile.md\:drawer-end {
+      grid-auto-columns: auto max-content;
+      direction: ltr;
+    }
+
+    .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-content {
+      height: auto;
+    }
+
+    .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-side {
+      overflow-y: auto;
+    }
+
+     {
+      grid-auto-columns: max-content auto;
+    }
+
+    .drawer-mobile > .md\:drawer-toggle ~ .drawer-content {
+      height: auto;
+    }
+
+    @media (min-width: 1024px) {
+      .drawer-mobile > .md\:drawer-toggle ~ .drawer-content {
+        grid-column-start: 2;
+      }
+
+      .drawer-mobile > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay {
+        visibility: visible;
+      }
+
+      .drawer-mobile > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-content {
+        grid-column-start: 1;
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side {
+        grid-column-start: 2;
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay {
+        visibility: visible;
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+    }
+
+    .drawer-mobile > .md\:drawer-toggle ~ .drawer-side {
+      overflow-y: auto;
+    }
+
+     {
+      grid-auto-columns: auto max-content;
+      direction: ltr;
+    }
+
+    .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-content {
+      height: auto;
+    }
+
+    .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side {
+      overflow-y: auto;
+    }
+
+     {
+      grid-auto-columns: max-content auto;
+      height: auto;
+    }
+
+    @media (min-width: 1024px) {
+       {
+        grid-column-start: 2;
+        visibility: visible;
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+
+      .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-content {
+        grid-column-start: 1;
+      }
+
+      .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-side {
+        grid-column-start: 2;
+      }
+
+      .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-side > .drawer-overlay {
+        visibility: visible;
+      }
+
+      .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+
+      overflow-y: auto;
+    }
+
+    .drawer-mobile.md\:drawer-end {
+      grid-auto-columns: auto max-content;
+      direction: ltr;
+    }
+
+    .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-content {
+      height: auto;
+    }
+
+    .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-side {
+      overflow-y: auto;
+    }
+
+     {
+      grid-auto-columns: max-content auto;
+    }
+
+    .drawer-mobile > .md\:drawer-toggle ~ .drawer-content {
+      height: auto;
+    }
+
+    @media (min-width: 1024px) {
+      .drawer-mobile > .md\:drawer-toggle ~ .drawer-content {
+        grid-column-start: 2;
+      }
+
+      .drawer-mobile > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay {
+        visibility: visible;
+      }
+
+      .drawer-mobile > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-content {
+        grid-column-start: 1;
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side {
+        grid-column-start: 2;
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay {
+        visibility: visible;
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+    }
+
+    .drawer-mobile > .md\:drawer-toggle ~ .drawer-side {
+      overflow-y: auto;
+    }
+
+     {
+      grid-auto-columns: auto max-content;
+      direction: ltr;
+    }
+
+    .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-content {
+      height: auto;
+    }
+
+    .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side {
+      overflow-y: auto;
+    }
+
+     {
+      grid-auto-columns: max-content auto;
+    }
+
+    .drawer-mobile > .md\:drawer-toggle ~ .drawer-content {
+      height: auto;
+    }
+
+    @media (min-width: 1024px) {
+      .drawer-mobile > .md\:drawer-toggle ~ .drawer-content {
+        grid-column-start: 2;
+      }
+
+      .drawer-mobile > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay {
+        visibility: visible;
+      }
+
+      .drawer-mobile > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-content {
+        grid-column-start: 1;
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side {
+        grid-column-start: 2;
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay {
+        visibility: visible;
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+    }
+
+    .drawer-mobile > .md\:drawer-toggle ~ .drawer-side {
+      overflow-y: auto;
+    }
+
+     {
+      grid-auto-columns: auto max-content;
+      direction: ltr;
+    }
+
+    .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-content {
+      height: auto;
+    }
+
+    .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side {
+      overflow-y: auto;
+    }
+
+     {
+      grid-auto-columns: max-content auto;
+      height: auto;
+    }
+
+    @media (min-width: 1024px) {
+       {
+        grid-column-start: 2;
+        visibility: visible;
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+
+      .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-content {
+        grid-column-start: 1;
+      }
+
+      .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-side {
+        grid-column-start: 2;
+      }
+
+      .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-side > .drawer-overlay {
+        visibility: visible;
+      }
+
+      .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+
+      overflow-y: auto;
+    }
+
+    .drawer-mobile.md\:drawer-end {
+      grid-auto-columns: auto max-content;
+      direction: ltr;
+    }
+
+    .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-content {
+      height: auto;
+    }
+
+    .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-side {
+      overflow-y: auto;
+    }
+
+     {
+      grid-auto-columns: max-content auto;
+      height: auto;
+    }
+
+    @media (min-width: 1024px) {
+       {
+        grid-column-start: 2;
+        visibility: visible;
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+
+      .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-content {
+        grid-column-start: 1;
+      }
+
+      .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-side {
+        grid-column-start: 2;
+      }
+
+      .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-side > .drawer-overlay {
+        visibility: visible;
+      }
+
+      .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+
+      overflow-y: auto;
+    }
+
+    .drawer-mobile.md\:drawer-end {
+      grid-auto-columns: auto max-content;
+      direction: ltr;
+    }
+
+    .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-content {
+      height: auto;
+    }
+
+    .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-side {
+      overflow-y: auto;
+    }
+
+     {
+      grid-auto-columns: max-content auto;
+    }
+
+    .drawer-mobile > .md\:drawer-toggle ~ .drawer-content {
+      height: auto;
+    }
+
+    @media (min-width: 1024px) {
+      .drawer-mobile > .md\:drawer-toggle ~ .drawer-content {
+        grid-column-start: 2;
+      }
+
+      .drawer-mobile > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay {
+        visibility: visible;
+      }
+
+      .drawer-mobile > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-content {
+        grid-column-start: 1;
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side {
+        grid-column-start: 2;
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay {
+        visibility: visible;
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+    }
+
+    .drawer-mobile > .md\:drawer-toggle ~ .drawer-side {
+      overflow-y: auto;
+    }
+
+     {
+      grid-auto-columns: auto max-content;
+      direction: ltr;
+    }
+
+    .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-content {
+      height: auto;
+    }
+
+    .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side {
+      overflow-y: auto;
+    }
+
+     {
+      grid-auto-columns: max-content auto;
+      height: auto;
+    }
+
+    @media (min-width: 1024px) {
+       {
+        grid-column-start: 2;
+        visibility: visible;
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+
+      .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-content {
+        grid-column-start: 1;
+      }
+
+      .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-side {
+        grid-column-start: 2;
+      }
+
+      .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-side > .drawer-overlay {
+        visibility: visible;
+      }
+
+      .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+
+      overflow-y: auto;
+    }
+
+    .drawer-mobile.md\:drawer-end {
+      grid-auto-columns: auto max-content;
+      direction: ltr;
+    }
+
+    .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-content {
+      height: auto;
+    }
+
+    .drawer-mobile.md\:drawer-end > .drawer-toggle ~ .drawer-side {
+      overflow-y: auto;
+    }
+
+     {
+      grid-auto-columns: max-content auto;
+    }
+
+    .drawer-mobile > .md\:drawer-toggle ~ .drawer-content {
+      height: auto;
+    }
+
+    @media (min-width: 1024px) {
+      .drawer-mobile > .md\:drawer-toggle ~ .drawer-content {
+        grid-column-start: 2;
+      }
+
+      .drawer-mobile > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay {
+        visibility: visible;
+      }
+
+      .drawer-mobile > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-content {
+        grid-column-start: 1;
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side {
+        grid-column-start: 2;
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay {
+        visibility: visible;
+      }
+
+      .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side > .drawer-overlay + * {
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      }
+    }
+
+    .drawer-mobile > .md\:drawer-toggle ~ .drawer-side {
+      overflow-y: auto;
+    }
+
+     {
+      grid-auto-columns: auto max-content;
+      direction: ltr;
+    }
+
+    .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-content {
+      height: auto;
+    }
+
+    .drawer-mobile.drawer-end > .md\:drawer-toggle ~ .drawer-side {
+      overflow-y: auto;
+    }
+
+    .drawer-mobile > .md\:drawer-toggle:checked ~ .drawer-content {
+      --tw-translate-x: 0px;
+      transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    }
+  }
+
    
     .btn.loading.md\:btn-lg:before {
     height: 1.25rem;
     width: 1.25rem;
+  }
+
+  .md\:drawer.drawer-end > .drawer-toggle:checked ~ .drawer-content {
+    --tw-translate-x: -0.5rem;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  }
+
+  .drawer.md\:drawer-end > .drawer-toggle:checked ~ .drawer-content {
+    --tw-translate-x: -0.5rem;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  }
+
+  .drawer.drawer-end > .md\:drawer-toggle:checked ~ .drawer-content {
+    --tw-translate-x: -0.5rem;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  }
+
+  .md\:drawer-toggle:checked ~ .drawer-content {
+    --tw-translate-x: 0.5rem;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  }
+
+  .md\:drawer-toggle:focus-visible ~ .drawer-content .drawer-button {
+    outline: 2px solid hsl(var(--nf));
+    outline-offset: 2px;
+  }
+
+  .md\:drawer-toggle:focus-visible ~ .drawer-content .drawer-button.btn-primary {
+    outline: 2px solid hsl(var(--p));
+  }
+
+  .md\:drawer-toggle:focus-visible ~ .drawer-content .drawer-button.btn-secondary {
+    outline: 2px solid hsl(var(--s));
+  }
+
+  .md\:drawer-toggle:focus-visible ~ .drawer-content .drawer-button.btn-accent {
+    outline: 2px solid hsl(var(--a));
+  }
+
+  .md\:drawer-toggle:focus-visible ~ .drawer-content .drawer-button.btn-info {
+    outline: 2px solid hsl(var(--in));
+  }
+
+  .md\:drawer-toggle:focus-visible ~ .drawer-content .drawer-button.btn-success {
+    outline: 2px solid hsl(var(--su));
+  }
+
+  .md\:drawer-toggle:focus-visible ~ .drawer-content .drawer-button.btn-warning {
+    outline: 2px solid hsl(var(--wa));
+  }
+
+  .md\:drawer-toggle:focus-visible ~ .drawer-content .drawer-button.btn-error {
+    outline: 2px solid hsl(var(--er));
+  }
+
+  .md\:drawer-toggle:focus-visible ~ .drawer-content .drawer-button.glass {
+    outline: 2px solid currentColor;
+  }
+
+  .md\:drawer-toggle:focus-visible ~ .drawer-content .drawer-button.btn-ghost {
+    outline: 2px solid currentColor;
+  }
+
+  .md\:drawer-toggle:focus-visible ~ .drawer-content .drawer-button.btn-link {
+    outline: 2px solid currentColor;
   }
 
   .md\:btn-lg {
