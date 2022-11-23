@@ -18,8 +18,8 @@ export default function CartHeader({
       className={`mt-4 mb-16 flex flex-row justify-between items-${itemsAlign} container mx-auto`}
     >
       <div className={totalQuantity <= 0 ? "text-base-300" : ""}>
-        <p className="text-3xl mb-2">{formattedSubtotal}</p>
-        <p>Total Quantity: {totalQuantity}</p>
+        <p className="text-2xl sm:text-3xl mb-2">{formattedSubtotal}</p>
+        <p className="text-sm sm:text-base">Total Quantity: {totalQuantity}</p>
       </div>
       <div className="flex flex-col gap-2">{children}</div>
     </div>
