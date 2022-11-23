@@ -3,6 +3,7 @@ import ToastNotification from "./ToastNotification";
 import { motion } from "framer-motion";
 import { useContext } from "react";
 import { CartIdContext } from "~/utils/cartContext";
+import { Product } from "~/utils/productUtils";
 
 function ProductHoverActionButtons({
   productSlug,
@@ -58,20 +59,14 @@ const variants = {
   hidden: { opacity: 0, x: -15, y: -7.5 },
 };
 
-export default function ProductThumbnail({
-  img,
-  alt,
-  productVariantId,
-  productSlug,
-  availableForSale,
-}: {
-  img: string;
-  alt?: string;
-  productVariantId: string;
-  productSlug: string;
-  availableForSale: boolean;
-}) {
+export default function ProductThumbnail({ product }: { product: Product }) {
   const fetcher = useFetcher();
+  const productSlug = product.handle;
+  const img = product.featuredImage.url ?? product.images?.edges[0]?.node.url;
+  const alt =
+    product.featuredImage.altText ?? product.images?.edges[0]?.node.altText;
+  const productVariantId = product.variants?.edges[0]?.node.id;
+  const availableForSale = product.availableForSale;
 
   return (
     <motion.div className="relative" variants={variants}>
@@ -92,6 +87,9 @@ export default function ProductThumbnail({
           availableForSale={availableForSale}
         />
       </div>
+      {!availableForSale ? (
+        <p className="text-sm mt-1 mb-2 text-rose-600">sold out</p>
+      ) : null}
       {fetcher.type === "done" ? (
         <ToastNotification
           type="success"
