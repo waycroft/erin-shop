@@ -14,11 +14,13 @@ function CardImage({
 }: {
   imgUrl: string;
   imgTitle: string;
-  productHandle: string;
+  productHandle: string | undefined;
 }) {
+  const productSlug = productHandle ? `/piece/${productHandle}` : "#";
+
   return (
     <figure className="bg-base-100 sm:py-4">
-      <a href={`/piece/${productHandle}`}>
+      <a href={productSlug}>
         <img
           src={imgUrl}
           alt={`An image of ${imgTitle}`}
