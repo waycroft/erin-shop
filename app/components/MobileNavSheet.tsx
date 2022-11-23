@@ -1,3 +1,4 @@
+import { Link } from "@remix-run/react";
 import XErrorIcon from "./icons/XErrorIcon";
 
 export default function MobileNavSheet({
@@ -15,12 +16,13 @@ export default function MobileNavSheet({
       <nav className="h-full">
         <ol className="flex flex-col gap-8 place-content-center h-full text-center">
           <li>
-            <a
-              href="/cart"
+            <Link
+              to="/cart"
               className="p-4"
+              onClick={() => setIsMobileNavOpen(false)}
             >
               cart
-            </a>
+            </Link>
           </li>
           <li>
             <a
