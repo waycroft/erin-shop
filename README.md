@@ -12,6 +12,7 @@ Thanks to [Heroicons](https://heroicons.com/), [TailwindCSS](https://tailwindcss
 - banner showing that we're "not currently taking orders" if store is set to inactive (high)
 - See if there's an `inputmode` available for changing item quantity that's not a numpad, but rather a selector (scroll + select) (normal)
 - Explicitly show max quantity available in cart, so that user understands why the quantity can't be changed above 1 (or whatever) (normal)
+- GH actions: dev deploy on dev branch push, main deploy on main branch push (normal)
 - Float cart button bottom right when navbar is scrolled out of view
 - Lighthouse review (normal)
 - loading indicators on cart update (normal)
