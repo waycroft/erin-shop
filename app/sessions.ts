@@ -5,6 +5,7 @@ const { getSession, commitSession, destroySession } =
     cookie: {
       name: "__session",
       maxAge: 864000,
+      secrets: [process.env.COOKIE_SECRET ?? "AfA95Kohw89EjyqyErs5dqVowqvvi6T"]
     },
   });
 
