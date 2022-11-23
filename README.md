@@ -13,6 +13,7 @@ Thanks to [Heroicons](https://heroicons.com/), [TailwindCSS](https://tailwindcss
 - Item title prints on index gallery on hover, or beneath image on mobile (normal)
 - See if there's an `inputmode` available for changing item quantity that's not a numpad, but rather a selector (scroll + select)
 - Explicitly show max quantity available in sidebar cart, so that user understands why the quantity can't be changed above 1 (or whatever)
+- Float cart button bottom right when navbar is scrolled out of view
 - Lighthouse review (normal)
 - banner showing that we're "not currently taking orders" if store is set to inactive (normal)
 - loading indicators on cart update (normal)
