@@ -2489,6 +2489,10 @@ body[dir="rtl"] .checkbox:checked,
   height: 1.25rem;
 }
 
+.h-24 {
+  height: 6rem;
+}
+
 .w-36 {
   width: 9rem;
 }
@@ -2536,6 +2540,10 @@ body[dir="rtl"] .checkbox:checked,
 
 .w-1\/2 {
   width: 50%;
+}
+
+.w-24 {
+  width: 6rem;
 }
 
 .max-w-3xl {
@@ -2853,12 +2861,20 @@ body[dir="rtl"] .checkbox:checked,
     margin-left: 1rem;
   }
 
+  .sm\:h-36 {
+    height: 9rem;
+  }
+
   .sm\:w-auto {
     width: auto;
   }
 
   .sm\:w-5\/12 {
     width: 41.666667%;
+  }
+
+  .sm\:w-36 {
+    width: 9rem;
   }
 
   .sm\:grid-cols-3 {

@@ -24,7 +24,7 @@ function CardImage({
         <img
           src={imgUrl}
           alt={`An image of ${imgTitle}`}
-          className="w-36 h-36 object-cover rounded-lg border-2 border-neutral"
+          className="w-24 h-24 sm:w-36 sm:h-36 object-cover rounded-lg border-2 border-neutral"
         />
       </a>
     </figure>
