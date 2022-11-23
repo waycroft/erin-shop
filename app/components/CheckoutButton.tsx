@@ -12,7 +12,7 @@ export default function CartCheckoutButton({
           Checkout
         </a>
       ) : (
-        <button className="btn btn-primary" disabled>
+        <button className="btn btn-primary lowercase" disabled>
           Checkout
         </button>
       )}

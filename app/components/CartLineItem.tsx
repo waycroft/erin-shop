@@ -190,7 +190,7 @@ function ChangeQuantityButtons({
             ref={quantityInputFieldRef}
           />
           <button
-            className="btn btn-primary"
+            className="btn btn-secondary lowercase"
             type="submit"
             name="_action"
             value={"updateLineItems"}
@@ -201,7 +201,7 @@ function ChangeQuantityButtons({
             Save
           </button>
           <button
-            className="btn btn-outline mx-2"
+            className="btn btn-outline mx-2 lowercase"
             type="reset"
             onClick={() => {
               setIsUpdatingQuantity(false);
