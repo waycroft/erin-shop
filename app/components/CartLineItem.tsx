@@ -175,7 +175,7 @@ function ChangeQuantityButtons({
     rendering the node, because it still needs to exist in the DOM tree
     to perform the form submit */}
       <fetcher.Form method="post" action="/" className="form-control py-4">
-        <label htmlFor="changeQuantityInput" className="text-accent mb-2">
+        <label htmlFor="changeQuantityInput" className="text-base-300 mb-2">
           Available quantity: {quantityAvailable}
         </label>
         <div className="flex flex-row w-full">
