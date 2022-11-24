@@ -7,7 +7,7 @@ var gql = String.raw;
 
 export type Cart = {
   id: string;
-  checkoutUrl: string;
+  checkoutUrl: string | undefined | null;
   cost: {
     subtotalAmount: {
       amount: string;
@@ -48,6 +48,7 @@ export async function handleIncomingCartSession(session: Session) {
   if (session.has("cartId")) {
     const res = await getCart(session.get("cartId"));
     invariant(!(res.errors && res.userErrors), "Error fetching cart");
+    invariant(res?.data?.cart, "No cart found");
     cart = res.data.cart;
   } else {
     const res = await createCart();
