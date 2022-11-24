@@ -3,7 +3,7 @@ import {
   json,
   LoaderFunction,
   MetaFunction,
-  Session
+  Session,
 } from "@remix-run/node";
 import {
   Links,
@@ -12,11 +12,12 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLoaderData
+  useLoaderData,
 } from "@remix-run/react";
 import { useState } from "react";
 import invariant from "tiny-invariant";
 import Footer from "./components/Footer";
+import HomeBanner from "./components/HomeBanner";
 import MobileNavSheet from "./components/MobileNavSheet";
 import PrimaryNav from "./components/PrimaryNav";
 import ServerError from "./components/ServerError";
@@ -91,7 +92,8 @@ type LoaderData = Cart;
 
 export default function App() {
   const cart = useLoaderData<LoaderData>();
-
+  const isStoreActive = !!cart?.checkoutUrl;
+  const [isBannerVisible, setIsBannerVisible] = useState(!isStoreActive);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
   return (
@@ -102,6 +104,10 @@ export default function App() {
       </head>
       <CartIdContext.Provider value={cart.id}>
         <body className="font-body">
+          <HomeBanner
+            isBannerVisible={isBannerVisible}
+            setIsBannerVisible={setIsBannerVisible}
+          />
           <PrimaryNav
             cartQuantity={cart.totalQuantity}
             setIsMobileNavOpen={setIsMobileNavOpen}

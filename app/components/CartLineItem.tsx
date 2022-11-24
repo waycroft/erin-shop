@@ -1,4 +1,4 @@
-import { FetcherWithComponents } from "@remix-run/react";
+import { FetcherWithComponents, Link } from "@remix-run/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useContext, useEffect, useRef, useState } from "react";
 import invariant from "tiny-invariant";
@@ -20,13 +20,13 @@ function CardImage({
 
   return (
     <figure className="bg-base-100 sm:py-4">
-      <a href={productSlug}>
+      <Link to={productSlug}>
         <img
           src={imgUrl}
           alt={`An image of ${imgTitle}`}
           className="w-24 h-24 sm:w-36 sm:h-36 object-cover rounded-lg border-2 border-neutral"
         />
-      </a>
+      </Link>
     </figure>
   );
 }

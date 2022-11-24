@@ -64,6 +64,7 @@ export default function CartRoute() {
           <CartCheckoutButton
             checkoutUrl={cart?.checkoutUrl}
             disabled={cart?.totalQuantity <= 0 || !isStoreActive}
+            disabledReason={"Store isn't open."}
           />
         </CartHeader>
         <CartContent cart={cart} />
