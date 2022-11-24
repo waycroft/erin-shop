@@ -17,6 +17,5 @@ Thanks to [Heroicons](https://heroicons.com/), [TailwindCSS](https://tailwindcss
 - custom gallery sorting (normal)
 - catch boundaries (normal)
 - testing, both unit + e2e (normal)
-- github actions which include tests + fly deploy (normal)
 - robots.txt + any other SEO considerations (normal)
 - custom thank you email (low)
