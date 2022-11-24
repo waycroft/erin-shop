@@ -49,7 +49,7 @@ export default function PrimaryNav({
           ) : null}
           <Link
             to="/cart"
-            className="hover:!bg-transparent hover:!text-neutral p-2 btn btn-neutral btn-circle"
+            className="btn btn-neutral btn-circle"
           >
             <CartIcon />
           </Link>
