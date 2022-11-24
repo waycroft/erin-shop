@@ -47,7 +47,7 @@ export default function PrimaryNav({
           {cartQuantity > 0 ? (
             <span className="indicator-item badge badge-accent badge-xs text-base"></span>
           ) : null}
-          <Link to="/cart">
+          <Link to="/cart" className="p-2 btn btn-outline btn-circle">
             <CartIcon />
           </Link>
         </div>

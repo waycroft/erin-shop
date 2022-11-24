@@ -170,16 +170,20 @@ function ChangeQuantityButtons({
   }, [isUpdatingQuantity]);
 
   return (
-    <div className={isUpdatingQuantity ? "" : "hidden"}>
+    <div className={isUpdatingQuantity ? "w-full sm:w-auto" : "hidden"}>
       {/* Using this pattern (using CSS display) as opposed to conditionally
     rendering the node, because it still needs to exist in the DOM tree
     to perform the form submit */}
-      <fetcher.Form method="post" action="/">
-        <div className="form-control flex flex-row my-2">
+      <fetcher.Form method="post" action="/" className="form-control py-4">
+        <label htmlFor="changeQuantityInput" className="text-accent mb-2">
+          Available quantity: {quantityAvailable}
+        </label>
+        <div className="flex flex-row w-full">
           <input
             type="number"
+            id="changeQuantityInput"
             inputMode="numeric"
-            className="input input-bordered mx-2"
+            className="input input-bordered mr-1"
             defaultValue={quantity}
             onInvalid={() => {
               {
@@ -192,7 +196,7 @@ function ChangeQuantityButtons({
             ref={quantityInputFieldRef}
           />
           <button
-            className="btn btn-secondary lowercase"
+            className="btn btn-secondary lowercase flex-grow mx-1"
             type="submit"
             name="_action"
             value={"updateLineItems"}
@@ -203,7 +207,7 @@ function ChangeQuantityButtons({
             Save
           </button>
           <button
-            className="btn btn-outline mx-2 lowercase"
+            className="btn btn-outline lowercase flex-grow mx-1"
             type="reset"
             onClick={() => {
               setIsUpdatingQuantity(false);

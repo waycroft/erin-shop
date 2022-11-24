@@ -9,7 +9,7 @@ export default function CartContent({ cart }: { cart: Cart }) {
 
   return (
     <>
-      <div className="h-full">
+      <div>
         {cartHasItems ? (
           <ol className="divide-y">
             {cart.lines.edges.map((edge) => (

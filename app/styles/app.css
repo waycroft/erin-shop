@@ -1536,6 +1536,25 @@ html {
   outline: 2px solid currentColor;
 }
 
+.btn-link {
+  border-color: transparent;
+  background-color: transparent;
+  --tw-text-opacity: 1;
+  color: hsl(var(--p) / var(--tw-text-opacity));
+  text-decoration-line: underline;
+}
+
+.btn-link:hover, 
+    .btn-link.btn-active {
+  border-color: transparent;
+  background-color: transparent;
+  text-decoration-line: underline;
+}
+
+.btn-link:focus-visible {
+  outline: 2px solid currentColor;
+}
+
 .btn-outline {
   border-color: currentColor;
   background-color: transparent;
@@ -2028,6 +2047,18 @@ html {
   font-size: 0.875rem;
 }
 
+.btn-lg {
+  height: 4rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  min-height: 4rem;
+  font-size: 1.125rem;
+}
+
+.btn-block {
+  width: 100%;
+}
+
 .btn-square:where(.btn-xs) {
   height: 1.5rem;
   width: 1.5rem;
@@ -2304,6 +2335,11 @@ html {
   margin-bottom: 1rem;
 }
 
+.mx-1 {
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+}
+
 .mt-4 {
   margin-top: 1rem;
 }
@@ -2322,6 +2358,18 @@ html {
 
 .mb-4 {
   margin-bottom: 1rem;
+}
+
+.mb-1 {
+  margin-bottom: 0.25rem;
+}
+
+.mr-2 {
+  margin-right: 0.5rem;
+}
+
+.mr-1 {
+  margin-right: 0.25rem;
 }
 
 .inline-block {
@@ -2372,6 +2420,10 @@ html {
   height: 1.25rem;
 }
 
+.h-8 {
+  height: 2rem;
+}
+
 .w-24 {
   width: 6rem;
 }
@@ -2419,6 +2471,18 @@ html {
 
 .w-1\/2 {
   width: 50%;
+}
+
+.w-8 {
+  width: 2rem;
+}
+
+.w-auto {
+  width: auto;
+}
+
+.w-\[256px\] {
+  width: 256px;
 }
 
 .max-w-3xl {
@@ -2540,6 +2604,10 @@ html {
   padding: 2rem;
 }
 
+.p-2 {
+  padding: 0.5rem;
+}
+
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
@@ -2576,6 +2644,14 @@ html {
 
 .pr-16 {
   padding-right: 4rem;
+}
+
+.pb-2 {
+  padding-bottom: 0.5rem;
+}
+
+.pb-3 {
+  padding-bottom: 0.75rem;
 }
 
 .text-center {
@@ -2654,6 +2730,16 @@ html {
 .text-error {
   --tw-text-opacity: 1;
   color: hsl(var(--er) / var(--tw-text-opacity));
+}
+
+.text-base-200 {
+  --tw-text-opacity: 1;
+  color: hsl(var(--b2, var(--b1)) / var(--tw-text-opacity));
+}
+
+.text-accent {
+  --tw-text-opacity: 1;
+  color: hsl(var(--a) / var(--tw-text-opacity));
 }
 
 .underline {
