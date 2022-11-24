@@ -298,7 +298,7 @@ export default function SingleProductRoute() {
                     max={selectedVariant.quantityAvailable}
                   />
                   <button
-                    className="btn w-1/2 sm:w-5/12"
+                    className="btn w-1/2 sm:w-5/12 lowercase"
                     name="_action"
                     value="addLineItems"
                     type="submit"
