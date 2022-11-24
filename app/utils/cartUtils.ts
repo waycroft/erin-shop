@@ -7,7 +7,7 @@ var gql = String.raw;
 
 export type Cart = {
   id: string;
-  checkoutUrl: string | undefined | null;
+  checkoutUrl: string | undefined;
   cost: {
     subtotalAmount: {
       amount: string;
@@ -111,12 +111,13 @@ export async function editCart(action: CartAction, formData: FormData) {
 export async function getCart(
   cartId: string
 ): Promise<StorefrontAPIResponseObject> {
+  const isStoreActive = process.env.IS_STORE_ACTIVE === "true";
   return await storefront(
     gql`
-      query getCart($cartId: ID!) {
+      query getCart($cartId: ID!, $isStoreActive: Boolean!) {
         cart(id: $cartId) {
           id
-          checkoutUrl @include(if: ${process.env.STORE_IS_ACTIVE === "true"})
+          checkoutUrl @include(if: $isStoreActive)
           cost {
             subtotalAmount {
               amount
@@ -163,6 +164,7 @@ export async function getCart(
     `,
     {
       cartId: cartId,
+      isStoreActive: isStoreActive,
     }
   );
 }
@@ -170,13 +172,14 @@ export async function getCart(
 export async function createCart(
   input?: NewCartInput
 ): Promise<StorefrontAPIResponseObject> {
+  const isStoreActive = process.env.IS_STORE_ACTIVE === "true";
   return await storefront(
     gql`
-      mutation cartCreate($cartInput: CartInput) {
+      mutation cartCreate($cartInput: CartInput, $isStoreActive: Boolean!) {
         cartCreate(input: $cartInput) {
           cart {
             id
-            checkoutUrl
+            checkoutUrl @include(if: $isStoreActive)
             cost {
               subtotalAmount {
                 amount
@@ -221,7 +224,9 @@ export async function createCart(
         }
       }
     `,
-    input ? { cartInput: input } : {}
+    input
+      ? { cartInput: input, isStoreActive: isStoreActive }
+      : { isStoreActive: isStoreActive }
   );
 }
 
