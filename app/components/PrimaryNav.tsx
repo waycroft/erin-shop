@@ -19,7 +19,10 @@ export default function PrimaryNav({
       </div>
       <div>
         <div>
-          <button className="mx-4 md:hidden btn btn-square btn-ghost" onClick={() => setIsMobileNavOpen(true)}>
+          <button
+            className="mx-4 md:hidden btn btn-square btn-ghost"
+            onClick={() => setIsMobileNavOpen(true)}
+          >
             <HamburgerIcon />
           </button>
           <div className="hidden md:flex flex-row">
@@ -44,11 +47,9 @@ export default function PrimaryNav({
           {cartQuantity > 0 ? (
             <span className="indicator-item badge badge-accent badge-xs text-base"></span>
           ) : null}
-          <label htmlFor="cart-drawer" className="drawer-button btn btn-circle">
-            <Link to="/cart">
-              <CartIcon />
-            </Link>
-          </label>
+          <Link to="/cart">
+            <CartIcon />
+          </Link>
         </div>
       </div>
     </nav>
