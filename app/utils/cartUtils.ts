@@ -44,22 +44,23 @@ export type CartAction = "addLineItems" | "updateLineItems" | "removeLineItems";
 export type CartLineItemId = string;
 
 export async function handleIncomingCartSession(session: Session) {
-  let cart: Cart;
+  let cart: Cart | undefined | null;
   if (session.has("cartId")) {
     const res = await getCart(session.get("cartId"));
     invariant(!(res.errors && res.userErrors), "Error fetching cart");
-    invariant(res?.data?.cart, "No cart found");
     cart = res.data.cart;
-  } else {
-    const res = await createCart();
-    invariant(!(res.errors && res.userErrors), "Error creating cart");
-    invariant(
-      res.data?.cartCreate?.cart,
-      "createCart() didn't return a cart for some reason"
-    );
-    cart = res.data.cartCreate.cart;
-    session.set("cartId", cart.id);
+    if (cart) {
+      return cart;
+    }
   }
+  const res = await createCart();
+  invariant(!(res.errors && res.userErrors), "Error creating cart");
+  invariant(
+    res.data?.cartCreate?.cart,
+    "createCart() didn't return a cart for some reason"
+  );
+  cart = res.data.cartCreate.cart;
+  session.set("cartId", cart.id);
   return cart;
 }
 
