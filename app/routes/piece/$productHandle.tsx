@@ -39,7 +39,10 @@ export const meta: MetaFunction = ({ data }) => {
   return {
     title: title,
     description: description,
+    content: description,
     "og:image": img,
+    "og:url": `https://collect.erinhoffman.com/piece/${data.data.product.handle}`,
+    "og:description": description,
   };
 };
 
