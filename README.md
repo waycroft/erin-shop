@@ -10,7 +10,6 @@ Thanks to [Heroicons](https://heroicons.com/), [TailwindCSS](https://tailwindcss
 - add to "store is inactive" banner: option to "notify me when we're back open" (normal)
 - image optimization (normal)
 - prevent adding to cart beyond an item's available quantity (normal)
-- See if there's an `inputmode` available for changing item quantity that's not a numpad, but rather a selector (scroll + select) (normal)
 - Float cart button bottom right when navbar is scrolled out of view (normal)
 - Lighthouse review (normal)
 - loading indicators on cart update (normal)
