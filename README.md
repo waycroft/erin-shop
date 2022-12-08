@@ -13,7 +13,6 @@ Thanks to [Heroicons](https://heroicons.com/), [TailwindCSS](https://tailwindcss
 - Float cart button bottom right when navbar is scrolled out of view (normal)
 - Lighthouse review (normal)
 - loading indicators on cart update (normal)
-- toast notification "added to cart" on $productHandle page (normal)
 - custom gallery sorting (normal)
 - catch boundaries (normal)
 - testing, both unit + e2e (normal)

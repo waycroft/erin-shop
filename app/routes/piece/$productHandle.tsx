@@ -14,9 +14,10 @@ import {
 } from "@remix-run/react";
 import type { Options as SplideOptions } from "@splidejs/react-splide";
 import { Splide, SplideSlide, SplideTrack } from "@splidejs/react-splide";
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import ServerError from "~/components/ServerError";
+import ToastNotification from "~/components/ToastNotification";
 import splideStyles from "~/styles/splide.min.css";
 import { CartIdContext } from "~/utils/cartContext";
 import { editCart } from "~/utils/cartUtils";
@@ -131,6 +132,7 @@ export default function SingleProductRoute() {
     product.options.length === 1 && product.options[0].values.length === 1;
   const mainSplideElem = useRef<Splide>(null);
   const thumbnailSplideElem = useRef<Splide>(null);
+  const [somethingAddedToCart, setSomethingAddedToCart] = useState(false);
 
   const cartId = useContext(CartIdContext);
   const transition = useTransition();
@@ -305,6 +307,7 @@ export default function SingleProductRoute() {
                     name="_action"
                     value="addLineItems"
                     type="submit"
+                    onClick={() => setSomethingAddedToCart(true)}
                     disabled={transition.state === "submitting"}
                   >
                     {transition.type === "actionSubmission"
@@ -313,6 +316,13 @@ export default function SingleProductRoute() {
                   </button>
                 </div>
               </div>
+            ) : null}
+            {transition.state === "idle" && somethingAddedToCart ? (
+              <ToastNotification
+                type="success"
+                message="Added to cart!"
+                action={{ label: "Go to cart", href: "/cart" }}
+              />
             ) : null}
           </div>
         </Form>
