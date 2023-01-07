@@ -7,7 +7,7 @@ processes = []
 
 [env]
   PORT = "8080"
-  IS_STORE_ACTIVE="false"
+  IS_STORE_ACTIVE="true"
   SHOPIFY_STOREFRONT_URL="https://erin-hoffmans-store.myshopify.com/api/2022-10/graphql.json"
 
 [experimental]
