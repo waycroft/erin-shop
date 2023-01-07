@@ -50,7 +50,11 @@ export const meta: MetaFunction = () => {
 export function links() {
   return [
     { rel: "stylesheet", href: styles },
-    { rel: "stylesheet", href: "https://use.typekit.net/urj5czf.css" },
+    {
+      rel: "stylesheet",
+      href: "https://use.typekit.net/urj5czf.css",
+      defer: true,
+    },
     { rel: "preconnect", href: "https://fonts.gstatic.com" },
     { rel: "preconnect", href: "https://fonts.googleapis.com" },
     {
