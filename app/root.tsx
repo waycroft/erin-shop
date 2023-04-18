@@ -4,7 +4,7 @@ import {
   LoaderFunction,
   MetaFunction,
   Session,
-} from "@remix-run/node";
+} from "@remix-run/node"
 import {
   Links,
   LiveReload,
@@ -13,25 +13,25 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
-} from "@remix-run/react";
-import { useState } from "react";
-import invariant from "tiny-invariant";
-import Footer from "./components/Footer";
-import HomeBanner from "./components/HomeBanner";
-import MobileNavSheet from "./components/MobileNavSheet";
-import PrimaryNav from "./components/PrimaryNav";
-import ServerError from "./components/ServerError";
-import { commitSession, getSession } from "./sessions";
-import styles from "./styles/app.css";
-import { CartIdContext } from "./utils/cartContext";
-import { Cart, editCart, handleIncomingCartSession } from "./utils/cartUtils";
+} from "@remix-run/react"
+import { useState } from "react"
+import invariant from "tiny-invariant"
+import Footer from "./components/Footer"
+import HomeBanner from "./components/HomeBanner"
+import MobileNavSheet from "./components/MobileNavSheet"
+import PrimaryNav from "./components/PrimaryNav"
+import ServerError from "./components/ServerError"
+import { commitSession, getSession } from "./sessions"
+import styles from "./styles/app.css"
+import { CartIdContext } from "./utils/cartContext"
+import { Cart, editCart, handleIncomingCartSession } from "./utils/cartUtils"
 
 export const meta: MetaFunction = () => {
-  const description = "Original art by Erin Hoffman";
-  const title = "Erin Hoffman: Collect";
-  const url = "https://collect.erinhoffman.com";
+  const description = "Original art by Erin Hoffman"
+  const title = "Erin Hoffman: Collect"
+  const url = "https://collect.erinhoffman.com"
   const img =
-    "https://erinhoffman.sfo3.digitaloceanspaces.com/opengraph_img.png";
+    "https://erinhoffman.sfo3.digitaloceanspaces.com/opengraph_img.png"
   return {
     charset: "utf-8",
     viewport: "width=device-width,initial-scale=1",
@@ -44,8 +44,8 @@ export const meta: MetaFunction = () => {
     "og:description": description,
     content: description,
     "twitter:card": "summary_large_image",
-  };
-};
+  }
+}
 
 export function links() {
   return [
@@ -62,44 +62,44 @@ export function links() {
       href: "https://fonts.googleapis.com/css2?family=Inter:wght@100;400;700&display=swap",
       defer: true,
     },
-  ];
+  ]
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const session: Session = await getSession(request.headers.get("Cookie"));
-  let cart: Cart = await handleIncomingCartSession(session);
+  const session: Session = await getSession(request.headers.get("Cookie"))
+  let cart: Cart = await handleIncomingCartSession(session)
   return json(cart, {
     headers: { "Set-Cookie": await commitSession(session) },
-  });
-};
+  })
+}
 
 export const action: ActionFunction = async ({ request }) => {
-  const formData = await request.formData();
-  const _action = formData.get("_action");
-  invariant(_action, "No action was provided");
-  const action = _action.toString();
+  const formData = await request.formData()
+  const _action = formData.get("_action")
+  invariant(_action, "No action was provided")
+  const action = _action.toString()
   const isCartAction =
     action === "addLineItems" ||
     action === "updateLineItems" ||
-    action === "removeLineItems";
+    action === "removeLineItems"
 
   if (isCartAction) {
-    return await editCart(action, formData);
+    return await editCart(action, formData)
   }
-};
-
-export function ErrorBoundary({ error }: { error: Error }) {
-  console.error(error);
-  return <ServerError />;
 }
 
-type LoaderData = Cart;
+export function ErrorBoundary({ error }: { error: Error }) {
+  console.error(error)
+  return <ServerError />
+}
+
+type LoaderData = Cart
 
 export default function App() {
-  const cart = useLoaderData<LoaderData>();
-  const isStoreActive = !!cart?.checkoutUrl;
-  const [isBannerVisible, setIsBannerVisible] = useState(!isStoreActive);
-  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+  const cart = useLoaderData<LoaderData>()
+  const isStoreActive = !!cart?.checkoutUrl
+  const [isBannerVisible, setIsBannerVisible] = useState(!isStoreActive)
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)
 
   return (
     <html lang="en">
@@ -120,7 +120,18 @@ export default function App() {
           {isMobileNavOpen ? (
             <MobileNavSheet setIsMobileNavOpen={setIsMobileNavOpen} />
           ) : null}
-          <Outlet />
+          {/* <Outlet /> */}
+          <div className="text-center p-4 flex flex-col gap-2">
+            <p>
+              <strong>collect.erinhoffman.com is closed (for now)</strong>
+            </p>
+            <p>
+              In the meantime, you can visit my main artist website at{" "}
+              <a href="https://erinphoffman.com" className="underline">
+                erinphoffman.com
+              </a>
+            </p>
+          </div>
           <Footer />
           <ScrollRestoration />
           <Scripts />
@@ -128,5 +139,5 @@ export default function App() {
         </body>
       </CartIdContext.Provider>
     </html>
-  );
+  )
 }
