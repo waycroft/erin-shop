@@ -120,18 +120,7 @@ export default function App() {
           {isMobileNavOpen ? (
             <MobileNavSheet setIsMobileNavOpen={setIsMobileNavOpen} />
           ) : null}
-          {/* <Outlet /> */}
-          <div className="text-center p-4 flex flex-col gap-2">
-            <p>
-              <strong>collect.erinhoffman.com is closed (for now)</strong>
-            </p>
-            <p>
-              In the meantime, you can visit my main artist website at{" "}
-              <a href="https://erinphoffman.com" className="underline">
-                erinphoffman.com
-              </a>
-            </p>
-          </div>
+          <Outlet />
           <Footer />
           <ScrollRestoration />
           <Scripts />
