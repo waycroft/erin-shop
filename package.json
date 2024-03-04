@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@lottiefiles/lottie-player": "^1.7.1",
-    "@remix-run/node": "^1.7.2",
+    "@remix-run/node": "^2.8.0",
     "@remix-run/react": "^1.12.0",
     "@remix-run/serve": "^1.12.0",
     "@splidejs/react-splide": "^0.7.12",
